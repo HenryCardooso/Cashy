@@ -1,7 +1,16 @@
-(function () {
+(async function () {
   "use strict";
 
   const lessons = window.CASHY_CURSOS || [];
+  let session = { authenticated: false };
+  let educationState = { completed: [], checklist: [] };
+  try {
+    session = await CashyAPI.auth.me();
+    if (session.authenticated) educationState = await CashyAPI.education.get();
+  } catch (_) {}
+  const loggedIn = Boolean(session.authenticated);
+  const progressKey = "cashyAulas:visitante";
+  const checklistKey = "cashyChecklist:visitante";
 
   const terms = [
     ["CDI", "Taxa de referência ligada a empréstimos de curtíssimo prazo entre instituições financeiras. É usada como referência em alguns investimentos.", "Exemplo: uma oferta pode dizer que acompanha um percentual do CDI; isso descreve uma regra, não garante ganho nem define sozinho o resultado líquido."],
@@ -25,26 +34,29 @@
     ["Marcação a mercado", "Atualização do valor de um ativo conforme preços e condições atuais de negociação. O valor antes do vencimento pode oscilar.", "Exemplo: um título pode valer mais ou menos no mercado hoje do que o valor estimado para mantê-lo até o vencimento."]
   ];
 
-  function currentEmail() {
-    try {
-      for (const store of [localStorage, sessionStorage]) if (store.getItem("cashyLogado") === "true") return store.getItem("cashyEmail") || "";
-    } catch (_) {}
-    return "";
-  }
-  const email = currentEmail();
-  const progressKey = "cashyAulas:" + (email || "visitante");
   const accountLink = document.getElementById("contaLink");
-  accountLink.href = email ? "dashboard.html" : "login.html";
-  accountLink.textContent = email ? "Minha conta" : "Entrar";
-  document.getElementById("progressNote").textContent = email ? "Seu progresso fica salvo nesta conta, neste navegador." : "Sem login, o progresso fica salvo neste navegador como visitante; com login, fica separado por conta.";
+  accountLink.href = loggedIn ? "dashboard.html" : "login.html";
+  accountLink.textContent = loggedIn ? "Minha conta" : "Entrar";
+  document.getElementById("progressNote").textContent = loggedIn
+    ? "Seu progresso fica salvo no banco de dados da sua conta."
+    : "Sem login, o progresso fica salvo somente neste navegador.";
 
   function readProgress() {
+    if (loggedIn) return Array.isArray(educationState.completed) ? educationState.completed.filter((id) => lessons.some((lesson) => lesson.id === id)) : [];
     try {
       const data = JSON.parse(localStorage.getItem(progressKey) || "{}");
       return data && Array.isArray(data.completed) ? data.completed.filter((id) => lessons.some((lesson) => lesson.id === id)) : [];
     } catch (_) { return []; }
   }
-  function saveProgress(completed) {
+  async function saveProgress(completed) {
+    if (loggedIn) {
+      const current = new Set(readProgress());
+      for (const id of completed) {
+        if (!current.has(id)) await CashyAPI.education.complete(id);
+      }
+      educationState.completed = [...new Set([...current, ...completed])];
+      return true;
+    }
     try { localStorage.setItem(progressKey, JSON.stringify({ completed })); return true; }
     catch (_) { return false; }
   }
@@ -87,21 +99,50 @@
 
   const checklist = document.getElementById("investmentChecklist");
   const checklistStatus = document.getElementById("checklistStatus");
-  const checklistKey = "cashyChecklist:" + (email || "visitante");
   const checklistItems = [...checklist.querySelectorAll('input[name="check"]')];
-  try {
-    const saved = JSON.parse(localStorage.getItem(checklistKey) || "[]");
-    if (Array.isArray(saved)) checklistItems.forEach((item, index) => { item.checked = saved[index] === true; });
-  } catch (_) {}
+  if (loggedIn && Array.isArray(educationState.checklist)) {
+    checklistItems.forEach((item, index) => { item.checked = educationState.checklist[index] === true; });
+  } else if (!loggedIn) {
+    try {
+      const saved = JSON.parse(localStorage.getItem(checklistKey) || "[]");
+      if (Array.isArray(saved)) checklistItems.forEach((item, index) => { item.checked = saved[index] === true; });
+    } catch (_) {}
+  }
+  async function persistChecklist() {
+    const values = checklistItems.map((item) => item.checked);
+    if (loggedIn) {
+      await CashyAPI.education.saveChecklist(values);
+      educationState.checklist = values;
+    } else {
+      localStorage.setItem(checklistKey, JSON.stringify(values));
+    }
+  }
   function updateChecklist(save) {
     const reviewed = checklistItems.filter((item) => item.checked).length;
-    checklistStatus.textContent = reviewed + " de " + checklistItems.length + " itens revisados" + (reviewed === checklistItems.length ? ". As respostas ajudam a identificar dúvidas; não atestam que um investimento seja adequado." : ". Use os itens desmarcados para orientar seus estudos.");
-    if (save) { try { localStorage.setItem(checklistKey, JSON.stringify(checklistItems.map((item) => item.checked))); } catch (_) {} }
+    checklistStatus.textContent = reviewed + " de " + checklistItems.length + " itens revisados" +
+      (reviewed === checklistItems.length
+        ? ". As respostas ajudam a identificar dúvidas; não atestam que um investimento seja adequado."
+        : ". Use os itens desmarcados para orientar seus estudos.");
+    if (save) {
+      persistChecklist().catch(() => {
+        checklistStatus.textContent = "Não foi possível salvar o checklist. Confira a conexão com o servidor.";
+      });
+    }
   }
   checklist.addEventListener("change", () => updateChecklist(true));
-  checklist.addEventListener("reset", (event) => { event.preventDefault(); checklistItems.forEach((item) => { item.checked = false; }); try { localStorage.removeItem(checklistKey); } catch (_) {} updateChecklist(false); });
+  checklist.addEventListener("reset", (event) => {
+    event.preventDefault();
+    checklistItems.forEach((item) => { item.checked = false; });
+    if (loggedIn) {
+      persistChecklist().catch(() => {
+        checklistStatus.textContent = "Não foi possível atualizar o checklist. Confira a conexão com o servidor.";
+      });
+    } else {
+      try { localStorage.removeItem(checklistKey); } catch (_) {}
+    }
+    updateChecklist(false);
+  });
   updateChecklist(false);
-
   const practiceAnswers = {
     1: { answer: "b", correct: "Isso. Pressão para agir e promessa de ganhos altos sem risco são sinais para interromper e verificar. Consulte informações oficiais e não decida só com base em uma publicação." , retry: "Reveja a promessa e a pressão para agir. Popularidade ou urgência não comprovam que uma oferta seja confiável." },
     2: { answer: "a", correct: "Isso. Prazo, liquidez, riscos e custos ajudam a entender se uma opção atende às necessidades consideradas. A taxa sozinha não conta a história toda.", retry: "Pense em quando Luiza pode precisar do dinheiro e nas regras para acessar ou retirar os recursos." },

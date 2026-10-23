@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/workspace.css" />
     <link rel="stylesheet" href="css/accessibility.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
       <link rel="stylesheet" href="css/theme.css">
     <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
     <script src="js/theme.js" defer></script>
@@ -70,10 +71,10 @@
           </article>
           <article class="panel insight" id="investimentos"><img class="insight-image" src="images/ilustracao-painel.svg" alt="" aria-hidden="true" /><span class="insight-tag">CONTEÚDO EDUCATIVO</span><div class="insight-icon">✦</div><h2>O que significa<br />“investir”?</h2><p>É usar dinheiro para adquirir algo que pode gerar retorno no futuro. O resultado não é garantido, e cada tipo tem riscos e regras próprios.</p><button class="insight-button" id="abrirAula" type="button">Conhecer o básico <span>→</span></button><span class="insight-decoration">✳</span></article>
         </section>
-        <footer>Os totais consideram apenas as informações que você cadastrou neste navegador. O conteúdo é educativo e não é recomendação de investimento.</footer>
+        <footer>Os totais consideram apenas as informações que você cadastrou na sua conta. O conteúdo é educativo e não é recomendação de investimento.</footer>
       </div>
     </main>
     <dialog class="cashy-dialog" id="dialogo" aria-labelledby="dialogoTitulo"><div class="dialog-shell"><button class="dialog-close" id="fecharDialogo" type="button" aria-label="Fechar">×</button><span class="eyebrow" id="dialogoTag">CASHY</span><h2 id="dialogoTitulo"></h2><div id="dialogoConteudo"></div></div></dialog>
-    <script src="js/dashboard.js"></script>
+    <script src="js/api.js"></script><script src="js/dashboard.js"></script><script src="js/chatbot.js"></script>
   </body>
 </html>

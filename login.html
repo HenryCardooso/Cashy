@@ -40,7 +40,7 @@
           <div class="input-group">
             <div class="password-label"><label for="senha">Senha</label><a href="#" id="esqueciSenha">Esqueci minha senha</a></div>
             <div class="password-input">
-              <input type="password" id="senha" autocomplete="current-password" placeholder="Mínimo de 8 caracteres" minlength="8" required aria-describedby="mensagem" />
+              <input type="password" id="senha" autocomplete="current-password" placeholder="8 a 72 caracteres" minlength="8" maxlength="72" required aria-describedby="mensagem" />
               <button type="button" class="show-password" id="mostrarSenha" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
             </div>
           </div>
@@ -52,14 +52,14 @@
           <button type="submit" class="login-button" id="botaoEnviar">Entrar <span aria-hidden="true">→</span></button>
           <p class="message" id="mensagem" role="alert" aria-live="polite"></p>
         </form>
-        <p class="privacy-note">Acesso demonstrativo: seus dados ficam somente neste navegador. <a href="privacidade.html">Veja como são armazenados</a>.</p>
+        <p class="privacy-note">Sua conta e seus registros ficam no banco MySQL do site. <a href="privacidade.html">Veja como são armazenados</a>.</p>
       </section>
       <aside class="login-decoration" aria-label="Apresentação Cashy">
         <div class="decoration-circle circle-one"></div><div class="decoration-circle circle-two"></div>
-        <div class="decoration-content"><span>CASHY • DO BÁSICO EM DIANTE</span><h2>Aprender<br /><em>vem primeiro.</em></h2><p>Entenda o básico sobre seu dinheiro e investimentos com explicações simples, feitas para quem está começando.</p><img class="decoration-image" src="images/ilustracao-aprender.svg" alt="" aria-hidden="true" /><div class="decoration-card"><span>✦</span><div><strong>Sem pressa e sem jargões</strong><small>Você decide quando estiver pronto</small></div></div></div>
+        <div class="decoration-content"><span>CASHY • DO BÁSICO EM DIANTE</span><h2>Aprender<br /><em>vem primeiro.</em></h2><p>Entenda o básico sobre seu dinheiro e investimentos com explicações simples, feitas para quem está começando.</p><img class="decoration-image" src="images/ilustracao-aprender.svg" alt="" aria-hidden="true" /></div>
       </aside>
     </main>
     <footer class="login-legal-links"><a href="privacidade.html">Privacidade e dados</a><a href="termos.html">Termos de uso</a></footer>
-    <script src="js/login.js"></script>
+    <script src="js/api.js"></script><script src="js/login.js"></script>
   </body>
 </html>
