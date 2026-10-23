@@ -85,8 +85,10 @@
     return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
   }
   function readUsers() {
-    try { return JSON.parse(localStorage.getItem("cashyUsuarios") || "{}"); }
-    catch (_) { return {}; }
+    try {
+      const users = JSON.parse(localStorage.getItem("cashyUsuarios") || "{}");
+      return users && typeof users === "object" && !Array.isArray(users) ? users : {};
+    } catch (_) { return {}; }
   }
   function saveSession(user) {
     const storage = remember.checked ? localStorage : sessionStorage;

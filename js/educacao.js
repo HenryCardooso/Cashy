@@ -127,6 +127,7 @@
     const monthlyRate = Math.pow(1 + annualRate, 1 / 12) - 1;
     const totalContributions = initial + contribution * months;
     const estimatedBalance = monthlyRate === 0 ? totalContributions : initial * Math.pow(1 + monthlyRate, months) + contribution * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+    if (!Number.isFinite(estimatedBalance) || !Number.isFinite(totalContributions)) { output.textContent = "Os valores ultrapassam o limite desta simulação. Reduza o valor, a taxa ou o prazo."; return; }
     const label = String(values.get("label") || "Sem rótulo");
     const result = { label, initial, contribution, months, annualRate, contributions: totalContributions, balance: estimatedBalance, difference: estimatedBalance - totalContributions };
     resultValues[form.dataset.scenario] = result;

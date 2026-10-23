@@ -16,7 +16,8 @@
   const level = document.createElement("span"); level.className = "eyebrow"; level.textContent = course.level;
   const title = document.createElement("h1"); title.textContent = course.title;
   const description = document.createElement("p"); description.textContent = course.description;
-  heading.append(level, title, description); root.append(heading);
+  const illustration = document.createElement("img"); illustration.className = "course-heading-art"; illustration.src = "images/ilustracao-curso.svg"; illustration.alt = ""; illustration.setAttribute("aria-hidden", "true");
+  heading.append(level, title, description, illustration); root.append(heading);
   const topics = document.createElement("section"); topics.className = "course-topics"; topics.setAttribute("aria-label", "Conteúdo do curso");
   course.topics.forEach(([name, text]) => { const card = document.createElement("article"); card.className = "course-topic"; const h = document.createElement("h2"); h.textContent = name; const p = document.createElement("p"); p.textContent = text; card.append(h, p); topics.append(card); });
   root.append(topics);

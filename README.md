@@ -54,6 +54,8 @@ Cashy/
 | `css/curso.css` | Estilos das páginas individuais de curso |
 | `js/curso.js` | Conteúdo do curso, quiz, progresso e navegação entre cursos |
 | `images/logo.png` | Logo do projeto |
+| `images/home-financas.svg` | Ilustração da página inicial |
+| `images/ilustracao-*.svg` | Ilustrações da tela de login, educação, cursos, painel, metas, movimentações, privacidade e termos |
 | `css/theme.css` / `js/theme.js` | Alternância de tema claro/escuro, com preferência lembrada neste navegador |
 
 ## Como abrir

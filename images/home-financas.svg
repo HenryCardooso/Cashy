@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 330" role="img" aria-labelledby="title desc">
+  <title id="title">Aprenda a cuidar do seu dinheiro</title>
+  <desc id="desc">Uma mesa com caderno, moedas, uma muda de planta e um gráfico sem valores numéricos.</desc>
+  <defs>
+    <linearGradient id="desk" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#193b27"/><stop offset="1" stop-color="#0e1a13"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f6f3e8"/><stop offset="1" stop-color="#dce9db"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#020704" flood-opacity=".45"/>
+    </filter>
+  </defs>
+  <rect x="12" y="12" width="676" height="306" rx="28" fill="url(#desk)"/>
+  <circle cx="562" cy="90" r="90" fill="#53d47e" opacity=".08"/>
+  <g filter="url(#shadow)" transform="rotate(-7 335 168)">
+    <rect x="195" y="49" width="310" height="220" rx="13" fill="#25352a"/>
+    <rect x="205" y="59" width="290" height="200" rx="8" fill="url(#paper)"/>
+    <path d="M223 84h95M223 101h72" stroke="#9eafa0" stroke-width="5" stroke-linecap="round"/>
+    <text x="223" y="133" fill="#246d40" font-family="Arial,sans-serif" font-size="17" font-weight="700">Meu plano</text>
+    <path d="M224 158h109M224 181h86M224 204h105" stroke="#b5c5b7" stroke-width="5" stroke-linecap="round"/>
+    <rect x="354" y="87" width="119" height="137" rx="8" fill="#e9f1e7"/>
+    <path d="M368 201V111M368 201h90" stroke="#9eb6a1" stroke-width="2"/>
+    <path d="m376 185 19-21 18 10 18-36 20-16" fill="none" stroke="#18a653" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="395" cy="164" r="4" fill="#18a653"/><circle cx="431" cy="138" r="4" fill="#18a653"/><circle cx="451" cy="122" r="4" fill="#18a653"/>
+  </g>
+  <g filter="url(#shadow)">
+    <ellipse cx="158" cy="244" rx="57" ry="18" fill="#d9a841"/>
+    <path d="M101 224v19c0 16 26 29 57 29s57-13 57-29v-19" fill="#c58c2e"/>
+    <ellipse cx="158" cy="222" rx="57" ry="18" fill="#f0c65d"/>
+    <ellipse cx="158" cy="222" rx="39" ry="10" fill="#e3ad43"/>
+    <path d="M157 207c-3-20-19-32-35-35 2 20 16 32 35 35Zm3-8c4-23 19-36 36-39-1 23-15 36-36 39Z" fill="#62d587"/>
+    <path d="M159 220v-28" stroke="#9a7332" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#shadow)" transform="rotate(9 559 239)">
+    <rect x="520" y="211" width="91" height="28" rx="14" fill="#f0c65d"/>
+    <rect x="531" y="181" width="91" height="28" rx="14" fill="#d8a53e"/>
+    <rect x="510" y="151" width="91" height="28" rx="14" fill="#ffda72"/>
+    <path d="M548 165h15m-8-8v16M557 195h15m-8-8v16M536 225h15m-8-8v16" stroke="#946a22" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path d="M54 282h592" stroke="#7c9a83" stroke-opacity=".35" stroke-width="2"/>
+</svg>
