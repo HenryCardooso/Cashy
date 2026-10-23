@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080b09" />
+    <title>Meu painel | Cashy</title>
+    <link rel="icon" href="images/logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/workspace.css" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+      <link rel="stylesheet" href="css/theme.css">
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+    <script src="js/theme.js" defer></script>
+</head>
+  <body class="overview-page">
+    <a class="skip-link" href="#visao-geral">Pular para o conteúdo</a>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="dashboard.html"><img src="images/logo.png" alt="Cashy" /></a>
+      <span class="side-label">MENU PRINCIPAL</span>
+      <nav aria-label="Menu principal">
+        <a class="nav-item selected" aria-current="page" href="#visao-geral"><span aria-hidden="true">▦</span> Visão geral</a>
+        <a class="nav-item" href="movimentacoes.html"><span aria-hidden="true">↕</span> Movimentações</a>
+        <a class="nav-item" href="metas.html"><span aria-hidden="true">◎</span> Minhas metas</a>
+        <a class="nav-item" href="educacao.html"><span aria-hidden="true">↗</span> Aprender a investir</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <a class="help-card" href="index.html#como-funciona"><span>✦</span><strong>Um passo de cada vez</strong><p>Volte ao guia para conhecer o básico.</p></a>
+        <a class="nav-item" href="privacidade.html"><span aria-hidden="true">⌕</span> Privacidade e dados</a>
+        <a class="nav-item" href="termos.html"><span aria-hidden="true">§</span> Termos de uso</a>
+        <a class="nav-item" href="index.html"><span aria-hidden="true">⌂</span> Site Cashy</a>
+      </div>
+    </aside>
+
+    <main class="main" id="visao-geral" tabindex="-1">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">☰</button>
+        <div class="breadcrumb">Meu espaço <span>/</span> <strong>Visão geral</strong></div>
+        <div class="profile"><div class="avatar" id="avatar">C</div><div class="profile-text"><strong id="userName">Olá!</strong><small>Minha conta</small></div><button id="logout" class="logout" type="button">Sair</button></div>
+      </header>
+
+      <div class="content">
+        <section class="welcome">
+          <div><span class="eyebrow">SEU PRIMEIRO PASSO</span><h1><span id="greeting">Olá</span>, <span id="welcomeName">pessoa</span> 👋</h1><p>Sem pressa: entenda seu dinheiro e aprenda uma coisa de cada vez.</p></div>
+          <label class="period-wrap" for="periodo">◷ <select class="period-button" id="periodo" aria-label="Escolher período"></select></label>
+        </section>
+
+        <section class="summary-grid" aria-label="Resumo das movimentações registradas">
+          <article class="summary-card balance-card"><div class="card-head"><span>Saldo registrado</span><span class="card-icon">◉</span></div><strong class="money" id="resumoSaldo">—</strong><span class="card-foot">Com base nos seus registros</span></article>
+          <article class="summary-card"><div class="card-head"><span>Entradas</span><span class="card-icon green-icon">↙</span></div><strong class="money" id="resumoEntradas">—</strong><span class="card-foot" id="rotuloEntradas">Escolha um período</span></article>
+          <article class="summary-card"><div class="card-head"><span>Saídas</span><span class="card-icon orange-icon">↗</span></div><strong class="money" id="resumoSaidas">—</strong><span class="card-foot" id="rotuloSaidas">Escolha um período</span></article>
+          <article class="summary-card"><div class="card-head"><span>Guardado nas metas</span><span class="card-icon purple-icon">◎</span></div><strong class="money" id="resumoMetas">—</strong><span class="card-foot">Soma do que você cadastrou</span></article>
+        </section>
+
+        <section class="middle-grid">
+          <article class="panel chart-panel"><div class="panel-heading"><div><h2>O que entra e o que sai</h2><p id="chartDescription">Cadastre movimentações para ver seu resumo.</p></div></div><div class="chart-empty chart-bars" id="chartEstado" role="status" aria-live="polite">Seu resumo aparecerá aqui depois que você registrar entradas ou saídas.</div></article>
+          <article class="panel goal-panel" id="metas">
+            <div class="panel-heading"><div><h2>Minhas metas</h2><p>Acompanhe o que quer realizar</p></div><span class="goal-icon">◎</span></div>
+            <div class="goal-art" id="goalArt" hidden><div class="goal-ring" id="goalRing" role="progressbar" aria-label="Progresso da meta" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div><strong id="goalPercent">0%</strong><small>concluído</small></div></div></div>
+            <h3 id="goalName">Você ainda não criou uma meta.</h3><p class="goal-description" id="goalDesc">Quando quiser, registre um objetivo e quanto pretende guardar.</p>
+            <div class="goal-amount" id="goalAmountRow" hidden><span>Guardado / objetivo</span><strong id="goalAmount"></strong></div>
+            <button class="text-action" id="editarMeta" type="button">Criar minha primeira meta <span>→</span></button>
+          </article>
+        </section>
+
+        <section class="bottom-grid">
+          <article class="panel transactions" id="movimentacoes">
+            <div class="panel-heading"><div><h2>Minhas movimentações</h2><p>Entradas e saídas que você registrou</p></div><div class="transaction-actions"><button class="text-action" id="verMovimentacoes" type="button">Ver todas →</button><button class="add-transaction" id="adicionarMovimentacao" type="button">＋ Adicionar</button></div></div>
+            <div id="transactionList"><p class="empty-transactions">Você ainda não registrou movimentações.</p></div>
+          </article>
+          <article class="panel insight" id="investimentos"><span class="insight-tag">CONTEÚDO EDUCATIVO</span><div class="insight-icon">✦</div><h2>O que significa<br />“investir”?</h2><p>É usar dinheiro para adquirir algo que pode gerar retorno no futuro. O resultado não é garantido, e cada tipo tem riscos e regras próprios.</p><button class="insight-button" id="abrirAula" type="button">Conhecer o básico <span>→</span></button><span class="insight-decoration">✳</span></article>
+        </section>
+        <footer>Os totais consideram apenas as informações que você cadastrou neste navegador. O conteúdo é educativo e não é recomendação de investimento.</footer>
+      </div>
+    </main>
+    <dialog class="cashy-dialog" id="dialogo" aria-labelledby="dialogoTitulo"><div class="dialog-shell"><button class="dialog-close" id="fecharDialogo" type="button" aria-label="Fechar">×</button><span class="eyebrow" id="dialogoTag">CASHY</span><h2 id="dialogoTitulo"></h2><div id="dialogoConteudo"></div></div></dialog>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

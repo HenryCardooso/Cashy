@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050706" />
+    <title>Entrar ou criar conta | Cashy</title>
+    <link rel="icon" href="images/logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+      <link rel="stylesheet" href="css/theme.css">
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+    <script src="js/theme.js" defer></script>
+</head>
+  <body>
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+    <main class="login-container" id="main-content" tabindex="-1">
+      <section class="login-box" aria-labelledby="formTitulo">
+        <a href="index.html" class="logo"><img src="images/logo.png" alt="Cashy" /></a>
+        <a href="index.html" class="back-home">← Voltar para o início</a>
+        <div class="login-header">
+          <span class="eyebrow">NÃO PRECISA ENTENDER DE INVESTIMENTOS PARA COMEÇAR</span>
+          <h1 id="formTitulo">Bem-vindo de volta</h1>
+          <p id="formDescricao">Entre na sua conta e aprenda sobre dinheiro no seu ritmo.</p>
+        </div>
+        <div class="form-tabs" role="tablist" aria-label="Acesso à conta">
+          <button class="form-tab active" id="abaEntrar" type="button" role="tab" aria-controls="formLogin" aria-selected="true" tabindex="0">Entrar</button>
+          <button class="form-tab" id="abaCadastro" type="button" role="tab" aria-controls="formLogin" aria-selected="false" tabindex="-1">Criar conta</button>
+        </div>
+        <button class="cancel-reset" id="cancelarReset" type="button" hidden>← Voltar para entrar</button>
+        <form id="formLogin" role="tabpanel" tabindex="0" aria-labelledby="abaEntrar" novalidate>
+          <div class="input-group cadastro-only" hidden>
+            <label for="nome">Seu nome</label>
+            <input type="text" id="nome" autocomplete="name" placeholder="Como podemos chamar você?" minlength="2" aria-describedby="mensagem" />
+          </div>
+          <div class="input-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" autocomplete="email" placeholder="voce@email.com" required aria-describedby="mensagem" />
+          </div>
+          <div class="input-group">
+            <div class="password-label"><label for="senha">Senha</label><a href="#" id="esqueciSenha">Esqueci minha senha</a></div>
+            <div class="password-input">
+              <input type="password" id="senha" autocomplete="current-password" placeholder="Mínimo de 8 caracteres" minlength="8" required aria-describedby="mensagem" />
+              <button type="button" class="show-password" id="mostrarSenha" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+            </div>
+          </div>
+          <div class="input-group cadastro-or-reset" hidden>
+            <label for="confirmarSenha" id="confirmarLabel">Confirme sua senha</label>
+            <input type="password" id="confirmarSenha" autocomplete="new-password" placeholder="Digite a senha novamente" minlength="8" aria-describedby="mensagem" />
+          </div>
+          <div class="remember"><label><input type="checkbox" id="lembrar" checked /> Manter conectado neste dispositivo</label></div>
+          <button type="submit" class="login-button" id="botaoEnviar">Entrar <span aria-hidden="true">→</span></button>
+          <p class="message" id="mensagem" role="alert" aria-live="polite"></p>
+        </form>
+        <p class="privacy-note">Acesso demonstrativo: seus dados ficam somente neste navegador. <a href="privacidade.html">Veja como são armazenados</a>.</p>
+      </section>
+      <aside class="login-decoration" aria-label="Apresentação Cashy">
+        <div class="decoration-circle circle-one"></div><div class="decoration-circle circle-two"></div>
+        <div class="decoration-content"><span>CASHY • DO BÁSICO EM DIANTE</span><h2>Aprender<br /><em>vem primeiro.</em></h2><p>Entenda o básico sobre seu dinheiro e investimentos com explicações simples, feitas para quem está começando.</p><div class="decoration-card"><span>✦</span><div><strong>Sem pressa e sem jargões</strong><small>Você decide quando estiver pronto</small></div></div></div>
+      </aside>
+    </main>
+    <footer class="login-legal-links"><a href="privacidade.html">Privacidade e dados</a><a href="termos.html">Termos de uso</a></footer>
+    <script src="js/login.js"></script>
+  </body>
+</html>

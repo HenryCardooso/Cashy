@@ -1,0 +1,59 @@
+html{color-scheme:dark;transition:background-color .2s,color .2s}html[data-theme="light"]{color-scheme:light;--bg:#f3f6f3;--surface:#fff;--surface2:#eef3ef;--line:#d7e2d9;--text:#17231a;--muted:#58675d;--green:#168947;--green2:#116d39;--black:#f3f6f3;--card:#fff;--border:#d7e2d9;--surface-2:#edf3ee;--legal-bg:#f3f6f3;--legal-panel:#fff;--legal-line:#d7e2d9;--legal-text:#17231a;--legal-muted:#536258;--surface-alt:#eef3ef;--lime:#237d43;--lime-dark:#176a36;--muted-dark:#68776c}
+html[data-theme="light"] body{background-color:#f3f6f3;color:#17231a}
+html[data-theme="light"] .sidebar,html[data-theme="light"] .topbar,html[data-theme="light"] .edu-header,html[data-theme="light"] .legal-header{background:#fff;border-color:#dbe5dd;color:#17231a}
+html[data-theme="light"] .summary-card,html[data-theme="light"] .panel,html[data-theme="light"] .scenario-card,html[data-theme="light"] .lesson-card,html[data-theme="light"] .topic-card,html[data-theme="light"] .lesson-view,html[data-theme="light"] .quiz-question,html[data-theme="light"] .dictionary-card,html[data-theme="light"] .progress-panel,html[data-theme="light"] .legal-card,html[data-theme="light"] .login-box,html[data-theme="light"] .goal-item{background:#fff;border-color:#d9e4dc;color:#17231a}
+html[data-theme="light"] .nav-item,html[data-theme="light"] .breadcrumb,html[data-theme="light"] .profile-text small,html[data-theme="light"] .panel-heading p,html[data-theme="light"] .workspace-heading p,html[data-theme="light"] .goal-description,html[data-theme="light"] .lesson-content p,html[data-theme="light"] .topic-card p,html[data-theme="light"] .legal-card p,html[data-theme="light"] .legal-card li,html[data-theme="light"] .hero-copy p{color:#536258}
+html[data-theme="light"] .nav-item:hover,html[data-theme="light"] .nav-item.selected{background:#e9f5ec;color:#155b32}
+html[data-theme="light"] .period-button,html[data-theme="light"] .movement-filter input,html[data-theme="light"] .movement-filter select,html[data-theme="light"] .dialog-form input,html[data-theme="light"] .scenario-card input,html[data-theme="light"] .scenario-card select,html[data-theme="light"] .dictionary-search input{background:#fff;color:#17231a;border-color:#cbd9ce}
+html[data-theme="light"] .goal-ring:before{background:#fff}
+html[data-theme="light"] .goal-item,html[data-theme="light"] .transaction-row,html[data-theme="light"] .topic-card,html[data-theme="light"] .quiz-option{color:#17231a}
+html[data-theme="light"] .quiz-option{border-color:#cbd9ce;background:#f8faf8}
+html[data-theme="light"] .edu-hero{background:linear-gradient(110deg,#e6f3e9 0%,#f3f7ef 60%,#dcebdc 100%);border-color:#cbdcca}
+html[data-theme="light"] .hero-copy h1,html[data-theme="light"] .section-intro h2,html[data-theme="light"] .lesson-view-top h2,html[data-theme="light"] .legal-card h1{color:#17231a}
+html[data-theme="light"] .lesson-art{filter:saturate(.78)}
+html[data-theme="light"] .login-decoration{filter:saturate(.8)}
+html[data-theme="light"] .cashy-dialog{background:#fff;color:#17231a;border-color:#cbd9ce}
+html[data-theme="light"] .dialog-close{background:#f0f5f1;color:#17231a}
+html[data-theme="light"] .dialog-form label,html[data-theme="light"] .dialog-copy{color:#46564b}
+html[data-theme="light"] .legal-notice{background:#eaf4ec;color:#17231a}
+html[data-theme="light"] .danger-zone{background:#fff4f1}
+html[data-theme="light"] .chart-bar-track,html[data-theme="light"] .goal-item-track{background:#e5ece6}
+html[data-theme="light"] .header{background:rgba(255,255,255,.94);border-color:#dbe5dd}
+html[data-theme="light"] .nav a,html[data-theme="light"] .header-actions a{color:#25382b}
+html[data-theme="light"] .hero{background:radial-gradient(ellipse at 75% 20%,#d8f0dc 0%,transparent 45%),linear-gradient(135deg,#f6faf6,#eaf4ec);color:#17231a}
+html[data-theme="light"] .hero p,html[data-theme="light"] .section-heading p,html[data-theme="light"] .feature p,html[data-theme="light"] .step p{color:#536258}
+html[data-theme="light"] .dashboard,html[data-theme="light"] .floating-card,html[data-theme="light"] .feature,html[data-theme="light"] .step{background:#fff;border-color:#d9e4dc;color:#17231a;box-shadow:0 12px 35px #264b3210}
+html[data-theme="light"] .dark-section{background:#e8f1e9;color:#17231a}
+html[data-theme="light"] .cta{background:linear-gradient(135deg,#e2f1e4,#f7faf7);color:#17231a;border-color:#d1e0d3}
+html[data-theme="light"] .footer{background:#fff;color:#536258;border-color:#d9e4dc}
+html[data-theme="light"] .form-tabs,html[data-theme="light"] .input-group input{background:#f8faf8;border-color:#cbd9ce;color:#17231a}
+html[data-theme="light"] .form-tab.active{background:#e8f4ea;color:#155b32}
+html[data-theme="light"] .login-legal-links{background:#f3f6f3;color:#536258}
+html[data-theme="light"] .privacy-note,html[data-theme="light"] .remember label,html[data-theme="light"] .login-header p,html[data-theme="light"] .register p{color:#536258}
+html[data-theme="light"] .input-group input::placeholder{color:#68776c}
+html[data-theme="light"] .decoration-content h2,html[data-theme="light"] .decoration-content p{color:#17231a}
+html[data-theme="light"] .decoration-card{background:#ffffffb8;border-color:#cbd9ce}
+html[data-theme="light"] .edu-header nav a,html[data-theme="light"] .account-link{color:#293d2f}
+html[data-theme="light"] .progress-track{background:#dfe9e1}
+html[data-theme="light"] .lesson-content p,html[data-theme="light"] .scenario-card label,html[data-theme="light"] .simulator-note,html[data-theme="light"] .term-card p{color:#536258}
+html[data-theme="light"] .scenario-card input,html[data-theme="light"] .scenario-card select,html[data-theme="light"] .dictionary-search input{background:#f9fbf9;color:#17231a}
+html[data-theme="light"] .course-card,html[data-theme="light"] .course-topic,html[data-theme="light"] .course-quiz,html[data-theme="light"] .course-content section{background:#fff;border-color:#d9e4dc;color:#17231a}
+html[data-theme="light"] .course-heading,html[data-theme="light"] .course-topic,html[data-theme="light"] .course-quiz fieldset{background:#fff;border-color:#d9e4dc;color:#17231a}
+html[data-theme="light"] .course-topic p,html[data-theme="light"] .course-heading p{color:#536258}
+html[data-theme="light"] .workspace-back,html[data-theme="light"] .text-action{color:#13753c}
+html[data-theme="light"] .remove-transaction{background:#fff;color:#34463a;border-color:#cbd9ce}
+html[data-theme="light"] .insight,html[data-theme="light"] .help-card{background:linear-gradient(145deg,#edf7ef,#fff);border-color:#d2e4d6;color:#17231a}
+html[data-theme="light"] .insight p,html[data-theme="light"] .help-card p{color:#536258}
+html[data-theme="light"] .edu-footer,html[data-theme="light"] footer{color:#536258}
+html[data-theme="light"] .login-decoration{background:radial-gradient(circle at 50% 50%,#d8efdc,transparent 55%),#eef5ef}
+html[data-theme="light"] .decoration-content>span,html[data-theme="light"] .decoration-content h2 em{color:#147a3c}
+html[data-theme="light"] .account-link:hover,html[data-theme="light"] .edu-header nav a:hover{color:#147a3c}
+.theme-toggle:focus-visible{outline:3px solid #65d890;outline-offset:4px}
+.theme-toggle{flex:0 0 38px;width:38px;height:38px;display:inline-grid;place-items:center;padding:0;border:1px solid rgba(127,160,135,.38);border-radius:50%;background:#142019;color:#edf7ef;box-shadow:0 4px 14px #0002;font:600 19px/1 Arial,sans-serif;cursor:pointer;transition:transform .18s,background .18s,border-color .18s}
+.theme-toggle:hover{transform:translateY(-1px);border-color:#58c982;background:#1b2e22}.theme-toggle span:first-child{font-size:19px;color:#91e7aa}
+html[data-theme="light"] .theme-toggle{background:#fff;color:#183421;border-color:#cbd9ce;box-shadow:0 4px 14px #213b2914}html[data-theme="light"] .theme-toggle:hover{background:#eaf5ec}
+.theme-floating{position:fixed;top:18px;right:18px;z-index:1000}
+body:has(.login-container){position:relative}.login-container>.theme-toggle{position:absolute;top:18px;right:20px;z-index:20}
+@media(max-width:760px){.topbar .profile .theme-toggle{width:34px;height:34px;flex-basis:34px}}
+@media(max-width:600px){.theme-floating{top:12px;right:12px}}
+@media(prefers-reduced-motion:reduce){html{transition:none}.theme-toggle{transition:none}}

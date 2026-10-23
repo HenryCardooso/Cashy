@@ -1,0 +1,25 @@
+html{scroll-padding-top:5rem;text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{font-size:max(16px,1rem);font-family:Arial,Helvetica,sans-serif}
+.sidebar{overflow-y:auto;overscroll-behavior:contain}
+.nav-item[aria-current="page"]{color:#f3fff5;background:rgba(34,196,103,.16)}
+.sidebar .side-label{color:#b1beb4}
+.sidebar .nav-item{color:#c0cbc3}
+.sidebar .help-card p{color:#c2cec5}
+.breadcrumb{color:#bdc8c0}
+.content>footer{color:#b2beb5}
+.completion-note{display:inline-block;margin-top:8px;color:#d8ffd0;font-size:12px;font-weight:700}
+.cancel-reset{display:block;margin:-12px 0 18px auto;padding:7px 10px;border:1px solid #688b72;border-radius:7px;background:#111713;color:#eaf4eb;cursor:pointer}
+.card-foot,.profile-text small,.transaction-info small,.help-card p,.progress-panel p,.lesson-content p,.term-card p,.simulator-note,.search-count,.edu-footer p,.breadcrumb,.content>footer{color:#c3cec6!important}
+.privacy-note,.dialog-copy,.dialog-form label,.dialog-status,.search-count{color:#c3cec6!important}
+.btn-green,.login-button,.dialog-form button{color:#061109!important}
+.insight-button{color:#061109!important}
+body>footer,.footer-brand p,.footer-links a,body>footer>span,.login-legal-links{color:#c3cec6!important}
+main[id]{scroll-margin-top:1rem}
+.skip-link{position:fixed;z-index:10000;top:12px;left:12px;transform:translateY(-180%);padding:12px 16px;border:2px solid #101510;border-radius:8px;background:#f4ffeb;color:#101510;font-size:16px;font-weight:700;text-decoration:underline;box-shadow:0 3px 15px #0008}
+.skip-link:focus{transform:translateY(0)}
+:focus-visible{outline:3px solid #ffdf55!important;outline-offset:3px!important}
+input,select,textarea,button{font:inherit}
+:where(p,small,label,li,dd,dt,nav a,button,input,select,textarea,output,legend,.eyebrow,.breadcrumb,.card-head,.card-foot,.lesson-level,.lesson-meta,.term-card h3,.term-card p,.quiz-option,.quiz-result,.simulator-note,.search-count,.scenario-result,.account-link,.profile-text,.progress-label,.course-status){font-size:max(12px,.75rem)!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media(forced-colors:active){:focus-visible{outline:3px solid Highlight!important;outline-offset:3px!important}.skip-link{border:2px solid ButtonText;background:Canvas;color:CanvasText}}
+@media(max-width:500px){.skip-link{right:12px;width:max-content;max-width:calc(100vw - 24px)}}

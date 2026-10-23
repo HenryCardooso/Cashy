@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Cashy: aprenda sobre dinheiro e investimentos desde o começo, com explicações simples e sem complicação."
+    />
+    <meta name="theme-color" content="#050706" />
+
+    <title>Cashy | Gestão Financeira</title>
+
+    <link rel="icon" href="images/logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+      <link rel="stylesheet" href="css/theme.css">
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+    <script src="js/theme.js" defer></script>
+</head>
+
+  <body>
+    <a href="#conteudo" class="skip-link">Ir para o conteúdo</a>
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+      <a href="index.html" class="brand">
+        <img src="images/logo.png" alt="Cashy" />
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Navegação principal">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+          <a href="educacao.html">Aprenda a investir</a>
+        <a href="#sobre">Sobre</a>
+
+        <!-- Aparece só no menu mobile (preenchido pelo script.js) -->
+        <div class="nav-auth" id="navAuth"></div>
+      </nav>
+
+      <!-- Preenchido pelo script.js conforme o usuário esteja logado ou não -->
+      <div class="header-actions" id="headerActions">
+        <a href="login.html" class="btn btn-outline">Entrar</a>
+        <a href="login.html?modo=cadastro" class="btn btn-green">Começar agora</a>
+      </div>
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="nav"
+      >
+        ☰
+      </button>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main id="conteudo" tabindex="-1">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-content">
+          <span class="eyebrow">
+            <span class="pulse"></span>
+            Seu dinheiro, sob controle
+          </span>
+
+          <h1>
+            Comece a cuidar
+            <br />
+            <span>do seu dinheiro.</span>
+          </h1>
+
+          <p>
+            Investimentos parecem complicados? Aqui você aprende o básico com
+            palavras simples, organiza seu dinheiro e descobre seus próximos passos.
+          </p>
+
+          <div class="hero-actions">
+            <a href="login.html?modo=cadastro" class="btn btn-green btn-large">
+              Criar minha conta
+              <span>→</span>
+            </a>
+
+            <a href="#recursos" class="btn btn-ghost btn-large">
+              Ver como funciona
+            </a>
+          </div>
+
+          <div class="trust"><div><strong>Comece do zero</strong><small>sem precisar entender de investimentos</small></div></div>
+        </div>
+
+        <!-- PRÉVIA SEM DADOS FICTÍCIOS -->
+        <div class="dashboard-wrap">
+          <div class="glow"></div>
+          <div class="dashboard">
+            <div class="dash-top">
+              <div>
+                <small>Seu painel</small>
+                <h3>Comece com seus dados</h3>
+              </div>
+              <span class="positive">Cashy</span>
+            </div>
+            <div class="preview-empty"><span>＋</span><p>Registre entradas e gastos para acompanhar suas finanças.</p></div>
+            <div class="mini-cards">
+              <div><small>Entradas</small><strong>Calculadas com seus registros</strong></div>
+              <div><small>Saídas</small><strong>Calculadas com seus registros</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESTATÍSTICAS -->
+      <section class="stats" aria-label="Como a Cashy ajuda quem está começando">
+        <div><strong>Sem jargões</strong><span>explicações com palavras simples</span></div>
+        <div><strong>Passo a passo</strong><span>aprenda uma coisa de cada vez</span></div>
+        <div><strong>No seu ritmo</strong><span>sem pressão para investir</span></div>
+        <div><strong>Mais clareza</strong><span>entenda antes de decidir</span></div>
+      </section>
+
+      <!-- RECURSOS -->
+      <section class="section" id="recursos">
+        <div class="section-heading">
+          <span class="eyebrow">Tudo em um só lugar</span>
+
+          <h2>Uma visão clara do seu dinheiro.</h2>
+
+          <p>
+            Ferramentas simples para entender e organizar seu dinheiro e aprender
+            sobre as opções disponíveis.
+          </p>
+        </div>
+
+        <div class="features">
+          <article class="feature featured">
+            <div class="feature-icon" aria-hidden="true">↗</div>
+            <h3>Aprenda antes de investir</h3>
+            <p>
+              Entenda, passo a passo, o que é cada tipo de investimento e quais
+              perguntas fazer antes de escolher.
+            </p>
+            <a href="educacao.html">Aprender o básico →</a>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">▣</div>
+            <h3>Organize suas despesas</h3>
+            <p>
+              Compare as entradas e saídas que você registrar no período, sem
+              precisar entender termos complicados.
+            </p>
+            <a href="login.html?modo=cadastro">Organizar minhas despesas →</a>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">◎</div>
+            <h3>Crie metas</h3>
+            <p>
+              Transforme objetivos em metas acompanháveis e saiba exatamente
+              quanto falta para chegar lá.
+            </p>
+            <a href="login.html?modo=cadastro">Criar minha primeira meta →</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- COMO FUNCIONA -->
+      <section class="section dark-section" id="como-funciona">
+        <div class="section-heading center">
+          <span class="eyebrow">Como funciona</span>
+
+          <h2>Aprenda no seu ritmo.</h2>
+
+          <p>
+            Você não precisa saber tudo para dar o primeiro passo.
+          </p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <span>01</span>
+            <h3>Entenda seu dinheiro</h3>
+            <p>
+              Anote o que recebe e o que gasta. Assim fica mais fácil saber o
+              quanto pode guardar.
+            </p>
+          </div>
+
+          <div class="step">
+            <span>02</span>
+            <h3>Conheça o básico</h3>
+            <p>
+              Aprenda o significado dos termos e conheça as opções disponíveis
+              antes de tomar qualquer decisão.
+            </p>
+          </div>
+
+          <div class="step">
+            <span>03</span>
+            <h3>Escolha com calma</h3>
+            <p>
+              Descubra quais perguntas considerar e avance quando se sentir
+              preparado, sem pressa.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- INVESTIMENTOS -->
+      <section class="investment section" id="investimentos">
+        <div>
+          <span class="eyebrow">Investimentos sem mistério</span>
+
+          <h2>O primeiro passo é entender.</h2>
+
+          <p>
+            Renda fixa, fundos e ações são nomes que você vai encontrar por aí.
+            Conheça o que cada um significa em linguagem simples, sem precisar
+            escolher nada agora.
+          </p>
+
+          <a href="educacao.html" class="btn btn-green investment-button">
+            Quero aprender o básico
+          </a>
+        </div>
+
+        <div class="allocation beginner-glossary">
+          <div class="allocation-head"><span>Palavras que você pode encontrar</span></div>
+          <dl><div><dt>Renda fixa</dt><dd>Uma modalidade em que as regras de rendimento são definidas na aplicação.</dd></div><div><dt>Fundos</dt><dd>Investimentos que reúnem recursos de várias pessoas em uma carteira.</dd></div><div><dt>Ações</dt><dd>Pequenas partes do capital de uma empresa.</dd></div></dl>
+          <small>Os conceitos são introdutórios. Cada investimento tem riscos e regras próprios.</small>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta" id="sobre">
+        <div>
+          <span class="eyebrow">Comece hoje</span>
+
+          <h2>
+            Seu primeiro passo
+            <br />
+            pode ser aprender.
+          </h2>
+
+          <p>
+            Aprenda sem pressa, organize suas finanças e tome decisões no seu
+            tempo.
+          </p>
+        </div>
+
+        <a href="login.html?modo=cadastro" class="btn btn-light">Começar gratuitamente →</a>
+      </section>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer>
+      <div class="footer-brand">
+        <a href="index.html">
+          <img src="images/logo.png" alt="Cashy" />
+        </a>
+
+        <p>Dinheiro e investimentos explicados de um jeito simples.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#recursos">Recursos</a>
+        <a href="educacao.html">Aprenda a investir</a>
+        <a href="#sobre">Sobre</a>
+        <a href="login.html">Entrar</a>
+        <a href="privacidade.html">Privacidade e dados</a>
+        <a href="termos.html">Termos de uso</a>
+      </div>
+
+      <span>
+        © 2026 Cashy. Conteúdo educativo; o painel mostra apenas informações cadastradas por você.
+      </span>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
