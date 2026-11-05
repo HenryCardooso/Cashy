@@ -23,13 +23,13 @@
   panel.id = "cashyChatPanel";
   panel.hidden = true;
   panel.setAttribute("role", "dialog");
-  panel.setAttribute("aria-label", "Assistente educativo Cashy");
+  panel.setAttribute("aria-label", "Assistente educativo Cashy com Cerebras");
 
   const header = make("header", "cashy-chat-header");
   const brand = make("div", "cashy-chat-brand");
   brand.append(make("span", "cashy-chat-avatar", "✦"));
   const heading = make("div", "cashy-chat-heading");
-  heading.append(make("strong", "", "Assistente Cashy"), make("small", "", "Aprenda sobre dinheiro e investimentos"));
+  heading.append(make("strong", "", "Assistente Cashy"), make("small", "", "IA educativa com Cerebras"));
   brand.append(heading);
   const close = make("button", "cashy-chat-close", "×");
   close.type = "button";
@@ -39,16 +39,11 @@
   const transcript = make("div", "cashy-chat-messages");
   transcript.setAttribute("role", "log");
   transcript.setAttribute("aria-live", "polite");
-  transcript.setAttribute("aria-relevant", "additions");
+  transcript.setAttribute("aria-relevant", "additions text");
   transcript.setAttribute("aria-label", "Conversa com o assistente");
 
   const suggestions = make("div", "cashy-chat-suggestions");
-  ["O que é renda fixa?", "O que significa liquidez?", "Como funciona a diversificação?"].forEach((prompt) => {
-    const button = make("button", "cashy-chat-suggestion", prompt);
-    button.type = "button";
-    button.addEventListener("click", () => send(prompt));
-    suggestions.append(button);
-  });
+  suggestions.setAttribute("aria-label", "Perguntas sugeridas");
 
   const form = make("form", "cashy-chat-form");
   const input = make("textarea", "cashy-chat-input");
@@ -61,12 +56,13 @@
   sendButton.setAttribute("aria-label", "Enviar pergunta");
   sendButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 5 16 7-16 7 2.2-7L4 5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.2 12H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
   form.append(input, sendButton);
-  const note = make("p", "cashy-chat-note", "Respostas educativas, não são recomendações. No Gemini gratuito, conversas podem ser usadas pelo Google para melhoria do serviço. Não envie dados pessoais ou financeiros.");
+  const note = make("p", "cashy-chat-note", "Suas mensagens são enviadas à Cerebras para gerar respostas. Não compartilhe dados pessoais ou financeiros. Conteúdo educativo.");
   panel.append(header, transcript, suggestions, form, note);
   widget.append(panel, launcher);
   document.body.append(widget);
 
   const messages = [];
+  const suggestedQuestions = ["O que é renda fixa?", "O que significa liquidez?", "Como funciona a diversificação?"];
   let busy = false;
   let previousFocus = null;
 
@@ -79,7 +75,19 @@
     return bubble;
   }
 
-  addMessage("assistant", "Oi! Posso explicar conceitos de finanças e investimentos em linguagem simples. O que você gostaria de entender?");
+  function showSuggestions() {
+    suggestions.replaceChildren();
+    suggestedQuestions.forEach((prompt) => {
+      const button = make("button", "cashy-chat-suggestion", prompt);
+      button.type = "button";
+      button.addEventListener("click", () => send(prompt));
+      suggestions.append(button);
+    });
+    suggestions.hidden = false;
+  }
+
+  addMessage("assistant", "Oi! Sou o assistente educativo do Cashy. Posso explicar conceitos de dinheiro e investimentos. Não consulto dados em tempo real nem escolho investimentos para você.");
+  showSuggestions();
 
   function setOpen(open) {
     panel.hidden = !open;
@@ -104,16 +112,18 @@
     busy = true;
     sendButton.disabled = true;
     input.disabled = true;
-    const loading = addMessage("assistant", "Pensando…");
+    const waiting = addMessage("assistant", "Pensando…");
     try {
-      const result = await CashyAPI.chat.send(messages.slice(-8));
-      loading.textContent = result.answer;
+      const result = await window.CashyAPI.chat.send(messages.slice(-8));
+      waiting.textContent = result.answer;
       messages.push({ role: "assistant", content: result.answer });
       while (messages.length > 8) messages.shift();
+      showSuggestions();
     } catch (error) {
-      loading.dataset.error = "true";
-      loading.textContent = error.message || "Não consegui responder agora. Tente novamente.";
+      waiting.dataset.error = "true";
+      waiting.textContent = error.message || "Não consegui responder agora. Tente novamente.";
       messages.pop();
+      showSuggestions();
     } finally {
       busy = false;
       sendButton.disabled = false;
@@ -139,7 +149,7 @@
     if (event.key === "Escape" && !panel.hidden) {
       const focusWasInside = panel.contains(document.activeElement);
       setOpen(false);
-      if (focusWasInside && previousFocus instanceof HTMLElement && previousFocus !== document.body) previousFocus.focus();
+      if (focusWasInside && previousFocus instanceof HTMLElement && previousFocus !== document.body && previousFocus.isConnected) previousFocus.focus();
     }
   });
 })();

@@ -11,7 +11,7 @@ return [
     'database' => 'cashy',
     'username' => 'root',
     'password' => '',
-    // Crie uma chave gratuita no Google AI Studio e mantenha-a apenas neste arquivo privado.
-    'gemini_api_key' => '',
-    'gemini_model' => 'gemini-3.8-flash',
+    // Gere a chave no Cerebras Cloud e mantenha-a somente em config.php.
+    'cerebras_api_key' => '',
+    'cerebras_model' => 'gpt-oss-120b',
 ];

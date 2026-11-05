@@ -14,15 +14,14 @@ Projeto demonstrativo para quem está começando a aprender sobre organização 
 2. Execute o arquivo database/schema.sql uma vez. Ele cria o banco cashy e suas tabelas.
    - No MySQL Workbench, abra o arquivo e execute o conteúdo.
    - No PowerShell, execute: Get-Content .\database\schema.sql | mysql -u root -p
-3. No PowerShell, copie o exemplo com: Copy-Item api/config.example.php api/config.php.
-4. Abra api/config.php e informe usuário e senha do seu MySQL. O arquivo config.php fica fora do controle de versão.
+3. Abra `api/config.php`, que já vem preparado para a conexão local. Se ele não existir, copie `api/config.example.php` com `Copy-Item api/config.example.php api/config.php`.
+4. Confira host, porta, banco, usuário e senha do seu MySQL. O arquivo `config.php` fica fora do controle de versão.
    - No XAMPP sem senha para root, o valor de password pode ficar vazio.
    - Em outras instalações, use a senha configurada no MySQL.
-5. Para habilitar o assistente com IA, crie uma chave no [Google AI Studio](https://aistudio.google.com/apikey) e preencha `gemini_api_key` em `api/config.php`. A chave deve ficar somente no servidor. O modelo pode ser alterado em `gemini_model` ou pela variável de ambiente `GEMINI_MODEL`.
-   - O assistente fica indisponível até a chave ser configurada.
-   - O modelo padrão é `gemini-3.8-flash`, cuja página oficial informa preço gratuito na cota Free Tier. A cota tem limites e pode mudar; confira [preços e limites oficiais](https://ai.google.dev/gemini-api/docs/pricing) e [limites do Gemini API](https://ai.google.dev/gemini-api/docs/rate-limits).
-   - Não vincule um projeto com faturamento ativo se quiser manter o uso limitado à cota gratuita. Quando o limite é alcançado, o assistente informa que está temporariamente indisponível.
-   - As perguntas são enviadas ao Google Gemini para gerar respostas. O Cashy não envia dados da conta, movimentações nem metas. No serviço gratuito, o Google pode usar entradas e respostas para melhorar produtos e permitir revisão humana; não informe dados pessoais, confidenciais ou financeiros. Consulte os [termos oficiais do Gemini API](https://ai.google.dev/gemini-api/terms).
+   - O PHP que inicia o site precisa ter as extensões PDO MySQL (`pdo_mysql`), `mbstring` e cURL habilitadas.
+5. Para ativar o chat com Cerebras, gere uma chave no [Cerebras Cloud Console](https://cloud.cerebras.ai/) e cole em `cerebras_api_key` dentro de `api/config.php`. A chave deve ficar somente nesse arquivo local, que não é publicado no Git. O modelo padrão é `gpt-oss-120b`.
+   - A Cerebras oferece US$ 5 em créditos de avaliação por 30 dias, com método de pagamento verificado; não há cota gratuita permanente. Quando os créditos acabarem ou expirarem, a API para até a compra de novos créditos. Consulte [preços](https://www.cerebras.ai/pricing) e [limites atuais](https://inference-docs.cerebras.ai/support/rate-limits). Sem chave, o chat informa que ainda não está configurado.
+   - As perguntas e o contexto recente são enviados à Cerebras. O Cashy não envia os dados da conta, movimentações ou metas. Evite escrever informações pessoais, confidenciais ou financeiras. Consulte os [termos da Cerebras](https://www.cerebras.ai/terms-of-service) e a [política de privacidade](https://www.cerebras.ai/privacy-policy).
 
 ## Abrir o site
 
@@ -57,11 +56,20 @@ A recuperação por e-mail ainda não foi configurada. O link de recuperação i
 ~~~text
 Cashy/
 ├── api/                 endpoints PHP, conexão e autenticação
-│   └── chat.php         assistente educativo via API do Google Gemini
+│   ├── auth.php         cadastro, login e sessão
+│   ├── account.php      exclusão de conta
+│   ├── chat.php         assistente educativo via Cerebras
+│   ├── bootstrap.php    conexão ao banco e funções comuns da API
+│   ├── education.php    progresso educativo
+│   ├── goals.php        metas
+│   ├── transactions.php movimentações
+│   └── config.example.php  exemplo de configuração do banco
 ├── database/schema.sql  criação do banco e tabelas
 ├── css/                 estilos, incluindo chatbot.css
 ├── images/              logo e ilustrações
-├── js/                  interações e chamadas à API, incluindo chatbot.js
+├── js/                  interações do site
+│   ├── api.js           chamadas ao servidor PHP
+│   └── chatbot.js       interface do assistente educativo
 ├── index.html           página pública inicial
 ├── login.html           entrar e criar conta
 ├── dashboard.html       painel pessoal
@@ -81,4 +89,4 @@ Para publicar o projeto em uma hospedagem, configure uma senha própria para o b
 
 ## Assistente educativo
 
-O botão do assistente aparece na página inicial, na educação, nos cursos e nas telas da conta. O histórico existe apenas na memória da página e não é gravado no MySQL. O endpoint envia somente as mensagens recentes da conversa, junto com instruções educativas; não busca nem encaminha dados pessoais ou financeiros da conta. Na cota gratuita do Google Gemini, as mensagens podem ser usadas para melhorar os produtos e passar por revisão humana, conforme os termos do provedor. O assistente não fornece recomendações personalizadas nem consulta dados de mercado em tempo real.
+O botão do assistente aparece na página inicial, na educação, nos cursos e nas telas da conta. O navegador envia somente as mensagens recentes da conversa ao endpoint `api/chat.php`; o PHP consulta a API da Cerebras com instruções educativas. O histórico fica na memória da página e não é gravado no MySQL. O assistente não recebe nome, e-mail, saldo, movimentações ou metas da conta, não fornece recomendação personalizada e não consulta dados de mercado em tempo real. Não escreva informações pessoais, confidenciais ou financeiras no chat.

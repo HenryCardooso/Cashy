@@ -40,9 +40,9 @@ if (is_file($configPath)) {
         $config = $loadedConfig;
     }
 }
-$apiKey = trim((string)(getenv('GEMINI_API_KEY') ?: ($config['gemini_api_key'] ?? '')));
+$apiKey = trim((string)(getenv('CEREBRAS_API_KEY') ?: ($config['cerebras_api_key'] ?? '')));
 if ($apiKey === '') {
-    api_error('ai_not_configured', 'O assistente ainda não está configurado. Adicione uma chave Gemini no servidor para habilitá-lo.', 503);
+    api_error('ai_not_configured', 'O assistente ainda não está configurado. Adicione uma chave da Cerebras no servidor para habilitá-lo.', 503);
 }
 
 if (!function_exists('curl_init')) {
@@ -61,13 +61,13 @@ if (count($recentRequests) >= 12) {
 }
 $_SESSION['chat_requests'] = [...$recentRequests, $now];
 
-$model = trim((string)(getenv('GEMINI_MODEL') ?: ($config['gemini_model'] ?? 'gemini-3.8-flash')));
+$model = trim((string)(getenv('CEREBRAS_MODEL') ?: ($config['cerebras_model'] ?? 'gpt-oss-120b')));
 if (!preg_match('/^[a-zA-Z0-9._-]{1,100}$/', $model)) {
-    $model = 'gemini-3.8-flash';
+    $model = 'gpt-oss-120b';
 }
 
 $instructions = <<<'PROMPT'
-Você é o assistente educativo do Cashy, um site brasileiro para pessoas que estão começando a aprender sobre dinheiro e investimentos. Responda sempre em português do Brasil, com linguagem acolhedora, clara e adequada para iniciantes. Explique conceitos e ajude a pessoa a aprender, sem pressioná-la a investir.
+Você é o assistente educativo do Cashy, um site brasileiro para pessoas que estão começando a aprender sobre dinheiro e investimentos. Responda sempre em português do Brasil, com linguagem clara e adequada para iniciantes. Explique conceitos e ajude a pessoa a aprender, sem pressioná-la a investir.
 
 Não dê recomendações financeiras personalizadas nem diga para comprar, vender ou escolher um ativo, produto, corretora ou investimento específico. Quando perguntarem o que fazer com o próprio dinheiro, explique quais fatores a pessoa pode estudar — objetivo, prazo, liquidez, riscos, custos, impostos e regras — sem decidir por ela. Nunca prometa rendimento ou segurança absoluta.
 
@@ -76,30 +76,26 @@ Não invente cotações, taxas, notícias, regras atuais ou dados de produtos. V
 Use exemplos hipotéticos identificados como exemplos. Diferencie fato geral, hipótese e incerteza. Se não souber, diga que não sabe. Não solicite nem tente inferir senha, e-mail, saldo, movimentações ou metas privadas da conta. O Cashy não fornece esses dados a você. Prefira respostas curtas, em poucos parágrafos, e ofereça explicar um termo relacionado quando fizer sentido.
 PROMPT;
 
-$geminiMessages = array_map(static function (array $message): array {
-    return [
-        'role' => $message['role'] === 'assistant' ? 'model' : 'user',
-        'parts' => [['text' => $message['content']]],
-    ];
-}, $cleanMessages);
+$cerebrasMessages = [['role' => 'system', 'content' => $instructions]];
+foreach ($cleanMessages as $message) {
+    $cerebrasMessages[] = ['role' => $message['role'], 'content' => $message['content']];
+}
 
 $payload = json_encode([
-    'systemInstruction' => ['parts' => [['text' => $instructions]]],
-    'contents' => $geminiMessages,
-    'generationConfig' => [
-        'maxOutputTokens' => 450,
-        'temperature' => 0.4,
-    ],
+    'model' => $model,
+    'messages' => $cerebrasMessages,
+    'max_completion_tokens' => 450,
+    'temperature' => 0.4,
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
 
-$handle = curl_init('https://generativelanguage.googleapis.com/v1beta/models/' . rawurlencode($model) . ':generateContent');
+$handle = curl_init('https://api.cerebras.ai/v1/chat/completions');
 curl_setopt_array($handle, [
     CURLOPT_POST => true,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_CONNECTTIMEOUT => 10,
     CURLOPT_TIMEOUT => 35,
     CURLOPT_HTTPHEADER => [
-        'x-goog-api-key: ' . $apiKey,
+        'Authorization: Bearer ' . $apiKey,
         'Content-Type: application/json',
         'Accept: application/json',
     ],
@@ -117,20 +113,14 @@ if ($responseBody === false || $curlError !== 0) {
 
 $response = json_decode($responseBody, true);
 if ($httpStatus === 429) {
-    api_error('rate_limited', 'A cota gratuita do assistente foi atingida por enquanto. Tente novamente mais tarde.', 429);
+    api_error('rate_limited', 'A cota do assistente foi atingida por enquanto. Tente novamente mais tarde.', 429);
 }
 if ($httpStatus < 200 || $httpStatus >= 300 || !is_array($response)) {
     error_log('[Cashy chat] A API retornou HTTP ' . $httpStatus . '.');
-    api_error('chat_unavailable', 'O assistente não conseguiu responder agora. Tente novamente mais tarde.', 502);
+    api_error('chat_unavailable', 'O assistente não conseguiu responder agora. Confira a chave e tente novamente mais tarde.', 502);
 }
 
-$answerParts = [];
-foreach (($response['candidates'][0]['content']['parts'] ?? []) as $part) {
-    if (isset($part['text']) && is_string($part['text'])) {
-        $answerParts[] = $part['text'];
-    }
-}
-$answer = trim(implode("\n", $answerParts));
+$answer = trim((string)($response['choices'][0]['message']['content'] ?? ''));
 if ($answer === '') {
     api_error('empty_answer', 'Não consegui montar uma resposta. Tente fazer a pergunta de outro jeito.', 502);
 }
