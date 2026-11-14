@@ -64,6 +64,7 @@
   }
 
   function renderizarAutenticacao(user) {
+    window.dispatchEvent(new CustomEvent("cashy:auth-state", { detail: { authenticated: Boolean(user) } }));
     preencher(document.getElementById("headerActions"), user);
     preencher(document.getElementById("navAuth"), user);
   }

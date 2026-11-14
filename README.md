@@ -92,7 +92,9 @@ Cashy/
 
 ## Conteúdo educativo
 
-O Cashy oferece oito cursos com leituras e quizzes, filtro por nível, progresso de aulas, simulador de cenários, exercícios, checklist e dicionário. As simulações usam somente as hipóteses informadas pela pessoa e não são previsões ou recomendações de investimento.
+O Cashy oferece dez cursos com leituras e quizzes, filtro por nível, progresso de aulas, simulador de cenários, exercícios, checklist e dicionário. As primeiras etapas priorizam orçamento, crédito, consumo e objetivos antes de aprofundar investimentos. O painel prioriza o próximo passo de aprendizagem antes do resumo financeiro. A oficina permite organizar renda, despesas, dívidas, parcelas, reservas e objetivos e guardar versões do orçamento neste navegador. Os planos não conectam contas bancárias, não são enviados ao servidor e não sincronizam entre dispositivos.
+
+As simulações usam hipóteses informadas pela pessoa e são exercícios educativos, não previsões ou recomendações financeiras. Valores de exemplo não representam contas, produtos ou resultados reais.
 
 Para publicar o projeto em uma hospedagem, configure uma senha própria para o banco, use HTTPS e não publique api/config.php.
 

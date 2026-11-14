@@ -5,7 +5,7 @@
   const index = courses.findIndex((item) => item.id === id);
   const root = document.getElementById("courseContent");
   if (index < 0) {
-    root.innerHTML = '<section class="course-heading"><span class="eyebrow">EDUCAÇÃO CASHY</span><h1>Curso não encontrado</h1><p>Escolha um curso na trilha para continuar aprendendo.</p><a class="lime-button" href="educacao.html#trilha">Voltar para a trilha</a></section>';
+    root.innerHTML = '<section class="course-heading"><span class="eyebrow">EDUCAÇÃO CASHY</span><h1>Curso não encontrado</h1><p>Escolha um curso na trilha para continuar aprendendo.</p><a class="lime-button" href="educacao.html">Voltar para a trilha</a></section>';
     return;
   }
 
@@ -271,10 +271,10 @@
   navigation.className = "course-nav";
   navigation.setAttribute("aria-label", "Navegar entre cursos");
   const previous = document.createElement("a");
-  previous.href = index > 0 ? "curso.html?id=" + encodeURIComponent(courses[index - 1].id) : "educacao.html#trilha";
+  previous.href = index > 0 ? "curso.html?id=" + encodeURIComponent(courses[index - 1].id) : "educacao.html";
   previous.textContent = index > 0 ? "← Curso anterior" : "← Voltar à trilha";
   const next = document.createElement("a");
-  next.href = index < courses.length - 1 ? "curso.html?id=" + encodeURIComponent(courses[index + 1].id) : "educacao.html#trilha";
+  next.href = index < courses.length - 1 ? "curso.html?id=" + encodeURIComponent(courses[index + 1].id) : "educacao.html";
   next.textContent = index < courses.length - 1 ? "Próximo curso →" : "Voltar à trilha →";
   navigation.append(previous, next);
   root.append(navigation);

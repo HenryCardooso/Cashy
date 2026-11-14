@@ -44,7 +44,7 @@
     const currentId = active[0]?.[0] || courseData.find((course) => !completed.has(course.id))?.id;
     const current = courseData.find((course) => course.id === currentId);
     if (current) { resume.href = "curso.html?id=" + encodeURIComponent(current.id); resume.innerHTML = "Continuar " + current.title + ' <span aria-hidden="true">→</span>'; }
-    else { resume.href = "educacao.html#trilha"; resume.innerHTML = 'Rever seus cursos <span aria-hidden="true">→</span>'; }
+    else { resume.href = "educacao.html"; resume.innerHTML = 'Rever seus cursos <span aria-hidden="true">→</span>'; }
     const recommendation = courseData.find((course) => !completed.has(course.id) && course.id !== currentId) || (current ? current : null);
     const recommendationNode = document.getElementById("learningRecommendation");
     if (recommendation) {
@@ -394,7 +394,7 @@
   });
   document.getElementById("abrirAula").addEventListener("click", () => {
     const lesson = document.createElement("div");
-    lesson.innerHTML = '<p class="dialog-copy">Investir é usar dinheiro para adquirir algo que pode gerar retorno no futuro. O resultado não é garantido: cada tipo tem regras, prazo e riscos próprios.</p><ul class="lesson-list"><li><strong>1. Primeiro, organize.</strong><br>Veja quanto entra, quanto sai e o que você consegue guardar.</li><li><strong>2. Conheça as opções.</strong><br>Entenda como funciona, quando pode resgatar e quais são os riscos.</li><li><strong>3. Compare as regras.</strong><br>Pesquise e tire dúvidas antes de decidir. Não existe uma escolha igual para todo mundo.</li></ul><p class="dialog-copy">Este conteúdo é educativo e não recomenda um investimento específico.</p><a class="insight-button" href="educacao.html#trilha">Abrir a trilha completa →</a>';
+    lesson.innerHTML = '<p class="dialog-copy">Investir é usar dinheiro para adquirir algo que pode gerar retorno no futuro. O resultado não é garantido: cada tipo tem regras, prazo e riscos próprios.</p><ul class="lesson-list"><li><strong>1. Primeiro, organize.</strong><br>Veja quanto entra, quanto sai e o que você consegue guardar.</li><li><strong>2. Conheça as opções.</strong><br>Entenda como funciona, quando pode resgatar e quais são os riscos.</li><li><strong>3. Compare as regras.</strong><br>Pesquise e tire dúvidas antes de decidir. Não existe uma escolha igual para todo mundo.</li></ul><p class="dialog-copy">Este conteúdo é educativo e não recomenda um investimento específico.</p><a class="insight-button" href="educacao.html">Abrir a trilha completa →</a>';
     openDialog("AULA RÁPIDA", "Investir, em palavras simples", lesson);
   });
 

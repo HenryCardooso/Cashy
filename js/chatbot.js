@@ -3,6 +3,19 @@
 
   if (!window.CashyAPI || document.getElementById("cashyChatWidget")) return;
 
+  window.addEventListener("cashy:auth-state", (event) => {
+    if (!event.detail || !event.detail.authenticated) {
+      document.getElementById("cashyChatWidget")?.remove();
+    }
+  });
+
+  window.CashyAPI.auth.me().then((session) => {
+    if (!session || !session.authenticated) return;
+    initializeChat();
+  }).catch(() => {});
+
+  function initializeChat() {
+
   const make = (tag, className, text) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -177,4 +190,5 @@
       if (focusWasInside && previousFocus instanceof HTMLElement && previousFocus !== document.body && previousFocus.isConnected) previousFocus.focus();
     }
   });
+  }
 })();

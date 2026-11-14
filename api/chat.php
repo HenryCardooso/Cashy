@@ -3,6 +3,7 @@ declare(strict_types=1);
 require __DIR__ . '/bootstrap.php';
 
 api_method('POST');
+api_require_user();
 api_require_csrf();
 
 $contentLength = (int)($_SERVER['CONTENT_LENGTH'] ?? 0);

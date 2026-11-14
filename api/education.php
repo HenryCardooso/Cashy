@@ -4,6 +4,8 @@ require __DIR__ . '/bootstrap.php';
 
 $courseRules = [
     'primeiros-passos' => ['topics' => 6, 'answers' => [0, 1, 2]],
+    'orcamento-credito-dividas' => ['topics' => 6, 'answers' => [1, 1, 0]],
+    'consumo-objetivos' => ['topics' => 6, 'answers' => [2, 1, 0]],
     'entendendo-investimentos' => ['topics' => 6, 'answers' => [1, 0, 1]],
     'aprenda-escolher' => ['topics' => 6, 'answers' => [1, 1, 1]],
     'juros-compostos' => ['topics' => 5, 'answers' => [0, 1, 1]],
