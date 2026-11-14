@@ -23,18 +23,21 @@
   panel.id = "cashyChatPanel";
   panel.hidden = true;
   panel.setAttribute("role", "dialog");
-  panel.setAttribute("aria-label", "Assistente educativo Cashy com Cerebras");
+  panel.setAttribute("aria-label", "Assistente educativo Cashy com Groq");
 
   const header = make("header", "cashy-chat-header");
   const brand = make("div", "cashy-chat-brand");
   brand.append(make("span", "cashy-chat-avatar", "✦"));
   const heading = make("div", "cashy-chat-heading");
-  heading.append(make("strong", "", "Assistente Cashy"), make("small", "", "IA educativa com Cerebras"));
+  heading.append(make("strong", "", "Assistente Cashy"), make("small", "", "IA educativa com Groq"));
   brand.append(heading);
   const close = make("button", "cashy-chat-close", "×");
   close.type = "button";
   close.setAttribute("aria-label", "Fechar assistente");
-  header.append(brand, close);
+  const reset = make("button", "cashy-chat-reset", "Nova conversa");
+  reset.type = "button";
+  reset.setAttribute("aria-label", "Reiniciar conversa");
+  header.append(brand, reset, close);
 
   const transcript = make("div", "cashy-chat-messages");
   transcript.setAttribute("role", "log");
@@ -56,7 +59,7 @@
   sendButton.setAttribute("aria-label", "Enviar pergunta");
   sendButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 5 16 7-16 7 2.2-7L4 5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.2 12H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
   form.append(input, sendButton);
-  const note = make("p", "cashy-chat-note", "Suas mensagens são enviadas à Cerebras para gerar respostas. Não compartilhe dados pessoais ou financeiros. Conteúdo educativo.");
+  const note = make("p", "cashy-chat-note", "Suas mensagens são enviadas à Groq. O assistente não recebe automaticamente seu saldo, movimentações ou metas. Não compartilhe dados pessoais ou financeiros.");
   panel.append(header, transcript, suggestions, form, note);
   widget.append(panel, launcher);
   document.body.append(widget);
@@ -86,7 +89,8 @@
     suggestions.hidden = false;
   }
 
-  addMessage("assistant", "Oi! Sou o assistente educativo do Cashy. Posso explicar conceitos de dinheiro e investimentos. Não consulto dados em tempo real nem escolho investimentos para você.");
+  const greeting = "Oi! Sou o assistente educativo do Cashy. Posso explicar conceitos de dinheiro e investimentos. Não acesso os dados da sua conta, não consulto dados em tempo real e não escolho investimentos para você.";
+  addMessage("assistant", greeting);
   showSuggestions();
 
   function setOpen(open) {
@@ -101,33 +105,47 @@
     }
   }
 
-  async function send(value) {
+  async function send(value, retryBubble) {
     const content = String(value || "").trim();
     if (!content || busy) return;
     setOpen(true);
     suggestions.hidden = true;
-    addMessage("user", content);
-    messages.push({ role: "user", content });
+    if (!retryBubble) {
+      addMessage("user", content);
+      messages.push({ role: "user", content });
+    } else {
+      retryBubble.textContent = "Pensando…";
+      retryBubble.classList.add("is-loading");
+      retryBubble.removeAttribute("data-error");
+    }
     input.value = "";
     busy = true;
     sendButton.disabled = true;
     input.disabled = true;
-    const waiting = addMessage("assistant", "Pensando…");
+    reset.disabled = true;
+    const waiting = retryBubble || addMessage("assistant", "Pensando…");
+    waiting.classList.add("is-loading");
     try {
       const result = await window.CashyAPI.chat.send(messages.slice(-8));
       waiting.textContent = result.answer;
+      waiting.classList.remove("is-loading");
       messages.push({ role: "assistant", content: result.answer });
       while (messages.length > 8) messages.shift();
       showSuggestions();
     } catch (error) {
       waiting.dataset.error = "true";
+      waiting.classList.remove("is-loading");
       waiting.textContent = error.message || "Não consegui responder agora. Tente novamente.";
-      messages.pop();
+      const retry = make("button", "cashy-chat-retry", "Tentar novamente");
+      retry.type = "button";
+      retry.addEventListener("click", () => send(content, waiting));
+      waiting.append(retry);
       showSuggestions();
     } finally {
       busy = false;
       sendButton.disabled = false;
       input.disabled = false;
+      reset.disabled = false;
       input.focus();
       transcript.scrollTop = transcript.scrollHeight;
     }
@@ -135,6 +153,13 @@
 
   launcher.addEventListener("click", () => setOpen(panel.hidden));
   close.addEventListener("click", () => setOpen(false));
+  reset.addEventListener("click", () => {
+    messages.length = 0;
+    transcript.replaceChildren();
+    addMessage("assistant", "Conversa reiniciada. O histórico anterior foi apagado desta página. " + greeting);
+    showSuggestions();
+    input.focus();
+  });
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     send(input.value);

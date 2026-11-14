@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/workspace.css" />
     <link rel="stylesheet" href="css/accessibility.css" />
-    <link rel="stylesheet" href="css/chatbot.css" />
+    <link rel="stylesheet" href="css/chatbot.css?v=5" />
       <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/product-polish.css?v=5">
     <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
     <script src="js/theme.js" defer></script>
 </head>
@@ -24,6 +25,7 @@
         <a class="nav-item" href="movimentacoes.html"><span aria-hidden="true">↕</span> Movimentações</a>
         <a class="nav-item" href="metas.html"><span aria-hidden="true">◎</span> Minhas metas</a>
         <a class="nav-item" href="educacao.html"><span aria-hidden="true">↗</span> Aprender a investir</a>
+        <a class="nav-item" href="perfil.html"><span aria-hidden="true">◉</span> Perfil e configurações</a>
       </nav>
       <div class="sidebar-bottom">
         <a class="help-card" href="index.html#como-funciona"><span>✦</span><strong>Um passo de cada vez</strong><p>Volte ao guia para conhecer o básico.</p></a>
@@ -53,6 +55,11 @@
           <article class="summary-card"><div class="card-head"><span>Guardado nas metas</span><span class="card-icon purple-icon">◎</span></div><strong class="money" id="resumoMetas">—</strong><span class="card-foot">Soma do que você cadastrou</span></article>
         </section>
 
+        <section class="dashboard-learning-grid" aria-label="Sua evolução de aprendizagem">
+          <article class="panel learning-overview"><div class="panel-heading"><div><span class="eyebrow">SUA APRENDIZAGEM</span><h2>Continue no seu ritmo</h2><p id="learningSummary">Seu progresso aparece aqui conforme você estuda.</p></div></div><div class="learning-level"><strong id="learningLevel">Aprendiz</strong><span id="learningXp">0 XP</span><span id="learningStreak">0 dias de estudo</span></div><a class="learning-resume" id="continueLesson" href="educacao.html#trilha">Explorar os cursos <span aria-hidden="true">→</span></a><div class="learning-recommendation" id="learningRecommendation"></div><div id="learningReminder" class="learning-reminder" hidden>Uma etapa curta já ajuda a manter seu ritmo de estudos.</div></article>
+          <article class="panel learning-activity"><div class="panel-heading"><div><span class="eyebrow">ATIVIDADE RECENTE</span><h2>Seus passos recentes</h2></div></div><div id="learningActivity" aria-live="polite"><p>Seus cursos concluídos e etapas aparecerão aqui.</p></div></article>
+        </section>
+
         <section class="middle-grid">
           <article class="panel chart-panel"><div class="panel-heading"><div><h2>O que entra e o que sai</h2><p id="chartDescription">Cadastre movimentações para ver seu resumo.</p></div></div><div class="chart-empty chart-bars" id="chartEstado" role="status" aria-live="polite">Seu resumo aparecerá aqui depois que você registrar entradas ou saídas.</div></article>
           <article class="panel goal-panel" id="metas">
@@ -60,6 +67,7 @@
             <div class="goal-art" id="goalArt" hidden><div class="goal-ring" id="goalRing" role="progressbar" aria-label="Progresso da meta" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div><strong id="goalPercent">0%</strong><small>concluído</small></div></div></div>
             <h3 id="goalName">Você ainda não criou uma meta.</h3><p class="goal-description" id="goalDesc">Quando quiser, registre um objetivo e quanto pretende guardar.</p>
             <div class="goal-amount" id="goalAmountRow" hidden><span>Guardado / objetivo</span><strong id="goalAmount"></strong></div>
+            <div id="dashboardGoalList" class="dashboard-goal-list" aria-label="Progresso de todas as metas"></div>
             <button class="text-action" id="editarMeta" type="button">Criar minha primeira meta <span>→</span></button>
           </article>
         </section>
@@ -75,6 +83,6 @@
       </div>
     </main>
     <dialog class="cashy-dialog" id="dialogo" aria-labelledby="dialogoTitulo"><div class="dialog-shell"><button class="dialog-close" id="fecharDialogo" type="button" aria-label="Fechar">×</button><span class="eyebrow" id="dialogoTag">CASHY</span><h2 id="dialogoTitulo"></h2><div id="dialogoConteudo"></div></div></dialog>
-    <script src="js/api.js?v=3"></script><script src="js/dashboard.js"></script><script src="js/chatbot.js?v=3"></script>
+    <script src="js/api.js?v=5"></script><script src="js/cursos-data.js"></script><script src="js/dashboard.js?v=5"></script><script src="js/chatbot.js?v=5"></script>
   </body>
 </html>

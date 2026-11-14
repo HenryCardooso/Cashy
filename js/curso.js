@@ -12,25 +12,35 @@
   let loggedIn = false;
   let completed = [];
   let progressError = "";
+  let educationState = { states: {}, activity: [], xp: 0, streak: 0 };
   try {
     const session = await CashyAPI.auth.me();
     loggedIn = Boolean(session.authenticated);
     if (loggedIn) {
-      const state = await CashyAPI.education.get();
-      completed = Array.isArray(state.completed) ? state.completed : [];
+      educationState = await CashyAPI.education.get();
+      completed = Array.isArray(educationState.completed) ? educationState.completed : [];
+      await CashyAPI.education.open(id);
     } else {
       const saved = JSON.parse(localStorage.getItem("cashyAulas:visitante") || "{}");
       completed = Array.isArray(saved.completed) ? saved.completed : [];
+      educationState = Object.assign(educationState, saved);
+      educationState.states ||= {};
+      educationState.states[id] ||= { last_topic_index: 0, completed_topics: [], quiz_history: [] };
+      educationState.states[id].last_accessed_at = new Date().toISOString();
+      localStorage.setItem("cashyAulas:visitante", JSON.stringify({ ...saved, ...educationState }));
     }
   } catch (error) {
     progressError = error.message;
     try {
       const saved = JSON.parse(localStorage.getItem("cashyAulas:visitante") || "{}");
       completed = Array.isArray(saved.completed) ? saved.completed : [];
+      educationState = Object.assign(educationState, saved);
     } catch (_) {}
   }
 
   const course = courses[index];
+  educationState.states ||= {};
+  educationState.states[course.id] ||= { last_topic_index: 0, completed_topics: [], quiz_history: [] };
   const heading = document.createElement("section");
   heading.className = "course-heading";
   const level = document.createElement("span");
@@ -51,17 +61,47 @@
   const topics = document.createElement("section");
   topics.className = "course-topics";
   topics.setAttribute("aria-label", "Conteúdo do curso");
-  course.topics.forEach(([name, text]) => {
+  course.topics.forEach(([name, text], topicIndex) => {
     const card = document.createElement("article");
     card.className = "course-topic";
     const h = document.createElement("h2");
     h.textContent = name;
     const p = document.createElement("p");
     p.textContent = text;
-    card.append(h, p);
+    const progress = educationState.states?.[course.id] || { last_topic_index: 0, completed_topics: [] };
+    const completeTopic = document.createElement("button"); completeTopic.type = "button"; completeTopic.className = "topic-complete"; completeTopic.dataset.topicIndex = String(topicIndex);
+    const topicDone = (progress.completed_topics || []).includes(topicIndex);
+    completeTopic.textContent = topicDone ? "Etapa concluída ✓" : "Marcar etapa como concluída";
+    completeTopic.setAttribute("aria-pressed", String(topicDone));
+    completeTopic.addEventListener("click", async () => {
+      const wasCompleted = (educationState.states?.[course.id]?.completed_topics || []).includes(topicIndex);
+      completeTopic.disabled = true;
+      try {
+        let savedTopics;
+        if (loggedIn) {
+          const result = await CashyAPI.education.saveTopic(course.id, topicIndex); savedTopics = result.completed_topics;
+          educationState.xp = (await CashyAPI.education.get()).xp;
+        } else {
+          const current = educationState.states[course.id];
+          current.completed_topics = [...new Set([...(current.completed_topics || []), topicIndex])]; current.last_topic_index = topicIndex; current.last_accessed_at = new Date().toISOString();
+          educationState.xp = Number(educationState.xp || 0) + (wasCompleted ? 0 : 5);
+          educationState.activity ||= []; if (!wasCompleted) educationState.activity.unshift({ type: "topic_completed", course_id: course.id, points: 5, created_at: new Date().toISOString() });
+          localStorage.setItem("cashyAulas:visitante", JSON.stringify({ ...educationState, completed })); savedTopics = current.completed_topics;
+        }
+        educationState.states[course.id] ||= {}; educationState.states[course.id].completed_topics = savedTopics; educationState.states[course.id].last_topic_index = topicIndex;
+        completeTopic.textContent = "Etapa concluída ✓"; completeTopic.setAttribute("aria-pressed", "true");
+        status.textContent = wasCompleted ? "Essa etapa já estava concluída." : "Etapa salva. Você ganhou 5 XP de aprendizagem.";
+      } catch (error) { status.textContent = error.message || "Não foi possível salvar esta etapa."; }
+      finally { completeTopic.disabled = false; }
+    });
+    card.append(h, p, completeTopic);
     topics.append(card);
   });
   root.append(topics);
+  const courseState = educationState.states[course.id];
+  const lastTopicIndex = Number(courseState.last_topic_index || 0);
+  const resumeTopicIndex = (courseState.completed_topics || []).includes(lastTopicIndex) ? Math.min(lastTopicIndex + 1, course.topics.length - 1) : lastTopicIndex;
+  if (resumeTopicIndex > 0 && topics.children[resumeTopicIndex]) setTimeout(() => topics.children[resumeTopicIndex].scrollIntoView({ block: "start", behavior: "smooth" }), 120);
 
   const quiz = document.createElement("section");
   quiz.className = "course-quiz";
@@ -86,6 +126,28 @@
     form.append(field);
   });
 
+  const historyPanel = document.createElement("details");
+  historyPanel.className = "quiz-history";
+  historyPanel.innerHTML = "<summary>Rever tentativas anteriores</summary>";
+  const historyContent = document.createElement("div"); historyPanel.append(historyContent);
+  const savedAttempts = educationState.states[course.id]?.quiz_history || [];
+  function renderQuizHistory() {
+    historyContent.replaceChildren(...savedAttempts.slice().reverse().map((attempt, attemptIndex) => {
+      const section = document.createElement("section");
+      const heading = document.createElement("strong"); heading.textContent = "Tentativa " + (savedAttempts.length - attemptIndex) + " · " + attempt.score + " de " + attempt.total;
+      section.append(heading);
+      course.quiz.forEach((question, qi) => {
+        const answer = document.createElement("p");
+        const selected = Number(attempt.answers?.[qi]);
+        answer.textContent = (qi + 1) + ". " + question.question + " — Sua resposta: " + (question.options[selected] || "sem resposta") + (selected === question.answer ? " ✓" : " · correta: " + question.options[question.answer]);
+        section.append(answer);
+      });
+      return section;
+    }));
+    if (!savedAttempts.length) historyContent.textContent = "Suas tentativas serão salvas aqui quando você conferir o quiz.";
+  }
+  renderQuizHistory();
+
   const actions = document.createElement("div");
   actions.className = "course-actions";
   const check = document.createElement("button");
@@ -101,12 +163,13 @@
   status.className = "course-status";
   status.setAttribute("role", "status");
   actions.append(check, completeButton, status);
-  quiz.append(form, actions);
+  quiz.append(form, historyPanel, actions);
   root.append(quiz);
 
   const completedAlready = () => completed.includes(course.id);
   let passed = false;
-  check.addEventListener("click", () => {
+  let savingQuiz = false;
+  check.addEventListener("click", async () => {
     let score = 0;
     let unanswered = false;
     form.querySelectorAll("fieldset").forEach((field, qi) => {
@@ -132,12 +195,36 @@
       return;
     }
     passed = score === course.quiz.length;
-    completeButton.disabled = !passed || completedAlready();
-    status.textContent = completedAlready()
-      ? "Este curso já está concluído. Você pode rever o conteúdo."
-      : passed
-        ? "Você acertou todas. Agora pode concluir o curso."
-        : score + " de " + course.quiz.length + " corretas. Revise as explicações e tente novamente.";
+    completeButton.disabled = true;
+    check.disabled = true;
+    savingQuiz = true;
+    const answers = [...form.querySelectorAll("fieldset")].map((field) => Number(field.querySelector("input:checked")?.value ?? -1));
+    const attempt = { answers, score, total: course.quiz.length, created_at: new Date().toISOString() };
+    try {
+      if (loggedIn) {
+        await CashyAPI.education.saveQuiz(course.id, answers, score, course.quiz.length);
+        educationState = await CashyAPI.education.get();
+      } else if (!progressError) {
+        const firstQuiz = !educationState.states[course.id].quiz_history.length;
+        educationState.states[course.id].quiz_history.push(attempt);
+        educationState.activity ||= [];
+        if (firstQuiz) { educationState.xp = Number(educationState.xp || 0) + 10; educationState.activity.unshift({ type: "quiz_completed", course_id: course.id, points: 10, created_at: attempt.created_at }); }
+        localStorage.setItem("cashyAulas:visitante", JSON.stringify({ ...educationState, completed }));
+      } else throw new Error(progressError);
+      const nextHistory = educationState.states?.[course.id]?.quiz_history || [];
+      savedAttempts.splice(0, savedAttempts.length, ...nextHistory);
+      renderQuizHistory();
+      completeButton.disabled = !passed || completedAlready();
+      status.textContent = completedAlready()
+        ? "Quiz salvo. Este curso já está concluído; você pode rever suas respostas."
+        : passed
+          ? "Você acertou todas. Quiz salvo; agora pode concluir o curso."
+          : score + " de " + course.quiz.length + " corretas. Suas respostas foram salvas; revise as explicações e tente novamente.";
+    } catch (error) {
+      passed = false;
+      completeButton.disabled = true;
+      status.textContent = "Não foi possível salvar suas respostas: " + (error.message || "tente novamente.");
+    } finally { check.disabled = false; savingQuiz = false; }
   });
 
   form.addEventListener("change", () => {
@@ -147,7 +234,7 @@
   });
 
   completeButton.addEventListener("click", async () => {
-    if (!passed || completedAlready()) return;
+    if (!passed || savingQuiz || completedAlready()) return;
     completeButton.disabled = true;
     try {
       if (loggedIn) {
@@ -155,7 +242,10 @@
       } else if (!progressError) {
         const progress = new Set(completed);
         progress.add(course.id);
-        localStorage.setItem("cashyAulas:visitante", JSON.stringify({ completed: [...progress] }));
+        const alreadyAwarded = educationState.completed_rewards?.includes(course.id);
+        educationState.completed_rewards ||= [];
+        if (!alreadyAwarded) { educationState.completed_rewards.push(course.id); educationState.xp = Number(educationState.xp || 0) + 20; educationState.activity ||= []; educationState.activity.unshift({ type: "course_completed", course_id: course.id, points: 20, created_at: new Date().toISOString() }); }
+        localStorage.setItem("cashyAulas:visitante", JSON.stringify({ ...educationState, completed: [...progress] }));
       } else {
         throw new Error(progressError);
       }

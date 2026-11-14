@@ -70,14 +70,22 @@
     },
     education: {
       get: () => request("education.php"),
+      open: (courseId) => request("education.php", { method: "POST", body: { action: "open", course_id: courseId } }),
       complete: (courseId) => request("education.php", { method: "POST", body: { action: "complete", course_id: courseId } }),
+      saveTopic: (courseId, topicIndex) => request("education.php", { method: "POST", body: { action: "topic", course_id: courseId, topic_index: topicIndex } }),
+      saveQuiz: (courseId, answers, score, total) => request("education.php", { method: "POST", body: { action: "quiz", course_id: courseId, answers, score, total } }),
       saveChecklist: (items) => request("education.php", { method: "POST", body: { action: "checklist", items } })
+    },
+    profile: {
+      get: async () => (await request("profile.php")).profile,
+      update: (data) => request("profile.php", { method: "POST", body: Object.assign({ action: "update" }, data) }),
+      changePassword: (currentPassword, newPassword) => request("profile.php", { method: "POST", body: { action: "password", current_password: currentPassword, new_password: newPassword } })
     },
     chat: {
       send: (messages) => request("chat.php", { method: "POST", body: { messages } })
     },
     account: {
-      remove: () => request("account.php", { method: "POST", body: { action: "delete" } })
+      remove: (password) => request("account.php", { method: "POST", body: { action: "delete", password } })
     }
   };
 })();

@@ -3,7 +3,7 @@
 
   const lessons = window.CASHY_CURSOS || [];
   let session = { authenticated: false };
-  let educationState = { completed: [], checklist: [] };
+  let educationState = { completed: [], checklist: [], states: {}, activity: [], xp: 0, streak: 0, weekly_topics: 0 };
   try {
     session = await CashyAPI.auth.me();
     if (session.authenticated) educationState = await CashyAPI.education.get();
@@ -11,6 +11,9 @@
   const loggedIn = Boolean(session.authenticated);
   const progressKey = "cashyAulas:visitante";
   const checklistKey = "cashyChecklist:visitante";
+  if (!loggedIn) { try { educationState = Object.assign(educationState, JSON.parse(localStorage.getItem(progressKey) || "{}")); } catch (_) {} }
+  educationState.states ||= {};
+  educationState.activity ||= [];
 
   const terms = [
     ["CDI", "Taxa de referência ligada a empréstimos de curtíssimo prazo entre instituições financeiras. É usada como referência em alguns investimentos.", "Exemplo: uma oferta pode dizer que acompanha um percentual do CDI; isso descreve uma regra, não garante ganho nem define sozinho o resultado líquido."],
@@ -66,14 +69,50 @@
     document.getElementById("progressCount").textContent = completed.length + " de " + lessons.length + " cursos concluídos";
     document.getElementById("progressPercent").textContent = percent + "%";
     document.getElementById("progressBar").style.width = percent + "%";
-    document.querySelector(".progress-track").setAttribute("aria-valuenow", String(percent));
+    document.querySelector('.progress-track[role="progressbar"]').setAttribute("aria-valuenow", String(percent));
     document.querySelectorAll(".lesson-card").forEach((card) => {
       const done = completed.includes(card.dataset.lessonId);
       card.classList.toggle("completed", done);
       let badge = card.querySelector(".completion-note");
       if (done && !badge) { badge = document.createElement("span"); badge.className = "completion-note"; badge.setAttribute("role", "status"); badge.textContent = "Curso concluído"; card.querySelector(".lesson-content").append(badge); }
       if (!done && badge) badge.remove();
+      const state = educationState.states?.[card.dataset.lessonId];
+      const detail = card.querySelector(".lesson-stage-progress");
+      if (detail) detail.textContent = done ? "Curso concluído" : state ? (state.completed_topics || []).length + " de " + (lessons.find((lesson) => lesson.id === card.dataset.lessonId)?.topics.length || 0) + " etapas concluídas" : "Ainda não iniciado";
     });
+    renderLearningRewards(completed);
+  }
+  function renderLearningRewards(completed) {
+    const activities = educationState.activity || [];
+    if (!loggedIn) {
+      const dates = new Set(activities.filter((item) => ["topic_completed", "quiz_completed", "course_completed"].includes(item.type)).map((item) => new Date(item.created_at).toLocaleDateString("sv-SE")));
+      const today = new Date(); const current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      let cursor = dates.has(current.toLocaleDateString("sv-SE")) ? current : new Date(current.getTime() - 86400000); let streak = 0;
+      while (dates.has(cursor.toLocaleDateString("sv-SE"))) { streak++; cursor = new Date(cursor.getTime() - 86400000); }
+      educationState.streak = streak;
+    }
+    const topicCount = Object.values(educationState.states || {}).reduce((total, state) => total + (state.completed_topics || []).length, 0);
+    const xp = Number(educationState.xp) || 0;
+    const levels = [[0, "Aprendiz"], [50, "Explorador"], [150, "Organizador"], [300, "Planejador"], [600, "Conhecedor"]];
+    document.getElementById("educationXp").textContent = xp + " XP";
+    document.getElementById("educationLevel").textContent = [...levels].reverse().find(([minimum]) => xp >= minimum)?.[1] || "Aprendiz";
+    document.getElementById("educationStreak").textContent = (Number(educationState.streak) || 0) + " " + ((Number(educationState.streak) || 0) === 1 ? "dia" : "dias");
+    let weekly = Number(educationState.weekly_topics) || 0;
+    if (!loggedIn) {
+      const now = new Date(); const day = (now.getDay() + 6) % 7; const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day);
+      weekly = activities.filter((item) => item.type === "topic_completed" && new Date(item.created_at) >= monday).length;
+    }
+    document.getElementById("weeklyChallengeProgress").textContent = Math.min(weekly, 3) + " de 3 etapas concluídas";
+    document.getElementById("weeklyChallengeBar").style.width = Math.min(100, weekly / 3 * 100) + "%";
+    document.querySelector(".weekly-challenge [role=progressbar]").setAttribute("aria-valuenow", String(Math.min(weekly, 3)));
+    const badgeData = [
+      [topicCount >= 1, "Primeira etapa", "Conclua uma etapa de aula"],
+      [topicCount >= 5, "Curioso", "Estude cinco etapas"],
+      [completed.length >= 1, "Curso concluído", "Finalize seu primeiro curso"],
+      [(Number(educationState.streak) || 0) >= 3, "Ritmo constante", "Estude em três dias seguidos"]
+    ];
+    const badges = document.getElementById("educationBadges");
+    badges.replaceChildren(...badgeData.map(([earned, title, description]) => { const item = document.createElement("span"); item.className = "education-badge" + (earned ? " earned" : ""); item.textContent = (earned ? "✦ " : "○ ") + title; item.title = description; return item; }));
   }
   const grid = document.getElementById("lessonGrid");
   lessons.forEach((lesson, index) => {
@@ -84,11 +123,13 @@
     const level = document.createElement("span"); level.className = "lesson-level"; level.textContent = lesson.level;
     const title = document.createElement("h3"); title.textContent = lesson.title;
     const description = document.createElement("p"); description.textContent = lesson.description;
+    const stage = document.createElement("small"); stage.className = "lesson-stage-progress";
     if (index > 0) { const prerequisite = document.createElement("p"); prerequisite.className = "course-prerequisite"; prerequisite.textContent = "Sequência sugerida: estude antes “" + lessons[index - 1].title + "”."; content.append(level, title, description, prerequisite); }
     else content.append(level, title, description);
+    content.append(stage);
     const meta = document.createElement("div"); meta.className = "lesson-meta";
     const reading = document.createElement("span"); reading.textContent = "Aula · leitura e quiz";
-    const button = document.createElement("a"); button.className = "course-link"; button.textContent = "Abrir curso →"; button.href = "curso.html?id=" + encodeURIComponent(lesson.id);
+    const button = document.createElement("a"); button.className = "course-link"; button.textContent = educationState.states?.[lesson.id] ? "Continuar curso →" : "Abrir curso →"; button.href = "curso.html?id=" + encodeURIComponent(lesson.id);
     meta.append(reading, button); content.append(meta); card.append(art, content); grid.append(card);
   });
   updateProgress();
@@ -172,7 +213,12 @@
     const label = String(values.get("label") || "Sem rótulo");
     const result = { label, initial, contribution, months, annualRate, contributions: totalContributions, balance: estimatedBalance, difference: estimatedBalance - totalContributions };
     resultValues[form.dataset.scenario] = result;
-    output.textContent = "Saldo hipotético: " + money(result.balance) + " · Total informado: " + money(result.contributions) + " · Diferença matemática: " + money(result.difference) + ". Resultado baseado nas hipóteses, não é previsão.";
+    output.textContent = [
+      "Saldo hipotético ao final: " + money(result.balance),
+      "Total informado (valor inicial + aportes): " + money(result.contributions),
+      "Diferença matemática entre saldo e total informado: " + money(result.difference),
+      "Cálculo para " + months + " meses, com taxa anual hipotética de " + (annualRate * 100).toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + "%. Não é previsão nem garantia."
+    ].join("\n");
     renderComparison();
   }
   function renderComparison() {

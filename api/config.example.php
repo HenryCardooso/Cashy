@@ -11,7 +11,7 @@ return [
     'database' => 'cashy',
     'username' => 'root',
     'password' => '',
-    // Gere a chave no Cerebras Cloud e mantenha-a somente em config.php.
-    'cerebras_api_key' => '',
-    'cerebras_model' => 'gpt-oss-120b',
+    // Gere a chave no GroqCloud e mantenha-a somente em config.php.
+    'groq_api_key' => '',
+    'groq_model' => 'openai/gpt-oss-120b',
 ];

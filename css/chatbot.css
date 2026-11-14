@@ -33,3 +33,7 @@ html[data-theme="light"] .cashy-chat-widget{--chat-bg:#f7faf7;--chat-panel:#fff;
 html[data-theme="light"] .cashy-chat-message[data-role="user"]{background:#eaf5e6;border-color:#bad2ae}
 @media(max-width:500px){.cashy-chat-widget{right:14px;bottom:14px}.cashy-chat-launcher{width:56px;height:56px}.cashy-chat-panel{right:-4px;bottom:68px;width:calc(100vw - 20px);height:min(600px,calc(100dvh - 100px));min-height:320px;border-radius:17px}}
 @media(prefers-reduced-motion:reduce){.cashy-chat-launcher{transition:none}}
+.cashy-chat-reset{padding:6px 9px;border:1px solid var(--chat-line);border-radius:8px;background:transparent;color:var(--chat-text);font:inherit;font-size:12px;cursor:pointer}
+.cashy-chat-retry{display:block;margin-top:10px;padding:7px 10px;border:1px solid var(--chat-line);border-radius:8px;background:var(--chat-panel);color:var(--chat-text);font:inherit;font-size:12px;cursor:pointer}
+.cashy-chat-message.is-loading::after{content:"";display:inline-block;width:5px;height:5px;margin-left:5px;border-radius:50%;background:currentColor;animation:cashy-pulse 900ms ease-in-out infinite alternate}
+@keyframes cashy-pulse{to{opacity:.3;transform:translateY(-2px)}}

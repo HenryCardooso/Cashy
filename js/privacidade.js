@@ -23,7 +23,9 @@
 
     if (user) {
       try {
-        await CashyAPI.account.remove();
+        const password = window.prompt("Digite sua senha atual para confirmar a exclusão da conta.");
+        if (password === null) { button.disabled = false; return; }
+        await CashyAPI.account.remove(password);
         for (const key of ["cashyAulas:visitante", "cashyChecklist:visitante"]) localStorage.removeItem(key);
         status.textContent = "Sua conta e seus dados foram apagados. Redirecionando para o início.";
         setTimeout(() => location.assign("index.html"), 1200);

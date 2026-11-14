@@ -9,6 +9,7 @@
   <link rel="icon" href="images/logo.png" type="image/png">
   <link rel="stylesheet" href="css/legal.css">
   <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/product-polish.css?v=5">
   <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
   <script src="js/theme.js" defer></script>
 </head>
@@ -28,15 +29,16 @@
       <ul>
         <li>Nome, e-mail e hash da senha na tabela de contas. A senha não é guardada em texto puro.</li>
         <li>Movimentações e metas financeiras associadas ao identificador da conta.</li>
-        <li>Conclusão dos cursos e respostas do checklist educativo da conta.</li>
+        <li>Etapas acessadas e concluídas nos cursos, respostas recentes dos quizzes, checklist educativo, atividade de aprendizagem e XP associado à conta.</li>
+        <li>Nome de exibição, avatar escolhido e preferência do lembrete de estudos dentro do Cashy.</li>
         <li>Uma sessão PHP protegida por cookie para manter o acesso enquanto você usa o site.</li>
       </ul>
 
       <h2>Como os dados são usados</h2>
-      <p>O banco é usado para criar sua conta, autenticar o acesso e mostrar suas movimentações, metas e progresso. O Cashy não conecta a bancos, corretoras ou serviços de investimento.</p>
+      <p>O banco é usado para criar sua conta, autenticar o acesso e mostrar suas movimentações, metas, configurações e progresso. O lembrete de estudos é exibido dentro do Cashy; não enviamos avisos por e-mail ou push. O Cashy não conecta a bancos, corretoras ou serviços de investimento.</p>
 
       <h2>Assistente com inteligência artificial</h2>
-      <p>Quando você usa o assistente, o texto da sua pergunta e as mensagens recentes daquela conversa são enviados à API da Cerebras para gerar uma resposta. O Cashy não anexa seu nome, e-mail, saldo, movimentações ou metas. O histórico fica somente na memória da página e não é salvo pelo Cashy no banco. Não escreva informações pessoais, confidenciais ou financeiras na conversa. Consulte os <a href="https://www.cerebras.ai/terms-of-service" target="_blank" rel="noopener noreferrer">termos da Cerebras</a> e a <a href="https://www.cerebras.ai/privacy-policy" target="_blank" rel="noopener noreferrer">política de privacidade</a>.</p>
+      <p>Quando você usa o assistente, o texto da sua pergunta e as mensagens recentes daquela conversa são enviados à API da Groq para gerar uma resposta. O Cashy não anexa seu nome, e-mail, saldo, movimentações ou metas. O histórico fica somente na memória da página e não é salvo pelo Cashy no banco. Não escreva informações pessoais, confidenciais ou financeiras na conversa. Consulte as <a href="https://groq.com/privacy-policy" target="_blank" rel="noopener noreferrer">políticas de privacidade da Groq</a>.</p>
 
       <h2>Senha e sessão</h2>
       <p>O servidor transforma a senha com a função de hash do PHP antes de gravá-la. As operações de leitura e gravação usam consultas preparadas, e as rotas de dados exigem uma sessão autenticada. Em hospedagem pública, use HTTPS e mantenha o servidor PHP e o MySQL atualizados.</p>
@@ -45,7 +47,7 @@
       <p>A recuperação por e-mail ainda não está configurada. Se esquecer a senha, procure o administrador do site. Não use uma senha que você já utiliza em outro serviço.</p>
 
       <h2>Como apagar seus dados</h2>
-      <p>Entre na conta que deseja apagar e use o botão abaixo. A remoção da conta também apaga movimentações, metas, progresso e checklist associados a ela. Sem login, o botão apaga apenas o progresso de visitante deste navegador.</p>
+      <p>Entre na conta que deseja apagar e use o botão abaixo. Para uma conta, confirme com sua senha atual. A remoção também apaga perfil, movimentações, metas, configurações, progresso, respostas dos quizzes, XP e checklist associados. Sem login, o botão apaga apenas o progresso de visitante deste navegador.</p>
       <section class="danger-zone" aria-labelledby="deleteHeading">
         <h2 id="deleteHeading">Apagar dados do Cashy</h2>
         <p>Essa ação não pode ser desfeita.</p>
@@ -58,7 +60,7 @@
     </article>
     <footer class="legal-footer"><a href="termos.html">Termos de uso</a><a href="login.html">Entrar ou criar conta</a><a href="educacao.html">Educação financeira</a></footer>
   </main>
-  <script src="js/api.js"></script>
-  <script src="js/privacidade.js"></script>
+  <script src="js/api.js?v=5"></script>
+  <script src="js/privacidade.js?v=2"></script>
 </body>
 </html>

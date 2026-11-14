@@ -40,9 +40,9 @@ if (is_file($configPath)) {
         $config = $loadedConfig;
     }
 }
-$apiKey = trim((string)(getenv('CEREBRAS_API_KEY') ?: ($config['cerebras_api_key'] ?? '')));
+$apiKey = trim((string)(getenv('GROQ_API_KEY') ?: ($config['groq_api_key'] ?? '')));
 if ($apiKey === '') {
-    api_error('ai_not_configured', 'O assistente ainda não está configurado. Adicione uma chave da Cerebras no servidor para habilitá-lo.', 503);
+    api_error('ai_not_configured', 'O assistente ainda não está configurado. Adicione uma chave da Groq no servidor para habilitá-lo.', 503);
 }
 
 if (!function_exists('curl_init')) {
@@ -61,9 +61,9 @@ if (count($recentRequests) >= 12) {
 }
 $_SESSION['chat_requests'] = [...$recentRequests, $now];
 
-$model = trim((string)(getenv('CEREBRAS_MODEL') ?: ($config['cerebras_model'] ?? 'gpt-oss-120b')));
-if (!preg_match('/^[a-zA-Z0-9._-]{1,100}$/', $model)) {
-    $model = 'gpt-oss-120b';
+$model = trim((string)(getenv('GROQ_MODEL') ?: ($config['groq_model'] ?? 'openai/gpt-oss-120b')));
+if (!preg_match('/^[a-zA-Z0-9._\/-]{1,100}$/', $model)) {
+    $model = 'openai/gpt-oss-120b';
 }
 
 $instructions = <<<'PROMPT'
@@ -76,19 +76,19 @@ Não invente cotações, taxas, notícias, regras atuais ou dados de produtos. V
 Use exemplos hipotéticos identificados como exemplos. Diferencie fato geral, hipótese e incerteza. Se não souber, diga que não sabe. Não solicite nem tente inferir senha, e-mail, saldo, movimentações ou metas privadas da conta. O Cashy não fornece esses dados a você. Prefira respostas curtas, em poucos parágrafos, e ofereça explicar um termo relacionado quando fizer sentido.
 PROMPT;
 
-$cerebrasMessages = [['role' => 'system', 'content' => $instructions]];
+$groqMessages = [['role' => 'system', 'content' => $instructions]];
 foreach ($cleanMessages as $message) {
-    $cerebrasMessages[] = ['role' => $message['role'], 'content' => $message['content']];
+    $groqMessages[] = ['role' => $message['role'], 'content' => $message['content']];
 }
 
 $payload = json_encode([
     'model' => $model,
-    'messages' => $cerebrasMessages,
+    'messages' => $groqMessages,
     'max_completion_tokens' => 450,
     'temperature' => 0.4,
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
 
-$handle = curl_init('https://api.cerebras.ai/v1/chat/completions');
+$handle = curl_init('https://api.groq.com/openai/v1/chat/completions');
 curl_setopt_array($handle, [
     CURLOPT_POST => true,
     CURLOPT_RETURNTRANSFER => true,
@@ -107,7 +107,7 @@ $httpStatus = (int)curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
 curl_close($handle);
 
 if ($responseBody === false || $curlError !== 0) {
-    error_log('[Cashy chat] A chamada à API falhou. Código cURL: ' . $curlError);
+    error_log('[Cashy chat] A chamada à API Groq falhou. Código cURL: ' . $curlError);
     api_error('chat_unavailable', 'Não consegui responder agora. Confira sua conexão e tente novamente.', 502);
 }
 
@@ -116,7 +116,7 @@ if ($httpStatus === 429) {
     api_error('rate_limited', 'A cota do assistente foi atingida por enquanto. Tente novamente mais tarde.', 429);
 }
 if ($httpStatus < 200 || $httpStatus >= 300 || !is_array($response)) {
-    error_log('[Cashy chat] A API retornou HTTP ' . $httpStatus . '.');
+    error_log('[Cashy chat] A API Groq retornou HTTP ' . $httpStatus . '.');
     api_error('chat_unavailable', 'O assistente não conseguiu responder agora. Confira a chave e tente novamente mais tarde.', 502);
 }
 
