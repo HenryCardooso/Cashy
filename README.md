@@ -80,19 +80,31 @@ Cashy/
 │   └── chatbot.js       interface do assistente educativo
 ├── index.html           página pública inicial
 ├── login.html           entrar e criar conta
-├── dashboard.html       painel pessoal
-├── movimentacoes.html   entradas e saídas
+├── dashboard.html       painel com orientação inicial, evolução e resumo mensal
+├── movimentacoes.html   entradas e saídas da conta
 ├── metas.html           metas financeiras
 ├── perfil.html          perfil, preferências e segurança da conta
-├── educacao.html        trilha, simulador, checklist e dicionário
+├── educacao.html        cursos e progresso da trilha
+├── planejamento.html    oficina de orçamento salva neste navegador
+├── praticar.html        checklist educativo e exercícios
+├── simulador.html       comparação de cenários hipotéticos
+├── biblioteca.html      dicionário e fontes oficiais
 ├── curso.html           página individual de cada curso
 ├── privacidade.html     explicação e exclusão da conta
 └── termos.html          termos do projeto
 ~~~
 
+## Estado atual e escopo da auditoria
+
+O frontend usa páginas HTML independentes com CSS e JavaScript sem framework ou etapa de build. A API é composta por endpoints PHP com PDO; o MySQL é descrito em `database/schema.sql`. Não há `package.json`, `composer.json` ou suíte de testes automatizada no repositório. A instalação precisa do PHP com PDO MySQL, `mbstring` e cURL, além do MySQL configurado.
+
+A autenticação usa sessões PHP, cookies `HttpOnly`/`SameSite`, rotação de sessão no login e tokens CSRF nas gravações. As rotas de movimentações, metas, perfil, educação e chat verificam a conta; consultas usam parâmetros preparados. `api/config.php` contém configuração local e não deve ser enviado ao Git.
+
+A auditoria desta etapa encontrou e corrigiu descrições desatualizadas neste README. Os links locais das páginas HTML foram conferidos e a sintaxe dos arquivos PHP e JavaScript passou. O site não tem build configurado; a validação em navegador e fluxos ligados ao MySQL precisam ser feitos com Apache/PHP e banco ativos.
+
 ## Conteúdo educativo
 
-O Cashy oferece dez cursos com leituras e quizzes, filtro por nível, progresso de aulas, simulador de cenários, exercícios, checklist e dicionário. As primeiras etapas priorizam orçamento, crédito, consumo e objetivos antes de aprofundar investimentos. O painel prioriza o próximo passo de aprendizagem antes do resumo financeiro. A oficina permite organizar renda, despesas, dívidas, parcelas, reservas e objetivos e guardar versões do orçamento neste navegador. Os planos não conectam contas bancárias, não são enviados ao servidor e não sincronizam entre dispositivos.
+O Cashy oferece dez cursos com leituras e quizzes, filtro por nível, progresso de aulas e atividades educativas. As primeiras etapas priorizam orçamento, crédito, consumo e objetivos antes de aprofundar investimentos. O painel inclui um caminho inicial baseado nos registros, no progresso do curso de crédito e no cadastro de metas. As ferramentas educativas ficam em páginas separadas: cursos em `educacao.html`, orçamento em `planejamento.html`, checklist e exercícios em `praticar.html`, cenários hipotéticos em `simulador.html` e conceitos/fontes em `biblioteca.html`. A oficina permite organizar renda, despesas, dívidas, parcelas, reservas e objetivos e guardar versões do orçamento somente neste navegador. Esses planos não conectam contas bancárias, não são enviados ao servidor e não sincronizam entre dispositivos.
 
 As simulações usam hipóteses informadas pela pessoa e são exercícios educativos, não previsões ou recomendações financeiras. Valores de exemplo não representam contas, produtos ou resultados reais.
 
@@ -100,4 +112,4 @@ Para publicar o projeto em uma hospedagem, configure uma senha própria para o b
 
 ## Assistente educativo
 
-O botão do assistente aparece na página inicial, na educação, nos cursos e nas telas da conta. O navegador envia somente as mensagens recentes da conversa ao endpoint `api/chat.php`; o PHP consulta a API da Groq com instruções educativas. O histórico fica na memória da página e não é gravado no MySQL. O assistente não recebe nome, e-mail, saldo, movimentações ou metas da conta, não fornece recomendação personalizada e não consulta dados de mercado em tempo real. Não escreva informações pessoais, confidenciais ou financeiras no chat.
+O assistente só é montado depois que `api/auth.php?action=me` confirma uma sessão autenticada, e o endpoint `api/chat.php` também exige login e token CSRF. O navegador envia somente as mensagens recentes da conversa; o PHP consulta a API da Groq com instruções educativas. O histórico fica na memória da página e não é gravado no MySQL. O assistente não recebe nome, e-mail, saldo, movimentações ou metas da conta, não fornece recomendação personalizada e não consulta dados de mercado em tempo real. Não escreva informações pessoais, confidenciais ou financeiras no chat.
