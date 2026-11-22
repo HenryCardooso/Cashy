@@ -50,7 +50,7 @@
     nameField.setAttribute("aria-required", String(registering));
     confirmField.setAttribute("aria-required", String(registering));
     title.textContent = registering ? "Crie sua conta" : "Bem-vindo de volta";
-    description.textContent = registering ? "Seus dados ficarão disponíveis quando você entrar em outro dispositivo." : "Entre na sua conta e aprenda sobre dinheiro no seu ritmo.";
+    description.textContent = registering ? "Movimentações, metas e cursos ficam na sua conta. Os planos da oficina de orçamento ficam neste navegador." : "Entre na sua conta e aprenda sobre dinheiro no seu ritmo.";
     submitButton.innerHTML = registering ? 'Criar minha conta <span aria-hidden="true">→</span>' : 'Entrar <span aria-hidden="true">→</span>';
     document.getElementById("esqueciSenha").hidden = registering;
     passwordField.autocomplete = registering ? "new-password" : "current-password";

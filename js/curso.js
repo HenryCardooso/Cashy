@@ -267,6 +267,29 @@
     status.textContent = "Não foi possível carregar o progresso da conta: " + progressError;
   }
 
+  const applications = {
+    "primeiros-passos": ["planejamento.html", "Monte seu primeiro orçamento", "Leve o que aprendeu sobre renda, despesas e objetivos para a oficina do mês."],
+    "orcamento-credito-dividas": ["planejamento.html", "Organize parcelas e compromissos", "Aplique o conteúdo ao seu orçamento e veja o efeito dos compromissos na renda informada."],
+    "consumo-objetivos": ["metas.html", "Transforme uma prioridade em meta", "Registre um objetivo e acompanhe o que pretende guardar."],
+    "juros-compostos": ["simulador.html", "Experimente uma hipótese de juros", "Use valores hipotéticos para entender a conta; a simulação não representa uma taxa de mercado."],
+    "entendendo-investimentos": ["biblioteca.html", "Consulte os conceitos", "Revise termos e fontes oficiais enquanto estuda os diferentes tipos de investimento."],
+    "aprenda-escolher": ["biblioteca.html", "Revise os termos e as fontes", "Consulte definições e materiais oficiais para continuar estudando."],
+    "renda-fixa": ["biblioteca.html", "Consulte os termos financeiros", "Confira conceitos e materiais oficiais antes de comparar características."],
+    "fundos-acoes-fiis": ["biblioteca.html", "Consulte os termos e as fontes", "Aprofunde conceitos com materiais oficiais, sem recomendações de compra ou venda."],
+    "diversificacao": ["biblioteca.html", "Continue estudando os conceitos", "Revise os termos e as fontes oficiais ligados aos riscos e à diversificação."],
+    "monte-planejamento": ["metas.html", "Aplique seu planejamento às metas", "Registre objetivos e acompanhe o progresso conforme sua realidade." ]
+  };
+  const applicationData = applications[course.id];
+  if (applicationData) {
+    const application = document.createElement("aside");
+    application.className = "course-application";
+    const label = document.createElement("span"); label.className = "eyebrow"; label.textContent = "APLIQUE O QUE APRENDEU";
+    const title = document.createElement("h2"); title.textContent = applicationData[1];
+    const copy = document.createElement("p"); copy.textContent = applicationData[2];
+    const link = document.createElement("a"); link.className = "insight-button"; link.href = applicationData[0]; link.textContent = "Abrir ferramenta →";
+    application.append(label, title, copy, link); root.append(application);
+  }
+
   const navigation = document.createElement("nav");
   navigation.className = "course-nav";
   navigation.setAttribute("aria-label", "Navegar entre cursos");

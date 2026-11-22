@@ -68,6 +68,34 @@
     activityNode.replaceChildren(...(items.length ? items : [Object.assign(document.createElement("p"), { textContent: "Quando você estudar, suas atividades e XP aparecerão aqui." })]));
   }
 
+  function renderStarterPath() {
+    const education = window.cashEducation || {};
+    let savedBudget = false;
+    try { const history = JSON.parse(localStorage.getItem("cashy-orcamento-mensal-v1") || "[]"); savedBudget = Array.isArray(history) && history.length > 0; } catch (_) {}
+    const debtCourse = (window.CASHY_CURSOS || []).find((course) => course.id === "orcamento-credito-dividas");
+    const courseState = education.states?.["orcamento-credito-dividas"];
+    const topicsStarted = (courseState?.completed_topics || []).length > 0;
+    const topicsComplete = Boolean(debtCourse && (courseState?.completed_topics || []).length >= debtCourse.topics.length);
+    const courseDone = (education.completed || []).includes("orcamento-credito-dividas") || topicsComplete;
+    const data = [
+      { done: transactions.length > 0, started: transactions.length > 0 },
+      { done: savedBudget, started: savedBudget },
+      { done: courseDone, started: topicsStarted || courseDone },
+      { done: goals.length > 0, started: goals.length > 0 }
+    ];
+    const doneCount = data.filter((item) => item.done).length;
+    document.getElementById("starterPathProgress").textContent = doneCount + " de " + data.length + " etapas concluídas";
+    const firstPending = data.findIndex((item) => !item.done);
+    document.querySelectorAll("[data-path-step]").forEach((row, index) => {
+      const item = data[index];
+      row.dataset.state = item.done ? "complete" : item.started ? "started" : index === firstPending ? "next" : "later";
+      const state = row.querySelector(".path-step-state");
+      state.textContent = item.done ? "Concluída" : item.started ? "Em andamento" : index === firstPending ? "Próximo passo" : "Quando quiser";
+      const number = row.querySelector(".path-step-number");
+      if (item.done) number.textContent = "✓";
+    });
+  }
+
   document.getElementById("logout").addEventListener("click", async function () {
     this.disabled = true;
     try { await CashyAPI.auth.logout(); }
@@ -98,6 +126,7 @@
 
   const money = (value) => Number(value).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   renderLearningOverview(window.cashEducation || {}, window.cashProfile || {});
+  renderStarterPath();
   const periodSelect = document.getElementById("periodo");
   const now = new Date();
   for (let offset = 0; offset < 6; offset += 1) {

@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#080b09" />
     <title>Meu painel | Cashy</title>
     <link rel="icon" href="images/logo.png" type="image/png" />
-    <link rel="stylesheet" href="css/dashboard.css" />
-    <link rel="stylesheet" href="css/workspace.css" />
+    <link rel="stylesheet" href="css/dashboard.css?v=2" />
+    <link rel="stylesheet" href="css/workspace.css?v=2" />
     <link rel="stylesheet" href="css/accessibility.css" />
     <link rel="stylesheet" href="css/chatbot.css?v=5" />
       <link rel="stylesheet" href="css/theme.css">
@@ -54,6 +54,16 @@
           <div><span class="eyebrow">SEU PRIMEIRO PASSO</span><h1><span id="greeting">Olá</span>, <span id="welcomeName">pessoa</span> 👋</h1><p>Sem pressa: entenda seu dinheiro e aprenda uma coisa de cada vez.</p></div>
         </section>
 
+        <section class="starter-path panel" aria-labelledby="starterPathTitle">
+          <div class="starter-path-heading"><div><span class="eyebrow">COMECE PELO BÁSICO</span><h2 id="starterPathTitle">Seu caminho para organizar o dinheiro</h2><p>Uma etapa por vez, com os valores e prioridades da sua realidade.</p></div><strong id="starterPathProgress" aria-live="polite">0 de 4 etapas iniciadas</strong></div>
+          <ol class="starter-path-steps" id="starterPathSteps">
+            <li data-path-step="records"><span class="path-step-number">1</span><div><strong>Registre o que entra e sai</strong><small>Veja como seu dinheiro se movimenta ao longo do mês.</small></div><a href="movimentacoes.html">Registrar →</a><span class="path-step-state">Próximo passo</span></li>
+            <li data-path-step="budget"><span class="path-step-number">2</span><div><strong>Planeje o mês</strong><small>Organize despesas, parcelas e valores para objetivos.</small></div><a href="planejamento.html">Montar orçamento →</a><span class="path-step-state">Depois</span></li>
+            <li data-path-step="learning"><span class="path-step-number">3</span><div><strong>Entenda crédito e dívidas</strong><small>Aprenda a comparar compromissos e custos com calma.</small></div><a href="curso.html?id=orcamento-credito-dividas">Estudar →</a><span class="path-step-state">Depois</span></li>
+            <li data-path-step="goal"><span class="path-step-number">4</span><div><strong>Planeje uma reserva ou objetivo</strong><small>Defina uma meta que faça sentido para sua situação.</small></div><a href="metas.html">Criar meta →</a><span class="path-step-state">Depois</span></li>
+          </ol>
+        </section>
+
         <section class="dashboard-learning-grid" aria-label="Sua evolução de aprendizagem">
           <article class="panel learning-overview"><div class="panel-heading"><div><span class="eyebrow">SUA APRENDIZAGEM</span><h2>Seu próximo passo</h2><p id="learningSummary">Seu progresso aparece aqui conforme você estuda.</p></div></div><div class="learning-level"><strong id="learningLevel">Aprendiz</strong><span id="learningXp">0 XP</span><span id="learningStreak">0 dias de estudo</span></div><a class="learning-resume" id="continueLesson" href="educacao.html#trilha">Explorar os cursos <span aria-hidden="true">→</span></a><div class="learning-recommendation" id="learningRecommendation"></div><div id="learningReminder" class="learning-reminder" hidden>Uma etapa curta já ajuda a manter seu ritmo de estudos.</div><a class="learning-lab-link" href="planejamento.html"><span aria-hidden="true">◌</span><span><strong>Planejar meu orçamento</strong><small>Organize renda, despesas e compromissos</small></span><span aria-hidden="true">→</span></a></article>
           <details class="learning-activity progressive-disclosure"><summary><span class="eyebrow">ATIVIDADE RECENTE</span><strong>Seus passos recentes</strong><span class="disclosure-hint">Ver atividade</span></summary><div id="learningActivity" aria-live="polite"><p>Seus cursos concluídos e etapas aparecerão aqui.</p></div></details>
@@ -90,7 +100,7 @@
       </div>
     </main>
     <dialog class="cashy-dialog" id="dialogo" aria-labelledby="dialogoTitulo"><div class="dialog-shell"><button class="dialog-close" id="fecharDialogo" type="button" aria-label="Fechar">×</button><span class="eyebrow" id="dialogoTag">CASHY</span><h2 id="dialogoTitulo"></h2><div id="dialogoConteudo"></div></div></dialog>
-    <script src="js/api.js?v=5"></script><script src="js/cursos-data.js?v=2"></script><script src="js/dashboard.js?v=5"></script><script src="js/chatbot.js?v=6"></script>
+    <script src="js/api.js?v=5"></script><script src="js/cursos-data.js?v=2"></script><script src="js/dashboard.js?v=6"></script><script src="js/chatbot.js?v=6"></script>
   </body>
 </html>
 
