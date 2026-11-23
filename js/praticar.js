@@ -50,6 +50,27 @@
   });
   updateChecklist(false);
 
+  const challengeList = document.getElementById("challengeList");
+  if (challengeList) {
+    const challengeKey = "cashyPracticeChallenge:v1";
+    const mondayKey = () => { const date = new Date(); date.setHours(0, 0, 0, 0); date.setDate(date.getDate() - (date.getDay() + 6) % 7); return date.toLocaleDateString("sv-SE"); };
+    const boxes = [...challengeList.querySelectorAll('input[type="checkbox"]')];
+    let saved = {};
+    try { const parsed = JSON.parse(localStorage.getItem(challengeKey) || "{}"); if (parsed && parsed.week === mondayKey() && Array.isArray(parsed.completed)) saved = new Set(parsed.completed); else saved = new Set(); } catch (_) { saved = new Set(); }
+    boxes.forEach((box) => { box.checked = saved.has(box.value); });
+    function renderChallenge(persist) {
+      const count = boxes.filter((box) => box.checked).length;
+      const progress = document.getElementById("challengeCount"), bar = document.getElementById("challengeBar"), track = bar.closest('[role="progressbar"]');
+      progress.textContent = count + " de " + boxes.length + " atividades concluídas"; track.setAttribute("aria-valuenow", String(count)); bar.style.width = count / boxes.length * 100 + "%";
+      if (count === boxes.length) document.getElementById("challengeStatus").textContent = "Desafio concluído. Você praticou passos de organização e aprendizagem no seu ritmo.";
+      else document.getElementById("challengeStatus").textContent = count ? "Boa sequência. Continue apenas com os passos que fizerem sentido para sua rotina." : "Você pode concluir uma atividade por vez; não há prazo ou nota.";
+      if (persist) { try { localStorage.setItem(challengeKey, JSON.stringify({ week: mondayKey(), completed: boxes.filter((box) => box.checked).map((box) => box.value) })); } catch (_) { document.getElementById("challengeStatus").textContent = "Não foi possível salvar o progresso neste navegador."; } }
+    }
+    challengeList.addEventListener("change", () => renderChallenge(true));
+    document.getElementById("resetChallenge").addEventListener("click", () => { boxes.forEach((box) => { box.checked = false; }); renderChallenge(true); });
+    renderChallenge(false);
+  }
+
   const practiceAnswers = {
     1: { answer: "b", correct: "Isso. Pressão para agir e promessa de ganhos altos sem risco são sinais para interromper e verificar. Consulte informações oficiais e não decida só com base em uma publicação." , retry: "Reveja a promessa e a pressão para agir. Popularidade ou urgência não comprovam que uma oferta seja confiável." },
     2: { answer: "a", correct: "Isso. Prazo, liquidez, riscos e custos ajudam a entender se uma opção atende às necessidades consideradas. A taxa sozinha não conta a história toda.", retry: "Pense em quando Luiza pode precisar do dinheiro e nas regras para acessar ou retirar os recursos." },

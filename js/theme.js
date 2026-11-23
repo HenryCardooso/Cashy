@@ -2,7 +2,7 @@
   "use strict";
   const root = document.documentElement;
   const storageKey = "cashyTema";
-  let theme = root.dataset.theme || "dark";
+  let theme = root.dataset.theme || "light";
   function apply(next) {
     theme = next === "light" ? "light" : "dark";
     root.dataset.theme = theme;
@@ -15,7 +15,7 @@
       button.title = light ? "Ativar modo escuro" : "Ativar modo claro";
       button.setAttribute("aria-pressed", String(light));
     }
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f4f7f3" : "#080b09");
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f8f7f2" : "#171b18");
   }
   function init() {
     const button = document.createElement("button");
@@ -30,7 +30,7 @@
     if (profile) profile.prepend(button);
     else if (accountLink) educationHeader.insertBefore(button, accountLink);
     else if (educationHeader) educationHeader.append(button);
-    else if (homeActions) homeActions.append(button);
+    else if (homeActions) homeActions.before(button);
     else if (legalHeader) legalHeader.append(button);
     else if (loginContainer) loginContainer.append(button);
     else { button.classList.add("theme-floating"); document.body.append(button); }

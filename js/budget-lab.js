@@ -12,6 +12,10 @@
   const colors = { essential: "#68c792", flexible: "#8e85ed", debt: "#e8ae5c", goals: "#65a9df" };
   const status = document.getElementById("budgetStatus");
   const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  const actualMonth = document.getElementById("actualMonth");
+  const actualComparison = document.getElementById("actualComparison");
+  let transactions = null;
+  let actualLoadError = false;
   let history = readHistory();
 
   function readHistory() {
@@ -83,6 +87,37 @@
     return { ...state, valid: validIncome && validAmounts && Number.isFinite(state.total) };
   }
 
+  function renderActual() {
+    if (!actualComparison) return;
+    if (!Array.isArray(transactions)) {
+      const message = document.createElement("p"); message.textContent = actualLoadError ? "Não foi possível carregar as movimentações. Confira sua conexão e tente novamente mais tarde." : "Entre na sua conta para comparar este plano com as movimentações registradas. Seus lançamentos não são enviados nem alterados por esta ferramenta.";
+      actualComparison.replaceChildren(message);
+      if (!actualLoadError) { const link = document.createElement("a"); link.href = "login.html"; link.textContent = "Entrar na conta"; actualComparison.append(link); }
+      return;
+    }
+    const month = actualMonth.value;
+    const monthRows = transactions.filter((item) => String(item.date || "").slice(0, 7) === month);
+    const actualExpenses = monthRows.filter((item) => item.type === "expense").reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    const actualIncome = monthRows.filter((item) => item.type === "income").reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    const plan = currentValues();
+    const plannedExpenses = plan.values.essential + plan.values.flexible + plan.values.debt;
+    const variance = actualExpenses - plannedExpenses;
+    const rows = [
+      ["Despesas", currency.format(plannedExpenses), currency.format(actualExpenses), currency.format(variance)],
+      ["Renda", currency.format(plan.income), currency.format(actualIncome), currency.format(actualIncome - plan.income)]
+    ];
+    const table = document.createElement("div"); table.className = "actual-comparison-table"; table.setAttribute("role", "table"); table.setAttribute("aria-label", "Comparação do plano com movimentações registradas");
+    const head = document.createElement("div"); head.className = "actual-comparison-row actual-comparison-head"; head.setAttribute("role", "row");
+    ["Categoria", "Planejado", "Registrado", "Diferença"].forEach((text) => { const cell = document.createElement("strong"); cell.setAttribute("role", "columnheader"); cell.textContent = text; head.append(cell); }); table.append(head);
+    rows.forEach((row) => { const line = document.createElement("div"); line.className = "actual-comparison-row"; line.setAttribute("role", "row"); row.forEach((text) => { const cell = document.createElement("span"); cell.setAttribute("role", "cell"); cell.textContent = text; line.append(cell); }); table.append(line); });
+    const note = document.createElement("p"); note.className = "actual-comparison-note";
+    if (!monthRows.length) note.textContent = "Nenhuma movimentação encontrada para este mês. A comparação considera somente registros da sua conta e não preenche valores ausentes.";
+    else if (variance > 0) note.textContent = "As despesas registradas estão acima do total planejado. Confira os lançamentos e revise o plano conforme sua realidade.";
+    else if (variance < 0) note.textContent = "As despesas registradas estão abaixo do total planejado até agora. O mês pode ainda não estar completo.";
+    else note.textContent = "Despesas registradas e planejadas estão no mesmo valor. Confira se todos os lançamentos do mês foram incluídos.";
+    actualComparison.replaceChildren(table, note);
+  }
+
   function saveHistory() {
     try { localStorage.setItem(storageKey, JSON.stringify(history)); return true; }
     catch (_) { return false; }
@@ -104,12 +139,16 @@
       const summary = document.createElement("span"); summary.textContent = "Renda " + currency.format(record.income) + " · Planejado " + currency.format(record.total) + " · Saldo " + currency.format(record.balance);
       const details = document.createElement("p");
       details.textContent = Object.entries(record.values).filter(([, amount]) => amount > 0).map(([key, amount]) => labels[key] + ": " + currency.format(amount)).join(" · ") || "Sem valores distribuídos entre categorias";
+      const load = document.createElement("button"); load.type = "button"; load.className = "budget-load"; load.textContent = "Abrir este plano"; load.dataset.loadBudget = record.id;
       const remove = document.createElement("button"); remove.type = "button"; remove.className = "budget-remove"; remove.textContent = "Remover"; remove.setAttribute("aria-label", "Remover " + title.textContent); remove.dataset.removeBudget = record.id;
-      heading.append(title, date); card.append(heading, summary, details, remove); return card;
+      heading.append(title, date); card.append(heading, summary, details, load, remove); return card;
     }));
   }
 
   form.addEventListener("input", render);
+  form.addEventListener("input", renderActual);
+  actualMonth.value = new Date().toLocaleDateString("sv-SE").slice(0, 7);
+  actualMonth.addEventListener("change", renderActual);
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const state = render();
@@ -125,6 +164,14 @@
   });
 
   document.getElementById("budgetHistory").addEventListener("click", (event) => {
+    const load = event.target.closest("[data-load-budget]");
+    if (load) {
+      const record = history.find((item) => item.id === load.dataset.loadBudget); if (!record) return;
+      incomeInput.value = String(record.income); nameInput.value = record.name;
+      amountInputs.forEach((input) => { input.value = String(record.values[input.dataset.category] || 0); });
+      render(); renderActual(); status.textContent = "Plano carregado no formulário. Você pode editar ou comparar com outro mês."; status.dataset.state = "success";
+      form.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" }); return;
+    }
     const button = event.target.closest("[data-remove-budget]");
     if (!button) return;
     const previous = history;
@@ -144,4 +191,11 @@
 
   render();
   renderHistory();
+  renderActual();
+  if (window.CashyAPI?.auth?.me) {
+    window.CashyAPI.auth.me().then((session) => {
+      if (!session.authenticated) { renderActual(); return null; }
+      return CashyAPI.transactions.list().then((items) => { transactions = Array.isArray(items) ? items : []; renderActual(); });
+    }).catch(() => { transactions = null; actualLoadError = true; renderActual(); });
+  }
 })();

@@ -64,6 +64,11 @@
   }
 
   function renderizarAutenticacao(user) {
+    const authenticated = Boolean(user);
+    const homeActions = [
+      ["homePrimaryAction", authenticated ? "dashboard.html" : "login.html?modo=cadastro", authenticated ? "Abrir meu painel →" : "Criar minha conta →"]
+    ];
+    homeActions.forEach(([id, href, label]) => { const link = document.getElementById(id); if (link) { link.href = href; link.textContent = label; } });
     window.dispatchEvent(new CustomEvent("cashy:auth-state", { detail: { authenticated: Boolean(user) } }));
     preencher(document.getElementById("headerActions"), user);
     preencher(document.getElementById("navAuth"), user);

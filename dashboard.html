@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080b09" />
+    <meta name="theme-color" content="#f8f7f2" />
     <title>Meu painel | Cashy</title>
     <link rel="icon" href="images/logo.png" type="image/png" />
     <link rel="stylesheet" href="css/dashboard.css?v=2" />
-    <link rel="stylesheet" href="css/workspace.css?v=2" />
+    <link rel="stylesheet" href="css/workspace.css?v=3" />
     <link rel="stylesheet" href="css/accessibility.css" />
     <link rel="stylesheet" href="css/chatbot.css?v=5" />
       <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/product-polish.css?v=7">
-    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+    <link rel="stylesheet" href="css/product-polish.css?v=9">
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"light"}catch(e){document.documentElement.dataset.theme="light"}</script>
     <script src="js/theme.js" defer></script>
 </head>
   <body class="overview-page">
@@ -24,12 +24,12 @@
         <a class="nav-item selected" aria-current="page" href="#visao-geral"><span aria-hidden="true">▦</span> Visão geral</a>
         <a class="nav-item" href="movimentacoes.html"><span aria-hidden="true">↕</span> Movimentações</a>
         <a class="nav-item" href="metas.html"><span aria-hidden="true">◎</span> Minhas metas</a>
-        <a class="nav-item" href="perfil.html"><span aria-hidden="true">◉</span> Perfil e configurações</a>
+        <a class="nav-item" href="perfil.html"><span aria-hidden="true">◉</span> Perfil e configurações</a><a class="nav-item" href="relatorios.html"><span aria-hidden="true">▤</span> Relatórios</a>
       </nav>
             <span class="side-label education-side-label">EDUCAÇÃO FINANCEIRA</span>
       <nav class="education-nav" aria-label="Educação financeira">
         <a class="nav-item" href="educacao.html"><span aria-hidden="true">↗</span> Aprender</a>
-        <a class="nav-item" href="planejamento.html"><span aria-hidden="true">◌</span> Planejar orçamento</a>
+        <a class="nav-item" href="planejamento.html"><span aria-hidden="true">◌</span> Planejar orçamento</a><a class="nav-item" href="reserva.html"><span aria-hidden="true">○</span> Reserva de emergência</a><a class="nav-item" href="calculadoras.html"><span aria-hidden="true">∑</span> Calculadoras</a><a class="nav-item" href="diagnostico.html"><span aria-hidden="true">◎</span> Meu ponto de partida</a>
         <a class="nav-item" href="praticar.html"><span aria-hidden="true">✓</span> Praticar</a>
         <a class="nav-item" href="simulador.html"><span aria-hidden="true">∿</span> Simular</a>
         <a class="nav-item" href="biblioteca.html"><span aria-hidden="true">⌕</span> Consultar</a>
@@ -65,11 +65,14 @@
         </section>
 
         <section class="dashboard-learning-grid" aria-label="Sua evolução de aprendizagem">
-          <article class="panel learning-overview"><div class="panel-heading"><div><span class="eyebrow">SUA APRENDIZAGEM</span><h2>Seu próximo passo</h2><p id="learningSummary">Seu progresso aparece aqui conforme você estuda.</p></div></div><div class="learning-level"><strong id="learningLevel">Aprendiz</strong><span id="learningXp">0 XP</span><span id="learningStreak">0 dias de estudo</span></div><a class="learning-resume" id="continueLesson" href="educacao.html#trilha">Explorar os cursos <span aria-hidden="true">→</span></a><div class="learning-recommendation" id="learningRecommendation"></div><div id="learningReminder" class="learning-reminder" hidden>Uma etapa curta já ajuda a manter seu ritmo de estudos.</div><a class="learning-lab-link" href="planejamento.html"><span aria-hidden="true">◌</span><span><strong>Planejar meu orçamento</strong><small>Organize renda, despesas e compromissos</small></span><span aria-hidden="true">→</span></a></article>
+          <article class="panel learning-overview"><div class="panel-heading"><div><span class="eyebrow">SUA APRENDIZAGEM</span><h2>Seu próximo passo</h2><p id="learningSummary">Seu progresso aparece aqui conforme você estuda.</p></div></div><div class="learning-level"><strong id="learningLevel">Aprendiz</strong><span id="learningXp">0 XP</span><span id="learningStreak">0 dias de estudo</span></div><a class="learning-resume" id="continueLesson" href="educacao.html#trilha">Explorar os cursos <span aria-hidden="true">→</span></a><div class="learning-recommendation" id="learningRecommendation"></div><div id="learningReminder" class="learning-reminder" hidden>Uma etapa curta já ajuda a manter seu ritmo de estudos.</div></article>
           <details class="learning-activity progressive-disclosure"><summary><span class="eyebrow">ATIVIDADE RECENTE</span><strong>Seus passos recentes</strong><span class="disclosure-hint">Ver atividade</span></summary><div id="learningActivity" aria-live="polite"><p>Seus cursos concluídos e etapas aparecerão aqui.</p></div></details>
         </section>
 
-        <div class="finance-summary-heading"><div><span class="eyebrow">ORGANIZAÇÃO DO DINHEIRO</span><h2>Resumo financeiro</h2><p>Valores calculados apenas com seus registros.</p></div><label class="period-wrap" for="periodo">◷ <select class="period-button" id="periodo" aria-label="Escolher período"></select></label></div>
+        <details class="finance-overview progressive-disclosure" id="financeOverview">
+          <summary class="finance-overview-summary"><span class="eyebrow">SEUS REGISTROS</span><strong>Resumo financeiro</strong><span class="disclosure-hint">Entradas, saídas, metas e movimentações · ver detalhes</span></summary>
+          <div class="finance-overview-content">
+            <div class="finance-summary-heading"><div><h2>Movimentações do período</h2><p>Valores calculados apenas com o que você cadastrou.</p></div><label class="period-wrap" for="periodo">◷ <select class="period-button" id="periodo" aria-label="Escolher período"></select></label></div>
         <section class="summary-grid" aria-label="Resumo das movimentações registradas">
           <article class="summary-card balance-card"><div class="card-head"><span>Saldo registrado</span><span class="card-icon">◉</span></div><strong class="money" id="resumoSaldo">—</strong><span class="card-foot">Com base nos seus registros</span></article>
           <article class="summary-card"><div class="card-head"><span>Entradas</span><span class="card-icon green-icon">↙</span></div><strong class="money" id="resumoEntradas">—</strong><span class="card-foot" id="rotuloEntradas">Escolha um período</span></article>
@@ -96,11 +99,13 @@
           </article>
           <article class="panel insight" id="investimentos"><img class="insight-image" src="images/ilustracao-painel.svg" alt="" aria-hidden="true" /><span class="insight-tag">CONTEÚDO EDUCATIVO</span><div class="insight-icon">✦</div><h2>O que significa<br />“investir”?</h2><p>É usar dinheiro para adquirir algo que pode gerar retorno no futuro. O resultado não é garantido, e cada tipo tem riscos e regras próprios.</p><button class="insight-button" id="abrirAula" type="button">Conhecer o básico <span>→</span></button><span class="insight-decoration">✳</span></article>
         </section>
+          </div>
+        </details>
         <footer>Os totais consideram apenas as informações que você cadastrou na sua conta. O conteúdo é educativo e não é recomendação de investimento.</footer>
       </div>
     </main>
     <dialog class="cashy-dialog" id="dialogo" aria-labelledby="dialogoTitulo"><div class="dialog-shell"><button class="dialog-close" id="fecharDialogo" type="button" aria-label="Fechar">×</button><span class="eyebrow" id="dialogoTag">CASHY</span><h2 id="dialogoTitulo"></h2><div id="dialogoConteudo"></div></div></dialog>
-    <script src="js/api.js?v=5"></script><script src="js/cursos-data.js?v=2"></script><script src="js/dashboard.js?v=6"></script><script src="js/chatbot.js?v=6"></script>
-  </body>
+    <script src="js/api.js?v=5"></script><script src="js/cursos-data.js?v=2"></script><script src="js/dashboard.js?v=7"></script><script src="js/chatbot.js?v=6"></script>
+  <script src="js/tour.js?v=4"></script></body>
 </html>
 

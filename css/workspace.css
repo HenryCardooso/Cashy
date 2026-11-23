@@ -3,3 +3,4 @@
 .workspace-heading{position:relative}.workspace-art{width:112px;height:92px;object-fit:contain;flex:none;margin-left:auto}.workspace-heading>div{min-width:0}@media(max-width:760px){.workspace-art{position:absolute;right:0;top:0;width:76px;height:70px;opacity:.85}.workspace-heading>div{padding-right:76px}}
 
 .sidebar{overflow-y:auto}.education-side-label{padding-top:18px}.education-nav{padding-bottom:14px}@media(max-height:760px){.sidebar{padding-top:16px;padding-bottom:16px}.education-side-label{padding-top:12px;padding-bottom:8px}.sidebar-bottom .help-card{display:none}}
+.workspace-report-link{display:inline-flex;align-items:center;min-height:38px;margin:0 0 16px 12px;padding:8px 11px;border:1px solid var(--line);border-radius:8px;color:var(--lime);font-size:12px;text-decoration:none}.workspace-report-link:hover{border-color:var(--lime)}@media(max-width:600px){.workspace-report-link{margin-left:0}}

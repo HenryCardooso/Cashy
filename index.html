@@ -7,17 +7,17 @@
       name="description"
       content="Cashy: aprenda sobre dinheiro e investimentos desde o começo, com explicações simples e sem complicação."
     />
-    <meta name="theme-color" content="#050706" />
+    <meta name="theme-color" content="#f8f7f2" />
 
-    <title>Cashy | Gestão Financeira</title>
+    <title>Cashy | Educação financeira</title>
 
     <link rel="icon" href="images/logo.png" type="image/png" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/accessibility.css" />
     <link rel="stylesheet" href="css/chatbot.css?v=5" />
       <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/product-polish.css?v=7">
-    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+    <link rel="stylesheet" href="css/product-polish.css?v=10">
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"light"}catch(e){document.documentElement.dataset.theme="light"}</script>
     <script src="js/theme.js" defer></script>
 </head>
 
@@ -63,120 +63,86 @@
       <!-- HERO -->
       <section class="hero">
         <div class="hero-content">
-          <span class="eyebrow">
-            <span class="pulse"></span>
-            Seu dinheiro, sob controle
-          </span>
+          <span class="eyebrow">Educação financeira para a vida real</span>
 
           <h1>
-            Comece a cuidar
-            <br />
-            <span>do seu dinheiro.</span>
+            Educação financeira<br />
+            <span>para a vida real.</span>
           </h1>
 
           <p>
-            Aprenda a organizar seu orçamento, lidar com crédito e dívidas, planejar objetivos e compreender investimentos com calma.
+            Conteúdo claro para organizar o orçamento, entender o crédito e aprender sobre investimentos sem pressa.
           </p>
 
           <div class="hero-actions">
-            <a href="login.html?modo=cadastro" class="btn btn-green btn-large">
-              Criar minha conta
+            <a href="educacao.html" class="btn btn-green btn-large">
+              Explorar os conteúdos
               <span>→</span>
             </a>
 
-            <a href="#recursos" class="btn btn-ghost btn-large">
-              Ver como funciona
+            <a id="homePrimaryAction" href="login.html?modo=cadastro" class="btn btn-ghost btn-large">
+              Acessar minha conta
             </a>
           </div>
 
-          <div class="trust"><div><strong>Comece do zero</strong><small>sem precisar entender de investimentos</small></div></div>
         </div>
 
-        <!-- PRÉVIA SEM DADOS FICTÍCIOS -->
-        <div class="dashboard-wrap">
-          <div class="glow"></div>
-          <div class="dashboard">
-            <div class="dash-top">
-              <div>
-                <small>Seu painel</small>
-                <h3>Comece com seus dados</h3>
-              </div>
-              <span class="positive">Cashy</span>
-            </div>
-            <div class="preview-empty">
-              <img
-                class="home-finance-image"
-                src="images/home-financas.svg"
-                alt="Ilustração de um caderno, moedas e um gráfico abstrato, representando o aprendizado sobre finanças."
-                width="520"
-                height="250"
-              />
-              <p>Aprenda a organizar seu dinheiro e conheça os investimentos com calma.</p>
-            </div>
-            <div class="mini-cards">
-              <div><small>Entradas</small><strong>Calculadas com seus registros</strong></div>
-              <div><small>Saídas</small><strong>Calculadas com seus registros</strong></div>
-            </div>
-          </div>
-        </div>
+        <figure class="home-hero-image">
+          <img src="images/cashy-organizacao-financeira.jpg" alt="Mulher organiza as finanças em casa, escrevendo em um caderno ao lado do celular com o Cashy aberto." width="1264" height="848" fetchpriority="high" />
+        </figure>
       </section>
 
+      <aside class="home-feature-story" aria-labelledby="homeStoryTitle">
+        <span class="eyebrow">Curso em destaque</span>
+        <h2 id="homeStoryTitle">Orçamento, crédito e dívidas.</h2>
+        <p>Organize a renda do mês, entenda o crédito e monte um retrato das suas dívidas.</p>
+        <a href="curso.html?id=orcamento-credito-dividas">Ler o curso <span aria-hidden="true">→</span></a>
+      </aside>
+
       <!-- ESTATÍSTICAS -->
-      <section class="stats" aria-label="Como a Cashy ajuda quem está começando">
-        <div><strong>Linguagem clara</strong><span>explicações com palavras simples</span></div>
-        <div><strong>Passo a passo</strong><span>aprenda uma coisa de cada vez</span></div>
-        <div><strong>No seu ritmo</strong><span>sem pressão para investir</span></div>
-        <div><strong>Mais clareza</strong><span>entenda antes de decidir</span></div>
+      <section class="stats" aria-label="O que você encontra no Cashy">
+        <div><strong>Aprender</strong><span>Trilhas do básico em diante</span></div>
+        <div><strong>Praticar</strong><span>Exercícios e cenários hipotéticos</span></div>
+        <div><strong>Consultar</strong><span>Conceitos e fontes para pesquisar</span></div>
       </section>
 
       <!-- RECURSOS -->
       <section class="section" id="recursos">
         <div class="section-heading">
-          <span class="eyebrow">Tudo em um só lugar</span>
-
-          <h2>Uma visão clara do seu dinheiro.</h2>
+          <h2>Escolha por onde começar</h2>
 
           <p>
-            Ferramentas simples para entender e organizar seu dinheiro e aprender
-            sobre as opções disponíveis.
+            Leia, pratique e consulte os temas que fazem parte da sua vida financeira.
           </p>
         </div>
 
         <div class="features">
           <article class="feature featured">
             <div class="feature-icon" aria-hidden="true">↗</div>
-            <h3>Cuide melhor do seu dinheiro</h3>
-            <p>
-              Explore receitas e despesas, juros, crédito, metas e conceitos econômicos com exemplos claros.
-            </p>
-            <a href="educacao.html">Começar a aprender →</a>
+            <h3>Aprender</h3>
+            <p>Orçamento, crédito, juros e investimentos em uma trilha progressiva.</p>
+            <a href="educacao.html">Ver os cursos →</a>
           </article>
 
           <article class="feature">
             <div class="feature-icon" aria-hidden="true">▣</div>
-            <h3>Organize suas despesas</h3>
-            <p>
-              Compare as entradas e saídas que você registrar no período, sem
-              precisar entender termos complicados.
-            </p>
-            <a href="login.html?modo=cadastro">Organizar minhas despesas →</a>
+            <h3>Planejar</h3>
+            <p>Organize renda, despesas, parcelas e objetivos em um orçamento mensal.</p>
+            <a href="planejamento.html">Abrir a oficina →</a>
           </article>
 
           <article class="feature">
             <div class="feature-icon" aria-hidden="true">◎</div>
-            <h3>Crie metas</h3>
-            <p>
-              Transforme objetivos em metas acompanháveis e saiba exatamente
-              quanto falta para chegar lá.
-            </p>
-            <a href="login.html?modo=cadastro">Criar minha primeira meta →</a>
+            <h3>Calcular</h3>
+            <p>Explore juros, inflação, parcelas e reserva com valores que você informa.</p>
+            <a href="calculadoras.html">Ver ferramentas →</a>
           </article>
 
           <article class="feature">
             <div class="feature-icon" aria-hidden="true">◌</div>
-            <h3>Planeje o mês com clareza</h3>
-            <p>Experimente organizar renda, despesas, dívidas e objetivos em um orçamento mensal.</p>
-            <a href="planejamento.html">Abrir a oficina →</a>
+            <h3>Consultar</h3>
+            <p>Encontre definições e referências para continuar sua pesquisa.</p>
+            <a href="biblioteca.html">Abrir a biblioteca →</a>
           </article>
         </div>
       </section>
@@ -226,18 +192,16 @@
       <!-- INVESTIMENTOS -->
       <section class="investment section" id="investimentos">
         <div>
-          <span class="eyebrow">Investimentos sem mistério</span>
+          <span class="eyebrow">Antes de escolher</span>
 
-          <h2>O primeiro passo é entender.</h2>
+          <h2>Conhecer as opções começa por entender os termos.</h2>
 
           <p>
-            Renda fixa, fundos e ações são nomes que você vai encontrar por aí.
-            Conheça o que cada um significa em linguagem simples, sem precisar
-            escolher nada agora.
+            Renda fixa, fundos e ações têm regras e riscos diferentes. Aprenda o significado de cada termo antes de comparar opções.
           </p>
 
           <a href="educacao.html" class="btn btn-green investment-button">
-            Quero aprender o básico
+            Explorar a trilha de estudos
           </a>
         </div>
 
@@ -251,21 +215,16 @@
       <!-- CTA -->
       <section class="cta" id="sobre">
         <div>
-          <span class="eyebrow">Comece hoje</span>
+          <span class="eyebrow">Continue no seu ritmo</span>
 
-          <h2>
-            Seu primeiro passo
-            <br />
-            pode ser aprender.
-          </h2>
+          <h2>Um tema de cada vez já é um começo.</h2>
 
           <p>
-            Aprenda sobre finanças, organize seu dinheiro e tome decisões com
-            mais informação.
+            Explore a trilha e escolha a próxima pergunta que quer responder.
           </p>
         </div>
 
-        <a href="login.html?modo=cadastro" class="btn btn-light">Começar gratuitamente →</a>
+        <a id="homeFinalAction" href="educacao.html" class="btn btn-light">Explorar os cursos →</a>
       </section>
     </main>
 
@@ -276,7 +235,7 @@
           <img src="images/logo.png" alt="Cashy" />
         </a>
 
-        <p>Dinheiro e investimentos explicados de um jeito simples.</p>
+        <p>Educação financeira para transformar sua relação com o dinheiro.</p>
       </div>
 
       <div class="footer-links">
@@ -296,4 +255,5 @@
     <script src="js/api.js?v=5"></script><script src="js/script.js"></script><script src="js/chatbot.js?v=6"></script>
   </body>
 </html>
+
 

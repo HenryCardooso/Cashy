@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#f8f7f2">
+  <meta name="description" content="Aprenda a planejar uma reserva de emergência com base nas suas despesas essenciais.">
+  <title>Reserva de emergência | Cashy</title><link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="stylesheet" href="css/educacao.css?v=3"><link rel="stylesheet" href="css/accessibility.css"><link rel="stylesheet" href="css/theme.css"><link rel="stylesheet" href="css/product-polish.css?v=9"><link rel="stylesheet" href="css/budget-lab.css?v=4"><link rel="stylesheet" href="css/reserva.css?v=2">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"light"}catch(e){document.documentElement.dataset.theme="light"}</script><script src="js/theme.js" defer></script>
+</head>
+<body><a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+  <header class="edu-header"><a class="edu-logo" href="index.html" aria-label="Cashy, página inicial">cashy<span>.</span></a><nav aria-label="Seções do Cashy"><a href="educacao.html">Aprender</a><a href="planejamento.html">Planejar</a><a class="active" aria-current="page" href="reserva.html">Reserva</a><a href="calculadoras.html">Calcular</a><a href="praticar.html">Praticar</a><a href="simulador.html">Simular</a><a href="biblioteca.html">Consultar</a></nav><a class="account-link" href="dashboard.html" id="contaLink">Minha conta</a></header>
+  <main class="edu-main reserve-main" id="main-content" tabindex="-1">
+    <a class="reserve-back" href="planejamento.html">← Voltar ao planejador</a>
+    <section class="reserve-hero"><span class="eyebrow">PLANEJAR · PROTEGER-SE DE IMPREVISTOS</span><h1>Uma reserva para atravessar imprevistos.</h1><p>Estime um objetivo usando suas despesas essenciais e o prazo que faz sentido para sua realidade. Não existe um valor único adequado para todas as pessoas.</p></section>
+    <section class="reserve-workspace" aria-label="Calculadora da reserva de emergência">
+      <form id="reserveForm" class="budget-controls" novalidate>
+        <label class="budget-income">Despesas essenciais por mês (R$)<input id="reserveExpenses" type="number" min="0" max="100000000" step="0.01" value="0" inputmode="decimal"></label>
+        <p class="budget-help">Considere compromissos necessários como moradia, alimentação, transporte, saúde e contas básicas.</p>
+        <label class="reserve-field">Meses que deseja cobrir<select id="reserveMonths"><option value="3">3 meses</option><option value="6" selected>6 meses</option><option value="9">9 meses</option><option value="12">12 meses</option></select></label>
+        <label class="reserve-field">Valor já guardado para essa finalidade (R$)<input id="reserveSaved" type="number" min="0" max="100000000" step="0.01" value="0" inputmode="decimal"></label>
+        <label class="reserve-field">Quanto pretende guardar por mês (R$)<input id="reserveContribution" type="number" min="0" max="100000000" step="0.01" value="0" inputmode="decimal"></label>
+        <p class="budget-status" id="reserveStatus" role="status" aria-live="polite"></p>
+        <button class="lime-button" type="submit">Salvar meu planejamento</button>
+      </form>
+      <div class="reserve-results">
+        <article class="reserve-result-card"><span>Objetivo estimado</span><strong id="reserveTarget">R$ 0,00</strong><small id="reserveFormula">Despesas essenciais × meses escolhidos</small></article>
+        <article class="reserve-result-card"><span>Falta para o objetivo</span><strong id="reserveRemaining">R$ 0,00</strong><small id="reserveTime">Informe valores para estimar o prazo.</small></article>
+        <div class="reserve-progress-wrap"><div class="reserve-progress-label"><strong>Seu progresso</strong><span id="reservePercent">0%</span></div><div id="reserveProgress" class="reserve-progress" role="progressbar" aria-label="Progresso da reserva de emergência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="reserveProgressFill"></span></div></div>
+        <aside class="reserve-learning"><strong>Por que planejar uma reserva?</strong><p>Uma reserva pode ajudar a lidar com despesas inesperadas sem depender imediatamente de crédito. O cálculo é uma referência para estudo: avalie estabilidade da renda, responsabilidades e necessidades da sua família.</p></aside>
+      </div>
+    </section>
+    <p class="simulator-note reserve-note">Este planejamento é salvo somente neste navegador. O Cashy não movimenta dinheiro, não acessa contas bancárias e não recomenda produtos financeiros.</p>
+    <footer class="edu-footer"><a class="edu-logo" href="index.html">cashy<span>.</span></a><p>Educação financeira para cuidar melhor do seu dinheiro.</p><a href="privacidade.html">Privacidade e dados</a><a href="termos.html">Termos</a><a href="planejamento.html">Voltar ao planejador</a></footer>
+  </main>
+  <script src="js/reserva.js?v=2"></script><script src="js/api.js?v=5"></script><script src="js/education-nav.js?v=1"></script><script src="js/chatbot.js?v=6"></script><script src="js/tour.js?v=4"></script>
+</body></html>
