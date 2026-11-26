@@ -1,0 +1,4 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(biblioteca|calculadoras|curso|dashboard|diagnostico|educacao|metas|movimentacoes|perfil|planejamento|praticar|relatorios|reserva|simulador)\.html$ api/page-router.php?path=$1.html [QSA,L]
+</IfModule>

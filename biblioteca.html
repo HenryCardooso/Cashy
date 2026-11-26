@@ -1,2 +1,292 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#f8f7f2"><meta name="description" content="Encontre conceitos financeiros em linguagem simples e fontes confiáveis para continuar aprendendo."><title>Consultar | Cashy</title><link rel="icon" href="images/logo.png" type="image/png"><link rel="stylesheet" href="css/educacao.css?v=3"><link rel="stylesheet" href="css/accessibility.css"><link rel="stylesheet" href="css/chatbot.css?v=5"><link rel="stylesheet" href="css/theme.css"><link rel="stylesheet" href="css/product-polish.css?v=15"><link rel="stylesheet" href="css/indicators.css?v=1"><link rel="stylesheet" href="css/site-search.css?v=1"><script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"light"}catch(e){document.documentElement.dataset.theme="light"}</script><script src="js/theme.js" defer></script></head><body><a class="skip-link" href="#main-content">Pular para o conteúdo</a><header class="edu-header"><a class="edu-logo" href="index.html" aria-label="Cashy, página inicial">cashy<span>.</span></a><nav aria-label="Seções do Cashy"><a class=""  href="educacao.html">Aprender</a><a class=""  href="planejamento.html">Planejar</a><a href="reserva.html">Reserva</a><a href="calculadoras.html">Calcular</a><a class=""  href="praticar.html">Praticar</a><a class="" href="simulador.html">Simular</a><a class="active" aria-current="page" href="biblioteca.html">Consultar</a></nav><a class="account-link" href="dashboard.html" id="contaLink">Minha conta</a></header><main class="edu-main" id="main-content" tabindex="-1"><section class="site-search" aria-labelledby="siteSearchTitle"><span class="eyebrow">BUSCA NO CASHY</span><h2 id="siteSearchTitle">Encontre um conteúdo.</h2><label for="siteSearchInput">Pesquise cursos, ferramentas e conceitos</label><input id="siteSearchInput" type="search" autocomplete="off" placeholder="Ex.: orçamento, juros, metas"><p id="siteSearchStatus" class="site-search-status" role="status" aria-live="polite">Digite pelo menos duas letras.</p><ul id="siteSearchResults" class="site-search-results" aria-label="Resultados da busca" hidden></ul></section><section class="dictionary-section" id="dicionario"><div class="section-intro"><span class="eyebrow">TERMOS SEM COMPLICAÇÃO</span><h2>Dicionário financeiro.</h2><p>Pesquise uma palavra para entender o significado em linguagem simples.</p></div><label class="dictionary-search">Pesquisar um termo<input type="search" id="termSearch" placeholder="Ex.: liquidez ou CDI" autocomplete="off"></label><p class="search-count" id="searchCount" aria-live="polite"></p><div class="term-grid" id="termGrid"></div></section><section class="indicator-section" id="indicadores" aria-labelledby="indicatorTitle"><div class="section-intro"><span class="eyebrow">DADOS PÚBLICOS · BANCO CENTRAL</span><h2 id="indicatorTitle">Indicadores econômicos.</h2><p>Consulte observações oficiais com período de referência, unidade e fonte. Os dados têm frequências diferentes e não são cotações de investimentos.</p></div><div class="indicator-metrics" id="indicatorMetrics" aria-live="polite"><p class="indicator-status" id="indicatorStatus" role="status">Carregando dados oficiais…</p></div><div class="indicator-controls"><label for="indicatorSeries">Série do gráfico<select id="indicatorSeries" disabled><option value="ipca">IPCA mensal</option><option value="selic">Meta Selic</option></select></label><div class="indicator-period" role="group" aria-label="Período do gráfico"><button type="button" data-period="3" aria-pressed="false" disabled>3 pontos</button><button type="button" data-period="6" aria-pressed="false" disabled>6 pontos</button><button type="button" data-period="12" aria-pressed="true" disabled>12 pontos</button></div></div><figure class="indicator-chart-wrap"><svg id="indicatorChart" class="indicator-chart" viewBox="0 0 800 280" role="img" aria-labelledby="chartTitle chartDescription"><title id="chartTitle">Histórico do indicador</title><desc id="chartDescription">O gráfico será exibido quando os dados oficiais forem carregados.</desc></svg><figcaption id="indicatorChartCaption">A série mensal e a série diária têm períodos de referência diferentes.</figcaption></figure><details class="indicator-data-details"><summary>Ver observações e datas</summary><div class="indicator-table-wrap"><table class="indicator-table"><caption id="indicatorTableCaption">Observações da série selecionada</caption><thead><tr><th scope="col">Referência</th><th scope="col">Valor</th></tr></thead><tbody id="indicatorTableBody"></tbody></table></div></details><p class="indicator-attribution" id="indicatorAttribution">Fonte: Banco Central do Brasil · SGS. Valores apresentados conforme a série publicada. <a href="https://dadosabertos.bcb.gov.br/dataset/432-taxa-de-juros---meta-selic-definida-pelo-copom" target="_blank" rel="noopener noreferrer">Metadados oficiais da Meta Selic</a> · <a href="https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/13?formato=json" target="_blank" rel="noopener noreferrer">Dados oficiais da série IPCA (SGS 433)</a></p><p class="indicator-disclaimer">O IPCA é uma variação mensal; a Meta Selic é uma taxa anual definida pelo Copom. Não compare os números como se tivessem a mesma unidade. Consulte a fonte original para metodologia e atualizações.</p></section><section class="sources-section" id="fontes" aria-labelledby="sourcesTitle"><div class="section-intro"><span class="eyebrow">PARA CONTINUAR ESTUDANDO</span><h2 id="sourcesTitle">Fontes oficiais.</h2><p>Materiais externos para aprofundar os conceitos. Os links levam aos sites de seus responsáveis; confirme neles as informações mais recentes.</p></div><div class="sources-grid"><a class="source-card" href="https://www.gov.br/investidor/pt-br" target="_blank" rel="noopener noreferrer"><span>CVM · PORTAL DO INVESTIDOR</span><strong>Investir, tipos de investimentos e cuidados</strong><small>Conteúdo educacional da Comissão de Valores Mobiliários. ↗</small></a><a class="source-card" href="https://www.gov.br/cvm/pt-br/assuntos/educacao/" target="_blank" rel="noopener noreferrer"><span>CVM · EDUCAÇÃO</span><strong>Biblioteca, cursos e publicações</strong><small>Materiais educativos da CVM para investidores e iniciantes. ↗</small></a><a class="source-card" href="https://www.bcb.gov.br/cidadaniafinanceira" target="_blank" rel="noopener noreferrer"><span>BANCO CENTRAL · CIDADANIA FINANCEIRA</span><strong>Organização e educação financeira</strong><small>Portal de materiais e conteúdos do Banco Central do Brasil. ↗</small></a><a class="source-card" href="https://www.bcb.gov.br/content/cidadaniafinanceira/documentos_cidadania/Cuidando_do_seu_dinheiro_Gestao_de_Financas_Pessoais/caderno_cidadania_financeira.pdf" target="_blank" rel="noopener noreferrer"><span>BANCO CENTRAL · CADERNO</span><strong>Caderno de Educação Financeira · versão 2026</strong><small>Publicação do Banco Central com conceitos básicos e exercícios. ↗</small></a></div><aside class="source-data-note" role="note"><strong>Como interpretar estas fontes</strong><p>Os links levam aos portais oficiais. O Cashy não replica cotações nem atualiza indicadores de mercado em tempo real. Para valores e regras atuais, consulte a fonte original e observe a data de publicação ou atualização informada por ela.</p></aside></section><footer class="edu-footer"><a class="edu-logo" href="index.html">cashy<span>.</span></a><p>Educação financeira para cuidar melhor do seu dinheiro.</p><a href="privacidade.html">Privacidade e dados</a><a href="termos.html">Termos</a><a href="index.html">Voltar ao site Cashy</a></footer></main><script src="js/cursos-data.js?v=2"></script><script src="js/biblioteca.js?v=1"></script><script src="js/site-search.js?v=1"></script><script src="js/indicators.js?v=1"></script><script src="js/api.js?v=5"></script><script src="js/education-nav.js?v=1"></script><script src="js/chatbot.js?v=6"></script><script src="js/tour.js?v=4"></script></body></html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f7f2" />
+    <meta
+      name="description"
+      content="Encontre conceitos financeiros em linguagem simples e fontes confiáveis para continuar aprendendo."
+    />
+    <title>Consultar | Cashy</title>
+    <link rel="icon" href="images/logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/educacao.css?v=3" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+    <link rel="stylesheet" href="css/chatbot.css?v=5" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/product-polish.css?v=18" />
+    <link rel="stylesheet" href="css/indicators.css?v=1" />
+    <link rel="stylesheet" href="css/site-search.css?v=1" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("cashyTema") || "light";
+      } catch (e) {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+    <script src="js/theme.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+    <header class="edu-header">
+      <a class="edu-logo" href="index.html" aria-label="Cashy, página inicial"
+        >cashy<span>.</span></a
+      >
+      <nav aria-label="Seções do Cashy">
+        <a class="" href="educacao.html">Aprender</a
+        ><a class="" href="planejamento.html">Planejar</a
+        ><a href="reserva.html">Reserva</a
+        ><a href="calculadoras.html">Calcular</a
+        ><a class="" href="praticar.html">Praticar</a
+        ><a class="" href="simulador.html">Simular</a
+        ><a class="active" aria-current="page" href="biblioteca.html"
+          >Consultar</a
+        >
+      </nav>
+      <a class="account-link" href="dashboard.html" id="contaLink"
+        >Minha conta</a
+      >
+    </header>
+    <main class="edu-main" id="main-content" tabindex="-1">
+      <section class="site-search" aria-labelledby="siteSearchTitle">
+        <span class="eyebrow">BUSCA NO CASHY</span>
+        <h2 id="siteSearchTitle">Encontre um conteúdo.</h2>
+        <label for="siteSearchInput"
+          >Pesquise cursos, ferramentas e conceitos</label
+        ><input
+          id="siteSearchInput"
+          type="search"
+          autocomplete="off"
+          placeholder="Ex.: orçamento, juros, metas"
+        />
+        <p
+          id="siteSearchStatus"
+          class="site-search-status"
+          role="status"
+          aria-live="polite"
+        >
+          Digite pelo menos duas letras.
+        </p>
+        <ul
+          id="siteSearchResults"
+          class="site-search-results"
+          aria-label="Resultados da busca"
+          hidden
+        ></ul>
+      </section>
+      <section class="dictionary-section" id="dicionario">
+        <div class="section-intro">
+          <span class="eyebrow">TERMOS SEM COMPLICAÇÃO</span>
+          <h2>Dicionário financeiro.</h2>
+          <p>
+            Pesquise uma palavra para entender o significado em linguagem
+            simples.
+          </p>
+        </div>
+        <label class="dictionary-search"
+          >Pesquisar um termo<input
+            type="search"
+            id="termSearch"
+            placeholder="Ex.: liquidez ou CDI"
+            autocomplete="off"
+        /></label>
+        <p class="search-count" id="searchCount" aria-live="polite"></p>
+        <div class="term-grid" id="termGrid"></div>
+      </section>
+      <section
+        class="indicator-section"
+        id="indicadores"
+        aria-labelledby="indicatorTitle"
+      >
+        <div class="section-intro">
+          <span class="eyebrow">DADOS PÚBLICOS · BANCO CENTRAL</span>
+          <h2 id="indicatorTitle">Indicadores econômicos.</h2>
+          <p>
+            Consulte observações oficiais com período de referência, unidade e
+            fonte. Os dados têm frequências diferentes e não são cotações de
+            investimentos.
+          </p>
+        </div>
+        <div class="indicator-metrics" id="indicatorMetrics" aria-live="polite">
+          <p class="indicator-status" id="indicatorStatus" role="status">
+            Carregando dados oficiais…
+          </p>
+        </div>
+        <div class="indicator-controls">
+          <label for="indicatorSeries"
+            >Série do gráfico<select id="indicatorSeries" disabled>
+              <option value="ipca">IPCA mensal</option>
+              <option value="selic">Meta Selic</option>
+            </select></label
+          >
+          <div
+            class="indicator-period"
+            role="group"
+            aria-label="Período do gráfico"
+          >
+            <button type="button" data-period="3" aria-pressed="false" disabled>
+              3 pontos</button
+            ><button
+              type="button"
+              data-period="6"
+              aria-pressed="false"
+              disabled
+            >
+              6 pontos</button
+            ><button
+              type="button"
+              data-period="12"
+              aria-pressed="true"
+              disabled
+            >
+              12 pontos
+            </button>
+          </div>
+        </div>
+        <figure class="indicator-chart-wrap">
+          <svg
+            id="indicatorChart"
+            class="indicator-chart"
+            viewBox="0 0 800 280"
+            role="img"
+            aria-labelledby="chartTitle chartDescription"
+          >
+            <title id="chartTitle">Histórico do indicador</title>
+            <desc id="chartDescription">
+              O gráfico será exibido quando os dados oficiais forem carregados.
+            </desc>
+          </svg>
+          <figcaption id="indicatorChartCaption">
+            A série mensal e a série diária têm períodos de referência
+            diferentes.
+          </figcaption>
+        </figure>
+        <details class="indicator-data-details">
+          <summary>Ver observações e datas</summary>
+          <div class="indicator-table-wrap">
+            <table class="indicator-table">
+              <caption id="indicatorTableCaption">
+                Observações da série selecionada
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Referência</th>
+                  <th scope="col">Valor</th>
+                </tr>
+              </thead>
+              <tbody id="indicatorTableBody"></tbody>
+            </table>
+          </div>
+        </details>
+        <p class="indicator-attribution" id="indicatorAttribution">
+          Fonte: Banco Central do Brasil · SGS. Valores apresentados conforme a
+          série publicada.
+          <a
+            href="https://dadosabertos.bcb.gov.br/dataset/432-taxa-de-juros---meta-selic-definida-pelo-copom"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Metadados oficiais da Meta Selic</a
+          >
+          ·
+          <a
+            href="https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/13?formato=json"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Dados oficiais da série IPCA (SGS 433)</a
+          >
+        </p>
+        <p class="indicator-disclaimer">
+          O IPCA é uma variação mensal; a Meta Selic é uma taxa anual definida
+          pelo Copom. Não compare os números como se tivessem a mesma unidade.
+          Consulte a fonte original para metodologia e atualizações.
+        </p>
+      </section>
+      <section
+        class="sources-section"
+        id="fontes"
+        aria-labelledby="sourcesTitle"
+      >
+        <div class="section-intro">
+          <span class="eyebrow">PARA CONTINUAR ESTUDANDO</span>
+          <h2 id="sourcesTitle">Fontes oficiais.</h2>
+          <p>
+            Materiais externos para aprofundar os conceitos. Os links levam aos
+            sites de seus responsáveis; confirme neles as informações mais
+            recentes.
+          </p>
+        </div>
+        <div class="sources-grid">
+          <a
+            class="source-card"
+            href="https://www.gov.br/investidor/pt-br"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><span>CVM · PORTAL DO INVESTIDOR</span
+            ><strong>Investir, tipos de investimentos e cuidados</strong
+            ><small
+              >Conteúdo educacional da Comissão de Valores Mobiliários. ↗</small
+            ></a
+          ><a
+            class="source-card"
+            href="https://www.gov.br/cvm/pt-br/assuntos/educacao/"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><span>CVM · EDUCAÇÃO</span
+            ><strong>Biblioteca, cursos e publicações</strong
+            ><small
+              >Materiais educativos da CVM para investidores e iniciantes.
+              ↗</small
+            ></a
+          ><a
+            class="source-card"
+            href="https://www.bcb.gov.br/cidadaniafinanceira"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><span>BANCO CENTRAL · CIDADANIA FINANCEIRA</span
+            ><strong>Organização e educação financeira</strong
+            ><small
+              >Portal de materiais e conteúdos do Banco Central do Brasil.
+              ↗</small
+            ></a
+          ><a
+            class="source-card"
+            href="https://www.bcb.gov.br/content/cidadaniafinanceira/documentos_cidadania/Cuidando_do_seu_dinheiro_Gestao_de_Financas_Pessoais/caderno_cidadania_financeira.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><span>BANCO CENTRAL · CADERNO</span
+            ><strong>Caderno de Educação Financeira · versão 2026</strong
+            ><small
+              >Publicação do Banco Central com conceitos básicos e exercícios.
+              ↗</small
+            ></a
+          >
+        </div>
+        <aside class="source-data-note" role="note">
+          <strong>Como interpretar estas fontes</strong>
+          <p>
+            Os links levam aos portais oficiais. O Cashy não replica cotações
+            nem atualiza indicadores de mercado em tempo real. Para valores e
+            regras atuais, consulte a fonte original e observe a data de
+            publicação ou atualização informada por ela.
+          </p>
+        </aside>
+      </section>
+      <footer class="edu-footer">
+        <a class="edu-logo" href="index.html">cashy<span>.</span></a>
+        <p>Educação financeira para cuidar melhor do seu dinheiro.</p>
+        <a href="privacidade.html">Privacidade e dados</a
+        ><a href="termos.html">Termos</a
+        ><a href="index.html">Voltar ao site Cashy</a>
+      </footer>
+    </main>
+    <script src="js/cursos-data.js?v=2"></script>
+    <script src="js/biblioteca.js?v=1"></script>
+    <script src="js/site-search.js?v=1"></script>
+    <script src="js/indicators.js?v=1"></script>
+    <script src="js/api.js?v=5"></script>
+    <script src="js/education-nav.js?v=1"></script>
+    <script src="js/chatbot.js?v=6"></script>
+    <script src="js/tour.js?v=4"></script>
+  </body>
+</html>

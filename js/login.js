@@ -16,6 +16,19 @@
   const confirmGroup = document.querySelector(".cadastro-or-reset");
   let mode = "login";
 
+  function destinationAfterLogin() {
+    const raw = new URLSearchParams(location.search).get("destino");
+    if (!raw) return "dashboard.html";
+    try {
+      const destination = new URL(raw, location.href);
+      if (destination.origin !== location.origin || !/^\/(?!\/)[^?#]+\.html$/i.test(destination.pathname)) return "dashboard.html";
+      if (/\/(?:login|privacidade|termos)\.html$/i.test(destination.pathname)) return "dashboard.html";
+      return destination.pathname + destination.search + destination.hash;
+    } catch (_) {
+      return "dashboard.html";
+    }
+  }
+
   function showMessage(text, type) {
     message.textContent = text;
     message.className = "message " + (type || "");
@@ -61,7 +74,7 @@
   async function checkSession() {
     try {
       const result = await CashyAPI.auth.me();
-      if (result.authenticated) location.replace("dashboard.html");
+      if (result.authenticated) location.replace(destinationAfterLogin());
     } catch (error) {
       showMessage(error.message, "erro");
     }
@@ -78,6 +91,9 @@
     tabs[next].click();
   }));
   if (new URLSearchParams(location.search).get("modo") === "cadastro") setMode("register");
+  const accessNotice = new URLSearchParams(location.search).get("aviso");
+  if (accessNotice === "login") showMessage("Entre ou crie sua conta para acessar esse recurso.", "");
+  if (accessNotice === "sessao") showMessage("Não foi possível confirmar sua sessão. Entre para continuar.", "");
 
   document.getElementById("mostrarSenha").addEventListener("click", function () {
     const show = passwordField.type === "password";
@@ -122,8 +138,8 @@
       const result = mode === "register"
         ? await CashyAPI.auth.register({ name: nameField.value.trim(), email, password, remember: remember.checked })
         : await CashyAPI.auth.login({ email, password, remember: remember.checked });
-      showMessage(mode === "register" ? "Conta criada! Abrindo seu painel…" : "Login realizado! Abrindo seu painel…", "sucesso");
-      setTimeout(() => location.assign("dashboard.html"), 350);
+      showMessage(mode === "register" ? "Conta criada! Abrindo o Cashy…" : "Login realizado! Abrindo o Cashy…", "sucesso");
+      setTimeout(() => location.assign(destinationAfterLogin()), 350);
     } catch (error) {
       if (error.code === "email_exists") {
         emailField.setAttribute("aria-invalid", "true");

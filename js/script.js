@@ -65,6 +65,15 @@
 
   function renderizarAutenticacao(user) {
     const authenticated = Boolean(user);
+    document.body.classList.toggle("authenticated-home", authenticated);
+    document.body.classList.remove("home-auth-loading");
+    document.querySelectorAll("[data-guest-home]").forEach((section) => { section.hidden = authenticated; });
+    document.querySelectorAll("[data-home-guest]").forEach((link) => { link.hidden = authenticated; });
+    document.querySelectorAll("[data-home-member]").forEach((link) => { link.hidden = !authenticated; });
+    const memberHome = document.getElementById("memberHome");
+    if (memberHome) memberHome.hidden = !authenticated;
+    const firstName = document.getElementById("memberFirstName");
+    if (firstName) firstName.textContent = user && user.name ? user.name.trim().split(/\s+/)[0] : "pessoa";
     const homeActions = [
       ["homePrimaryAction", authenticated ? "dashboard.html" : "login.html?modo=cadastro", authenticated ? "Abrir meu painel →" : "Criar minha conta →"]
     ];

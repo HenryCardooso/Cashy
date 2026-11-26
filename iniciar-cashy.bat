@@ -25,7 +25,7 @@ echo Feche esta janela ou pressione Ctrl+C para encerrar o servidor local.
 echo.
 
 pushd "%PROJECT_DIR%"
-start "" /B "%PHP_EXE%" -S 127.0.0.1:8000 -t "%PROJECT_DIR%"
+start "" /B "%PHP_EXE%" -S 127.0.0.1:8000 -t "%PROJECT_DIR%" "%PROJECT_DIR%router.php"
 timeout /t 2 /nobreak >nul
 start "" "http://127.0.0.1:8000/index.html"
 pause >nul

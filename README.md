@@ -33,10 +33,10 @@ Depois da configuração inicial do banco e do arquivo `api/config.php`, inicie 
 Se preferir iniciar manualmente, abra um terminal dentro da pasta do projeto e execute:
 
 ~~~powershell
-php -S localhost:8000 -t .
+php -S localhost:8000 -t . router.php
 ~~~
 
-Depois abra http://localhost:8000/index.html no navegador. As páginas de cadastro, login e dados precisam ser acessadas pelo servidor PHP; abrir os arquivos diretamente com file:// não executa a API.
+Depois abra http://localhost:8000/index.html no navegador. O roteador PHP exige uma sessão ativa nas páginas de recursos e mantém o destino solicitado para depois do login. As páginas de cadastro, login e dados precisam ser acessadas pelo servidor PHP; abrir os arquivos diretamente com file:// não executa a API.
 
 Para encerrar o servidor PHP iniciado no terminal, pressione Ctrl+C.
 
@@ -64,7 +64,9 @@ A recuperação por e-mail ainda não foi configurada; não há redefinição au
 
 ~~~text
 Cashy/
+├── router.php          controla o acesso às páginas no servidor PHP local
 ├── api/                 endpoints PHP, conexão e autenticação
+│   ├── page-router.php  valida sessão e entrega páginas de recursos
 │   ├── auth.php         cadastro, login e sessão
 │   ├── account.php      exclusão de conta
 │   ├── profile.php      dados, preferências e alteração de senha
@@ -103,7 +105,7 @@ O frontend usa páginas HTML independentes com CSS e JavaScript sem framework ou
 
 Execute `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\verify.ps1` na pasta do projeto para rodar as verificações automatizadas.
 
-A autenticação usa sessões PHP, cookies `HttpOnly`/`SameSite`, rotação de sessão no login e tokens CSRF nas gravações. As rotas de movimentações, metas, perfil, educação e chat verificam a conta; consultas usam parâmetros preparados. `api/config.php` contém configuração local e não deve ser enviado ao Git.
+A autenticação usa sessões PHP, cookies `HttpOnly`/`SameSite`, rotação de sessão no login e tokens CSRF nas gravações. O roteador e as regras do Apache exigem uma sessão válida nas páginas de recursos; as rotas de movimentações, metas, perfil, educação e chat também verificam a conta. Consultas usam parâmetros preparados. `api/config.php` contém configuração local e não deve ser enviado ao Git.
 
 A auditoria desta etapa encontrou e corrigiu descrições desatualizadas neste README. Os links locais das páginas HTML foram conferidos e a sintaxe dos arquivos PHP e JavaScript passou. O site não tem build configurado; a validação em navegador e fluxos ligados ao MySQL precisam ser feitos com Apache/PHP e banco ativos.
 

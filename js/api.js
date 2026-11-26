@@ -88,4 +88,29 @@
       remove: (password) => request("account.php", { method: "POST", body: { action: "delete", password } })
     }
   };
+
+  const protectedPages = new Set([
+    "biblioteca.html", "calculadoras.html", "curso.html", "dashboard.html",
+    "diagnostico.html", "educacao.html", "metas.html", "movimentacoes.html",
+    "perfil.html", "planejamento.html", "praticar.html", "relatorios.html",
+    "reserva.html", "simulador.html"
+  ]);
+  const currentPage = (location.pathname.split("/").pop() || "").toLowerCase();
+  if (protectedPages.has(currentPage)) {
+    document.documentElement.style.visibility = "hidden";
+    const loginUrl = new URL("login.html", document.baseURI);
+    loginUrl.searchParams.set("destino", location.pathname + location.search + location.hash);
+    loginUrl.searchParams.set("aviso", "login");
+    window.CashyAPI.auth.me().then((result) => {
+      if (result && result.authenticated) {
+        document.documentElement.style.visibility = "";
+        window.dispatchEvent(new CustomEvent("cashy:auth-state", { detail: { authenticated: true, user: result.user } }));
+        return;
+      }
+      location.replace(loginUrl.href);
+    }).catch(() => {
+      loginUrl.searchParams.set("aviso", "sessao");
+      location.replace(loginUrl.href);
+    });
+  }
 })();

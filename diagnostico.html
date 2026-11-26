@@ -1,8 +1,177 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#f8f7f2"><meta name="description" content="Faça uma reflexão educativa sobre organização financeira e encontre conteúdos para continuar aprendendo."><title>Meu ponto de partida | Cashy</title><link rel="icon" href="images/logo.png" type="image/png"><link rel="stylesheet" href="css/educacao.css?v=3"><link rel="stylesheet" href="css/accessibility.css"><link rel="stylesheet" href="css/theme.css"><link rel="stylesheet" href="css/product-polish.css?v=15"><link rel="stylesheet" href="css/diagnostico.css?v=2"><script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"light"}catch(e){document.documentElement.dataset.theme="light"}</script><script src="js/theme.js" defer></script></head><body><a class="skip-link" href="#main-content">Pular para o conteúdo</a><header class="edu-header"><a class="edu-logo" href="index.html" aria-label="Cashy, página inicial">cashy<span>.</span></a><nav aria-label="Seções do Cashy"><a href="educacao.html">Aprender</a><a href="planejamento.html">Planejar</a><a href="reserva.html">Reserva</a><a href="calculadoras.html">Calcular</a><a href="praticar.html">Praticar</a><a href="simulador.html">Simular</a><a href="biblioteca.html">Consultar</a></nav><a class="account-link" href="dashboard.html" id="contaLink">Minha conta</a></header><main class="edu-main diagnostic-main" id="main-content" tabindex="-1"><a class="reserve-back" href="educacao.html">← Voltar à aprendizagem</a><section class="diagnostic-intro"><span class="eyebrow">UM PONTO DE PARTIDA, SEM JULGAMENTOS</span><h1>O que você gostaria de entender melhor?</h1><p>Responda sobre sua rotina financeira e receba sugestões de conteúdos e ferramentas. Este exercício é educativo, não é uma avaliação profissional e não salva suas respostas.</p></section><form id="diagnosticForm" class="diagnostic-form">
-<fieldset><legend>1. Você consegue acompanhar o que entra e sai no mês?</legend><label><input type="radio" name="tracking" value="0" required> Ainda não, ou isso é difícil para mim</label><label><input type="radio" name="tracking" value="1"> Às vezes, mas perco alguns registros</label><label><input type="radio" name="tracking" value="2"> Sim, costumo acompanhar</label></fieldset>
-<fieldset><legend>2. Como está seu planejamento mensal?</legend><label><input type="radio" name="budget" value="0" required> Ainda não tenho um plano claro</label><label><input type="radio" name="budget" value="1"> Tenho uma ideia, mas preciso revisar</label><label><input type="radio" name="budget" value="2"> Consigo revisar quando necessário</label></fieldset>
-<fieldset><legend>3. Você entende os custos das dívidas, parcelas ou do cartão?</legend><label><input type="radio" name="debt" value="0" required> Tenho dúvidas sobre os custos</label><label><input type="radio" name="debt" value="1"> Entendo uma parte, mas quero aprender mais</label><label><input type="radio" name="debt" value="2"> Costumo conferir o custo total e as condições</label></fieldset>
-<fieldset><legend>4. Você tem um plano para imprevistos financeiros?</legend><label><input type="radio" name="reserve" value="0" required> Ainda não pensei nisso</label><label><input type="radio" name="reserve" value="1"> Estou começando a planejar</label><label><input type="radio" name="reserve" value="2"> Tenho uma meta que reviso conforme a vida muda</label></fieldset>
-<fieldset><legend>5. Você tem objetivos financeiros definidos?</legend><label><input type="radio" name="goals" value="0" required> Ainda não defini objetivos</label><label><input type="radio" name="goals" value="1"> Tenho ideias, mas não acompanho valores ou prazos</label><label><input type="radio" name="goals" value="2"> Acompanho objetivos que fazem sentido para mim</label></fieldset>
-<fieldset><legend>6. Quais conceitos você gostaria de compreender melhor?</legend><label><input type="radio" name="concepts" value="0" required> Juros e inflação</label><label><input type="radio" name="concepts" value="1"> Crédito e dívidas</label><label><input type="radio" name="concepts" value="2"> Um pouco de cada assunto</label></fieldset>
-<button class="lime-button" type="submit">Ver sugestões para continuar</button></form><section id="diagnosticResults" class="diagnostic-results" aria-live="polite" aria-labelledby="diagnosticResultsTitle" hidden><h2 id="diagnosticResultsTitle">Sugestões para sua jornada</h2><p>Escolha um próximo passo de cada vez; você pode voltar e rever este exercício quando quiser.</p><div id="diagnosticSuggestions" class="diagnostic-suggestions"></div><a class="outline-button" href="educacao.html">Ver todos os cursos</a></section><aside class="diagnostic-note">Não existe uma nota ou perfil ideal. As respostas não medem sua saúde financeira e não são enviadas ao Cashy.</aside><footer class="edu-footer"><a class="edu-logo" href="index.html">cashy<span>.</span></a><p>Educação financeira para cuidar melhor do seu dinheiro.</p><a href="privacidade.html">Privacidade e dados</a><a href="termos.html">Termos</a><a href="educacao.html">Voltar aos cursos</a></footer></main><script src="js/diagnostico.js?v=1"></script><script src="js/api.js?v=5"></script><script src="js/education-nav.js?v=1"></script><script src="js/chatbot.js?v=6"></script><script src="js/tour.js?v=4"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f7f2" />
+    <meta
+      name="description"
+      content="Faça uma reflexão educativa sobre organização financeira e encontre conteúdos para continuar aprendendo."
+    />
+    <title>Meu ponto de partida | Cashy</title>
+    <link rel="icon" href="images/logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/educacao.css?v=3" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/product-polish.css?v=18" />
+    <link rel="stylesheet" href="css/diagnostico.css?v=2" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("cashyTema") || "light";
+      } catch (e) {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+    <script src="js/theme.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+    <header class="edu-header">
+      <a class="edu-logo" href="index.html" aria-label="Cashy, página inicial"
+        >cashy<span>.</span></a
+      >
+      <nav aria-label="Seções do Cashy">
+        <a href="educacao.html">Aprender</a
+        ><a href="planejamento.html">Planejar</a
+        ><a href="reserva.html">Reserva</a
+        ><a href="calculadoras.html">Calcular</a
+        ><a href="praticar.html">Praticar</a><a href="simulador.html">Simular</a
+        ><a href="biblioteca.html">Consultar</a>
+      </nav>
+      <a class="account-link" href="dashboard.html" id="contaLink"
+        >Minha conta</a
+      >
+    </header>
+    <main class="edu-main diagnostic-main" id="main-content" tabindex="-1">
+      <a class="reserve-back" href="educacao.html">← Voltar à aprendizagem</a>
+      <section class="diagnostic-intro">
+        <span class="eyebrow">UM PONTO DE PARTIDA, SEM JULGAMENTOS</span>
+        <h1>O que você gostaria de entender melhor?</h1>
+        <p>
+          Responda sobre sua rotina financeira e receba sugestões de conteúdos e
+          ferramentas. Este exercício é educativo, não é uma avaliação
+          profissional e não salva suas respostas.
+        </p>
+      </section>
+      <form id="diagnosticForm" class="diagnostic-form">
+        <fieldset>
+          <legend>1. Você consegue acompanhar o que entra e sai no mês?</legend>
+          <label
+            ><input type="radio" name="tracking" value="0" required /> Ainda
+            não, ou isso é difícil para mim</label
+          ><label
+            ><input type="radio" name="tracking" value="1" /> Às vezes, mas
+            perco alguns registros</label
+          ><label
+            ><input type="radio" name="tracking" value="2" /> Sim, costumo
+            acompanhar</label
+          >
+        </fieldset>
+        <fieldset>
+          <legend>2. Como está seu planejamento mensal?</legend>
+          <label
+            ><input type="radio" name="budget" value="0" required /> Ainda não
+            tenho um plano claro</label
+          ><label
+            ><input type="radio" name="budget" value="1" /> Tenho uma ideia, mas
+            preciso revisar</label
+          ><label
+            ><input type="radio" name="budget" value="2" /> Consigo revisar
+            quando necessário</label
+          >
+        </fieldset>
+        <fieldset>
+          <legend>
+            3. Você entende os custos das dívidas, parcelas ou do cartão?
+          </legend>
+          <label
+            ><input type="radio" name="debt" value="0" required /> Tenho dúvidas
+            sobre os custos</label
+          ><label
+            ><input type="radio" name="debt" value="1" /> Entendo uma parte, mas
+            quero aprender mais</label
+          ><label
+            ><input type="radio" name="debt" value="2" /> Costumo conferir o
+            custo total e as condições</label
+          >
+        </fieldset>
+        <fieldset>
+          <legend>4. Você tem um plano para imprevistos financeiros?</legend>
+          <label
+            ><input type="radio" name="reserve" value="0" required /> Ainda não
+            pensei nisso</label
+          ><label
+            ><input type="radio" name="reserve" value="1" /> Estou começando a
+            planejar</label
+          ><label
+            ><input type="radio" name="reserve" value="2" /> Tenho uma meta que
+            reviso conforme a vida muda</label
+          >
+        </fieldset>
+        <fieldset>
+          <legend>5. Você tem objetivos financeiros definidos?</legend>
+          <label
+            ><input type="radio" name="goals" value="0" required /> Ainda não
+            defini objetivos</label
+          ><label
+            ><input type="radio" name="goals" value="1" /> Tenho ideias, mas não
+            acompanho valores ou prazos</label
+          ><label
+            ><input type="radio" name="goals" value="2" /> Acompanho objetivos
+            que fazem sentido para mim</label
+          >
+        </fieldset>
+        <fieldset>
+          <legend>
+            6. Quais conceitos você gostaria de compreender melhor?
+          </legend>
+          <label
+            ><input type="radio" name="concepts" value="0" required /> Juros e
+            inflação</label
+          ><label
+            ><input type="radio" name="concepts" value="1" /> Crédito e
+            dívidas</label
+          ><label
+            ><input type="radio" name="concepts" value="2" /> Um pouco de cada
+            assunto</label
+          >
+        </fieldset>
+        <button class="lime-button" type="submit">
+          Ver sugestões para continuar
+        </button>
+      </form>
+      <section
+        id="diagnosticResults"
+        class="diagnostic-results"
+        aria-live="polite"
+        aria-labelledby="diagnosticResultsTitle"
+        hidden
+      >
+        <h2 id="diagnosticResultsTitle">Sugestões para sua jornada</h2>
+        <p>
+          Escolha um próximo passo de cada vez; você pode voltar e rever este
+          exercício quando quiser.
+        </p>
+        <div id="diagnosticSuggestions" class="diagnostic-suggestions"></div>
+        <a class="outline-button" href="educacao.html">Ver todos os cursos</a>
+      </section>
+      <aside class="diagnostic-note">
+        Não existe uma nota ou perfil ideal. As respostas não medem sua saúde
+        financeira e não são enviadas ao Cashy.
+      </aside>
+      <footer class="edu-footer">
+        <a class="edu-logo" href="index.html">cashy<span>.</span></a>
+        <p>Educação financeira para cuidar melhor do seu dinheiro.</p>
+        <a href="privacidade.html">Privacidade e dados</a
+        ><a href="termos.html">Termos</a
+        ><a href="educacao.html">Voltar aos cursos</a>
+      </footer>
+    </main>
+    <script src="js/diagnostico.js?v=1"></script>
+    <script src="js/api.js?v=5"></script>
+    <script src="js/education-nav.js?v=1"></script>
+    <script src="js/chatbot.js?v=6"></script>
+    <script src="js/tour.js?v=4"></script>
+  </body>
+</html>

@@ -25,7 +25,7 @@
     "calculadoras.html": [["#interestForm", "Juros", "Compare juros simples e compostos com valores e taxas hipotéticos."], ["#inflationForm", "Inflação", "Veja como uma hipótese de inflação afeta preços e poder de compra."], ["#installmentForm", "Parcelamentos", "Compare o total parcelado ao preço à vista e observe a diferença nominal."], ["#debtForm", "Saldo de uma dívida", "Observe como taxas e pagamentos hipotéticos podem alterar o saldo ao longo dos meses."]],
     "diagnostico.html": [["#diagnosticForm", "Reflexão pessoal", "Responda pensando na sua rotina. Não há nota ou perfil ideal."], ["#diagnosticForm > button", "Sugestões de aprendizagem", "Quando concluir as respostas, veja ideias de conteúdos e ferramentas para explorar."]],
     "relatorios.html": [["#reportMonth", "Escolha um mês", "Os relatórios usam movimentações e metas reais da sua conta. Entre para acessar os valores."], [".report-privacy-note", "Seus dados", "As categorias e os gráficos refletem apenas os registros que você fez no Cashy."]],
-    "simulador.html": [[".scenario-grid", "Simulações", "Compare cenários educativos e veja como prazo e juros alteram resultados."], [".simulator-note", "Como interpretar", "As simulações são exemplos de aprendizagem, não recomendações financeiras."]],
+    "simulador.html": [[".scenario-grid", "Simulações", "Compare cenários educativos e veja como prazo e juros alteram resultados."], [".simulator-source-note", "Como interpretar", "As simulações são exemplos de aprendizagem, não recomendações financeiras."]],
     "educacao.html": [[".edu-hero", "Trilha de aprendizagem", "Aprenda conceitos financeiros numa sequência progressiva."], ["#lessonGrid", "Cursos", "Escolha um curso para estudar e acompanhar seu progresso."]],
     "curso.html": [[".course-topics", "Conteúdo", "Avance pelos tópicos e consulte exemplos práticos."], [".course-quiz", "Exercício", "Use as perguntas para conferir o que entendeu."]],
     "praticar.html": [[".challenge-section", "Desafio semanal", "Escolha passos práticos; o progresso é opcional e fica neste navegador."], ["#investmentChecklist", "Checklist", "Use a lista para refletir sobre conceitos e perguntas que quer pesquisar."], [".practice-grid", "Exercícios", "Explore situações hipotéticas e leia a explicação de cada resposta."]],
@@ -33,9 +33,10 @@
   };
 
   const style = document.createElement("link"); style.rel = "stylesheet"; style.href = "css/tour.css?v=3"; document.head.append(style);
+  const mobileHelpStyle = document.createElement("style"); mobileHelpStyle.textContent = "@media(max-width:720px){.tour-help{position:fixed;display:grid;place-items:center;left:14px;right:auto;bottom:max(14px,env(safe-area-inset-bottom));width:42px;height:42px;margin:0}}"; document.head.append(mobileHelpStyle);
   const overlay = document.createElement("div"); overlay.className = "tour-spotlight"; overlay.hidden = true; overlay.setAttribute("aria-hidden", "true"); document.body.append(overlay);
   const dialog = document.createElement("section"); dialog.className = "tour-popover"; dialog.hidden = true; dialog.setAttribute("role", "dialog"); dialog.setAttribute("aria-modal", "false"); dialog.tabIndex = -1; dialog.setAttribute("aria-labelledby", "tourTitle"); dialog.innerHTML = '<div class="tour-progress"><span id="tourProgress"></span><button type="button" data-tour="exit" aria-label="Fechar tour">×</button></div><h2 id="tourTitle"></h2><p id="tourText" aria-live="polite"></p><div class="tour-actions"><button type="button" data-tour="back">Voltar</button><button type="button" data-tour="skip">Pular</button><button type="button" data-tour="next" class="tour-primary">Próximo</button></div>'; document.body.append(dialog);
-  let active = false, index = 0, localGuide = null, guideIndex = 0, target = null;
+  let active = false, index = 0, localGuide = null, guideIndex = 0, target = null, showId = 0;
   const help = document.createElement("button"); help.type = "button"; help.className = "tour-help"; help.textContent = "?"; help.setAttribute("aria-label", "Ajuda e tour Cashy"); help.setAttribute("aria-expanded", "false"); document.body.append(help);
   const menu = document.createElement("div"); menu.className = "tour-menu"; menu.hidden = true; menu.innerHTML = '<strong>Como podemos ajudar?</strong><button type="button" data-help="page">Entenda esta página</button><button type="button" data-help="tour">Iniciar tour do Cashy</button>'; document.body.append(menu);
 
@@ -46,45 +47,101 @@
     if (top + box.height > innerHeight - margin) top = Math.max(margin, r.top - box.height - 14);
     dialog.style.left = `${left}px`; dialog.style.top = `${top}px`;
   }
-  function close() { active = false; localGuide = null; overlay.hidden = dialog.hidden = true; target = null; document.body.classList.remove("tour-active"); help.focus({ preventScroll: true }); }
+  function close() { const exitFlow = active && !localGuide; showId++; active = false; localGuide = null; if (exitFlow) { try { sessionStorage.removeItem(key); } catch (_) {} } overlay.hidden = dialog.hidden = true; target = null; document.body.classList.remove("tour-active"); help.focus({ preventScroll: true }); }
+  function waitForTarget(selector, requestId) {
+    return new Promise((resolve) => {
+      let observer = null, timer = null, settled = false;
+      const finish = (element) => {
+        if (settled) return;
+        settled = true;
+        if (timer) clearTimeout(timer);
+        if (observer) observer.disconnect();
+        resolve(element && element.getClientRects().length ? element : null);
+      };
+      const find = () => {
+        if (requestId !== showId) return finish(null);
+        let element = null;
+        try { element = document.querySelector(selector); } catch (_) {}
+        if (element && element.getClientRects().length) finish(element);
+      };
+      find();
+      if (settled) return;
+      observer = new MutationObserver(find);
+      observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "hidden", "style"] });
+      timer = setTimeout(() => {
+        let element = null;
+        try { element = document.querySelector(selector); } catch (_) {}
+        finish(element);
+      }, 6000);
+    });
+  }
   function show(title, text, count, current, countMax) {
-    target = document.querySelector(current); dialog.querySelector("#tourTitle").textContent = title; dialog.querySelector("#tourText").textContent = text; dialog.querySelector("#tourProgress").textContent = count;
+    const requestId = ++showId;
+    try { target = document.querySelector(current); } catch (_) { target = null; }
+    if (target && !target.getClientRects().length) target = null;
+    dialog.querySelector("#tourTitle").textContent = title; dialog.querySelector("#tourText").textContent = text; dialog.querySelector("#tourProgress").textContent = count;
     dialog.hidden = false; overlay.hidden = !target; document.body.classList.toggle("tour-active", !!target); dialog.querySelector("[data-tour=exit]").focus({ preventScroll: true });
     dialog.querySelector('[data-tour="back"]').disabled = localGuide ? guideIndex === 0 : index === 0;
     dialog.querySelector('[data-tour="next"]').textContent = localGuide ? (guideIndex === countMax - 1 ? "Concluir" : "Próximo") : (index === flow.length - 1 ? "Concluir" : "Próximo");
     dialog.querySelector('[data-tour="next"]').disabled = !!(!localGuide && flow[index]?.action);
-    if (target) { target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" }); requestAnimationFrame(position); }
+    if (target) { target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); requestAnimationFrame(position); }
     else { overlay.hidden = true; dialog.style.left = `${Math.max(12, (innerWidth - 340) / 2)}px`; dialog.style.top = `${Math.max(16, (innerHeight - 180) / 2)}px`; }
+    if (!target) waitForTarget(current, requestId).then((element) => {
+      if (!element || requestId !== showId || dialog.hidden) return;
+      target = element;
+      overlay.hidden = false;
+      document.body.classList.add("tour-active");
+      target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+      requestAnimationFrame(position);
+    });
   }
   function showFlow() { const step = flow[index]; if (!step) return finish(); if (page !== step.page) return; show(step.title, step.text, `Etapa ${index + 1} de ${flow.length}`, step.target, flow.length); }
   function finish() { try { localStorage.setItem(`${key}:complete`, "1"); localStorage.setItem(`${key}:seen`, "1"); sessionStorage.removeItem(key); } catch (_) {} close(); }
   function startFlow(startAt = 0) { localGuide = null; active = true; index = startAt; try { localStorage.setItem(`${key}:seen`, "1"); sessionStorage.setItem(key, String(index)); } catch (_) {} if (flow[index]?.page !== page) { location.href = flow[index]?.page || "dashboard.html"; return; } showFlow(); }
+  function advanceFlow(nextIndex, destination) {
+    if (nextIndex >= flow.length) return finish();
+    index = Math.max(0, nextIndex);
+    try { sessionStorage.setItem(key, String(index)); } catch (_) {}
+    if (destination) { location.href = destination; return; }
+    if (flow[index].page !== page) { location.href = flow[index].page; return; }
+    showFlow();
+  }
+  function tourWasSeen() { try { return localStorage.getItem(`${key}:seen`) !== null; } catch (_) { return true; } }
   function startGuide() { const items = guides[page] || [["main", "Esta página", "Explore os conteúdos e use a navegação para conhecer as ferramentas do Cashy."]]; localGuide = items; guideIndex = 0; active = true; drawGuide(); }
   function drawGuide() { const item = localGuide?.[guideIndex]; if (item) show(item[1], item[2], `Ajuda ${guideIndex + 1} de ${localGuide.length}`, item[0], localGuide.length); }
 
   dialog.addEventListener("click", e => {
     const action = e.target.closest("[data-tour]")?.dataset.tour; if (!action) return;
     if (action === "exit") { close(); return; }
-    if (action === "skip") { if (localGuide) { guideIndex++; if (guideIndex >= localGuide.length) close(); else drawGuide(); } else if (flow[index]?.action) { index++; try { sessionStorage.setItem(key, String(index)); } catch (_) {} showFlow(); } else { index++; if (index >= flow.length) finish(); else showFlow(); } return; }
+    if (action === "skip") { if (localGuide) { guideIndex++; if (guideIndex >= localGuide.length) close(); else drawGuide(); } else advanceFlow(index + 1); return; }
     if (action === "back") { if (localGuide) { guideIndex = Math.max(0, guideIndex - 1); drawGuide(); } else { const n = Math.max(0, index - 1); try { sessionStorage.setItem(key, String(n)); } catch (_) {} if (flow[n].page !== page) location.href = flow[n].page; else { index = n; showFlow(); } } return; }
-    if (action === "next") { if (localGuide) { guideIndex++; if (guideIndex >= localGuide.length) close(); else drawGuide(); return; } if (index >= flow.length - 1) { finish(); return; } index++; try { sessionStorage.setItem(key, String(index)); } catch (_) {} if (flow[index].page !== page) location.href = flow[index].page; else showFlow(); }
+    if (action === "next") { if (localGuide) { guideIndex++; if (guideIndex >= localGuide.length) close(); else drawGuide(); return; } advanceFlow(index + 1); }
   });
   help.addEventListener("click", () => { const opening = menu.hidden; menu.hidden = !opening; help.setAttribute("aria-expanded", String(opening)); });
   menu.addEventListener("click", e => { const action = e.target.closest("[data-help]")?.dataset.help; if (!action) return; menu.hidden = true; help.setAttribute("aria-expanded", "false"); if (action === "page") startGuide(); else startFlow(0); });
+  document.addEventListener("click", e => {
+    if (menu.hidden || menu.contains(e.target) || help.contains(e.target)) return;
+    menu.hidden = true;
+    help.setAttribute("aria-expanded", "false");
+  });
   document.addEventListener("click", e => {
     if (!active || localGuide || !flow[index]?.action) return;
     const link = e.target.closest("a"); if (!link) return;
     const step = flow[index]; if (step.href && !link.getAttribute("href")?.includes(step.href)) return;
     if (!step.href && !(link.matches("#lessonGrid a, #lessonGrid .lesson-card") || link.closest("#lessonGrid"))) return;
-    e.preventDefault(); index++; try { sessionStorage.setItem(key, String(index)); } catch (_) {} location.href = link.href;
+    e.preventDefault(); advanceFlow(index + 1, link.href);
   });
-  addEventListener("resize", position); addEventListener("scroll", position, { passive: true }); document.addEventListener("keydown", e => { if (e.key === "Escape" && active) close(); });
+  addEventListener("resize", position); addEventListener("scroll", position, { passive: true }); document.addEventListener("keydown", e => {
+    if (e.key !== "Escape") return;
+    if (active) close();
+    else if (!menu.hidden) { menu.hidden = true; help.setAttribute("aria-expanded", "false"); help.focus({ preventScroll: true }); }
+  });
 
   if (page === "dashboard.html") {
     let pending = null; try { pending = sessionStorage.getItem(key); } catch (_) {}
     if (pending !== null) { index = Number(pending) || 0; if (flow[index]?.page === page) showFlow(); }
-    else if (!localStorage.getItem(`${key}:seen`) && window.CashyAPI?.auth?.me) {
-      window.CashyAPI.auth.me().then(() => { if (!localStorage.getItem(`${key}:seen`)) startFlow(0); }).catch(() => {});
+    else if (!tourWasSeen() && window.CashyAPI?.auth?.me) {
+      window.CashyAPI.auth.me().then(() => { if (!tourWasSeen()) startFlow(0); }).catch(() => {});
     }
   } else {
     let pending = null; try { pending = sessionStorage.getItem(key); } catch (_) {}

@@ -1,0 +1,71 @@
+.home-page.home-auth-loading #conteudo { visibility: hidden; }
+.home-page [hidden] { display: none !important; }
+.home-page.authenticated-home [data-guest-home] { display: none !important; }
+.home-page .home-access-note { margin-top: -12px; color: var(--ds-muted, #a7aec6); font-size: .9rem; }
+
+.member-home {
+  width: min(1120px, calc(100% - 64px));
+  margin: clamp(48px, 8vw, 104px) auto 96px;
+}
+
+.member-home-intro {
+  padding: clamp(28px, 5vw, 56px);
+  border: 1px solid var(--ds-line, rgba(255,255,255,.14));
+  border-radius: 10px;
+  background: var(--ds-surface, #101713);
+}
+
+.member-home-intro h1 {
+  margin: 10px 0 8px;
+  color: var(--ds-text, #f5f7f5);
+  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  line-height: 1.08;
+}
+
+.member-home-intro p {
+  max-width: 600px;
+  margin: 0 0 24px;
+  color: var(--ds-muted, #aab5ae);
+  font-size: 1.08rem;
+}
+
+.member-home-heading { margin: 56px 0 20px; }
+.member-home-heading h2 { margin-top: 6px; color: var(--ds-text, #f5f7f5); font-size: clamp(1.65rem, 3vw, 2.4rem); }
+
+.member-home-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.member-home-card {
+  display: grid;
+  min-height: 154px;
+  align-content: start;
+  gap: 8px;
+  padding: 22px;
+  border: 1px solid var(--ds-line, rgba(255,255,255,.14));
+  border-radius: 8px;
+  background: var(--ds-surface, #101713);
+  transition: border-color .18s ease, transform .18s ease, background .18s ease;
+}
+
+.member-home-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ds-accent, #78c49a);
+  background: var(--ds-raised, #151e18);
+}
+
+.member-home-card > span { color: var(--ds-accent, #78c49a); font-size: 1.35rem; }
+.member-home-card strong { color: var(--ds-text, #f5f7f5); font-size: 1.08rem; }
+.member-home-card small { color: var(--ds-muted, #aab5ae); font-size: .92rem; }
+
+@media (max-width: 760px) {
+  .member-home { width: min(100% - 36px, 560px); margin-top: 36px; }
+  .member-home-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .member-home-card { min-height: 140px; padding: 17px; }
+}
+
+@media (max-width: 430px) {
+  .member-home-grid { grid-template-columns: 1fr; }
+}

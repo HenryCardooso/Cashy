@@ -15,13 +15,21 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/accessibility.css" />
     <link rel="stylesheet" href="css/chatbot.css?v=5" />
-      <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/product-polish.css?v=15">
-    <script>try{document.documentElement.dataset.theme=localStorage.getItem("cashyTema")||"light"}catch(e){document.documentElement.dataset.theme="light"}</script>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/product-polish.css?v=18" />
+    <link rel="stylesheet" href="css/home-member.css?v=1" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("cashyTema") || "light";
+      } catch (e) {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
     <script src="js/theme.js" defer></script>
-</head>
+  </head>
 
-  <body class="home-page">
+  <body class="home-page home-auth-loading">
     <a href="#conteudo" class="skip-link">Ir para o conteúdo</a>
 
     <!-- CABEÇALHO -->
@@ -31,10 +39,14 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Navegação principal">
-        <a href="#recursos">Recursos</a>
-        <a href="#como-funciona">Como funciona</a>
-          <a href="educacao.html">Educação financeira</a>
-        <a href="#sobre">Sobre</a>
+        <a href="#recursos" data-home-guest>Recursos</a>
+        <a href="#como-funciona" data-home-guest>Como funciona</a>
+        <a href="educacao.html" data-home-guest>Educação financeira</a>
+        <a href="#sobre" data-home-guest>Sobre</a>
+        <a href="dashboard.html" data-home-member hidden>Meu espaço</a>
+        <a href="#memberHome" data-home-member hidden>Recursos</a>
+        <a href="educacao.html" data-home-member hidden>Aprender</a>
+        <a href="planejamento.html" data-home-member hidden>Planejar</a>
 
         <!-- Aparece só no menu mobile (preenchido pelo script.js) -->
         <div class="nav-auth" id="navAuth"></div>
@@ -43,7 +55,9 @@
       <!-- Preenchido pelo script.js conforme o usuário esteja logado ou não -->
       <div class="header-actions" id="headerActions">
         <a href="login.html" class="btn btn-outline">Entrar</a>
-        <a href="login.html?modo=cadastro" class="btn btn-green">Começar agora</a>
+        <a href="login.html?modo=cadastro" class="btn btn-green"
+          >Começar agora</a
+        >
       </div>
 
       <button
@@ -61,7 +75,7 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main id="conteudo" tabindex="-1">
       <!-- HERO -->
-      <section class="hero">
+      <section class="hero" data-guest-home>
         <div class="hero-content">
           <span class="eyebrow">Educação financeira para a vida real</span>
 
@@ -71,48 +85,155 @@
           </h1>
 
           <p>
-            Conteúdo claro para organizar o orçamento, entender o crédito e aprender sobre investimentos sem pressa.
+            Conteúdo claro para organizar o orçamento, entender o crédito e
+            aprender sobre investimentos sem pressa.
+          </p>
+
+          <p class="home-access-note">
+            Entre ou crie uma conta para acessar os cursos e ferramentas.
           </p>
 
           <div class="hero-actions">
             <a href="educacao.html" class="btn btn-green btn-large">
-              Explorar os conteúdos
+              Entrar para explorar
               <span>→</span>
             </a>
 
-            <a id="homePrimaryAction" href="login.html?modo=cadastro" class="btn btn-ghost btn-large">
+            <a
+              id="homePrimaryAction"
+              href="login.html?modo=cadastro"
+              class="btn btn-ghost btn-large"
+            >
               Acessar minha conta
             </a>
           </div>
-
         </div>
 
         <figure class="home-hero-image">
-          <img src="images/cashy-organizacao-financeira.jpg" alt="Mulher organiza as finanças em casa, escrevendo em um caderno ao lado do celular com o Cashy aberto." width="1264" height="848" fetchpriority="high" />
+          <img
+            src="images/cashy-organizacao-financeira.jpg"
+            alt="Mulher organiza as finanças em casa, escrevendo em um caderno ao lado do celular com o Cashy aberto."
+            width="1264"
+            height="848"
+            fetchpriority="high"
+          />
         </figure>
       </section>
 
-      <aside class="home-feature-story" aria-labelledby="homeStoryTitle">
+      <section
+        class="member-home"
+        id="memberHome"
+        hidden
+        aria-labelledby="memberHomeTitle"
+      >
+        <div class="member-home-intro">
+          <span class="eyebrow">SEU ESPAÇO NO CASHY</span>
+          <h1 id="memberHomeTitle">
+            Olá, <span id="memberFirstName">pessoa</span>.
+          </h1>
+          <p>
+            Continue de onde parou ou escolha uma área para seguir no seu ritmo.
+          </p>
+          <a class="btn btn-green btn-large" href="dashboard.html"
+            >Abrir meu painel <span aria-hidden="true">→</span></a
+          >
+        </div>
+        <div class="member-home-heading">
+          <span class="eyebrow">RECURSOS DA SUA CONTA</span>
+          <h2>Por onde você quer continuar?</h2>
+        </div>
+        <div class="member-home-grid">
+          <a class="member-home-card" href="educacao.html"
+            ><span aria-hidden="true">↗</span><strong>Aprender</strong
+            ><small>Cursos e progresso de estudo</small></a
+          >
+          <a class="member-home-card" href="planejamento.html"
+            ><span aria-hidden="true">◌</span><strong>Planejar orçamento</strong
+            ><small>Organize renda e despesas</small></a
+          >
+          <a class="member-home-card" href="movimentacoes.html"
+            ><span aria-hidden="true">↕</span><strong>Movimentações</strong
+            ><small>Registre entradas e saídas</small></a
+          >
+          <a class="member-home-card" href="metas.html"
+            ><span aria-hidden="true">◎</span><strong>Minhas metas</strong
+            ><small>Acompanhe seus objetivos</small></a
+          >
+          <a class="member-home-card" href="relatorios.html"
+            ><span aria-hidden="true">▤</span><strong>Relatórios</strong
+            ><small>Veja seus registros em contexto</small></a
+          >
+          <a class="member-home-card" href="reserva.html"
+            ><span aria-hidden="true">○</span><strong>Reserva</strong
+            ><small>Planeje uma meta para imprevistos</small></a
+          >
+          <a class="member-home-card" href="calculadoras.html"
+            ><span aria-hidden="true">∑</span><strong>Calculadoras</strong
+            ><small>Explore números e hipóteses</small></a
+          >
+          <a class="member-home-card" href="praticar.html"
+            ><span aria-hidden="true">✓</span><strong>Praticar</strong
+            ><small>Atividades e exercícios</small></a
+          >
+          <a class="member-home-card" href="simulador.html"
+            ><span aria-hidden="true">∿</span><strong>Simular</strong
+            ><small>Compare cenários hipotéticos</small></a
+          >
+          <a class="member-home-card" href="biblioteca.html"
+            ><span aria-hidden="true">⌕</span><strong>Consultar</strong
+            ><small>Conceitos e fontes oficiais</small></a
+          >
+          <a class="member-home-card" href="diagnostico.html"
+            ><span aria-hidden="true">◎</span
+            ><strong>Meu ponto de partida</strong
+            ><small>Receba sugestões de estudo</small></a
+          >
+        </div>
+      </section>
+
+      <aside
+        class="home-feature-story"
+        data-guest-home
+        aria-labelledby="homeStoryTitle"
+      >
         <span class="eyebrow">Curso em destaque</span>
         <h2 id="homeStoryTitle">Orçamento, crédito e dívidas.</h2>
-        <p>Organize a renda do mês, entenda o crédito e monte um retrato das suas dívidas.</p>
-        <a href="curso.html?id=orcamento-credito-dividas">Ler o curso <span aria-hidden="true">→</span></a>
+        <p>
+          Organize a renda do mês, entenda o crédito e monte um retrato das suas
+          dívidas.
+        </p>
+        <a href="curso.html?id=orcamento-credito-dividas"
+          >Ler o curso <span aria-hidden="true">→</span></a
+        >
       </aside>
 
       <!-- ESTATÍSTICAS -->
-      <section class="stats" aria-label="O que você encontra no Cashy">
-        <div><strong>Aprender</strong><span>Trilhas do básico em diante</span></div>
-        <div><strong>Praticar</strong><span>Exercícios e cenários hipotéticos</span></div>
-        <div><strong>Consultar</strong><span>Conceitos e fontes para pesquisar</span></div>
+      <section
+        class="stats"
+        data-guest-home
+        aria-label="O que você encontra no Cashy"
+      >
+        <div>
+          <strong>Aprender</strong><span>Trilhas do básico em diante</span>
+        </div>
+        <div>
+          <strong>Praticar</strong
+          ><span>Exercícios e cenários hipotéticos</span>
+        </div>
+        <div>
+          <strong>Consultar</strong
+          ><span>Conceitos e fontes para pesquisar</span>
+        </div>
       </section>
 
       <!-- RECURSOS -->
-      <section class="section" id="recursos">
+      <section class="section" id="recursos" data-guest-home>
         <div class="section-heading">
           <h2>Escolha por onde começar</h2>
 
           <p>
-            Leia, pratique e consulte os temas que fazem parte da sua vida financeira.
+            Leia, pratique e consulte os temas que fazem parte da sua vida
+            financeira.
           </p>
         </div>
 
@@ -120,43 +241,52 @@
           <article class="feature featured">
             <div class="feature-icon" aria-hidden="true">↗</div>
             <h3>Aprender</h3>
-            <p>Orçamento, crédito, juros e investimentos em uma trilha progressiva.</p>
+            <p>
+              Orçamento, crédito, juros e investimentos em uma trilha
+              progressiva.
+            </p>
             <a href="educacao.html">Ver os cursos →</a>
           </article>
 
           <article class="feature">
             <div class="feature-icon" aria-hidden="true">▣</div>
             <h3>Planejar</h3>
-            <p>Organize renda, despesas, parcelas e objetivos em um orçamento mensal.</p>
+            <p>
+              Organize renda, despesas, parcelas e objetivos em um orçamento
+              mensal.
+            </p>
             <a href="planejamento.html">Abrir a oficina →</a>
           </article>
 
           <article class="feature">
             <div class="feature-icon" aria-hidden="true">◎</div>
             <h3>Calcular</h3>
-            <p>Explore juros, inflação, parcelas e reserva com valores que você informa.</p>
+            <p>
+              Explore juros, inflação, parcelas e reserva com valores que você
+              informa.
+            </p>
             <a href="calculadoras.html">Ver ferramentas →</a>
           </article>
 
           <article class="feature">
             <div class="feature-icon" aria-hidden="true">◌</div>
             <h3>Consultar</h3>
-            <p>Encontre definições e referências para continuar sua pesquisa.</p>
+            <p>
+              Encontre definições e referências para continuar sua pesquisa.
+            </p>
             <a href="biblioteca.html">Abrir a biblioteca →</a>
           </article>
         </div>
       </section>
 
       <!-- COMO FUNCIONA -->
-      <section class="section dark-section" id="como-funciona">
+      <section class="section dark-section" id="como-funciona" data-guest-home>
         <div class="section-heading center">
           <span class="eyebrow">Como funciona</span>
 
           <h2>Aprenda no seu ritmo.</h2>
 
-          <p>
-            Você não precisa saber tudo para dar o primeiro passo.
-          </p>
+          <p>Você não precisa saber tudo para dar o primeiro passo.</p>
         </div>
 
         <div class="steps">
@@ -190,14 +320,15 @@
       </section>
 
       <!-- INVESTIMENTOS -->
-      <section class="investment section" id="investimentos">
+      <section class="investment section" id="investimentos" data-guest-home>
         <div>
           <span class="eyebrow">Antes de escolher</span>
 
           <h2>Conhecer as opções começa por entender os termos.</h2>
 
           <p>
-            Renda fixa, fundos e ações têm regras e riscos diferentes. Aprenda o significado de cada termo antes de comparar opções.
+            Renda fixa, fundos e ações têm regras e riscos diferentes. Aprenda o
+            significado de cada termo antes de comparar opções.
           </p>
 
           <a href="educacao.html" class="btn btn-green investment-button">
@@ -206,14 +337,38 @@
         </div>
 
         <div class="allocation beginner-glossary">
-          <div class="allocation-head"><span>Palavras que você pode encontrar</span></div>
-          <dl><div><dt>Renda fixa</dt><dd>Uma modalidade em que as regras de rendimento são definidas na aplicação.</dd></div><div><dt>Fundos</dt><dd>Investimentos que reúnem recursos de várias pessoas em uma carteira.</dd></div><div><dt>Ações</dt><dd>Pequenas partes do capital de uma empresa.</dd></div></dl>
-          <small>Os conceitos são introdutórios. Cada investimento tem riscos e regras próprios.</small>
+          <div class="allocation-head">
+            <span>Palavras que você pode encontrar</span>
+          </div>
+          <dl>
+            <div>
+              <dt>Renda fixa</dt>
+              <dd>
+                Uma modalidade em que as regras de rendimento são definidas na
+                aplicação.
+              </dd>
+            </div>
+            <div>
+              <dt>Fundos</dt>
+              <dd>
+                Investimentos que reúnem recursos de várias pessoas em uma
+                carteira.
+              </dd>
+            </div>
+            <div>
+              <dt>Ações</dt>
+              <dd>Pequenas partes do capital de uma empresa.</dd>
+            </div>
+          </dl>
+          <small
+            >Os conceitos são introdutórios. Cada investimento tem riscos e
+            regras próprios.</small
+          >
         </div>
       </section>
 
       <!-- CTA -->
-      <section class="cta" id="sobre">
+      <section class="cta" id="sobre" data-guest-home>
         <div>
           <span class="eyebrow">Continue no seu ritmo</span>
 
@@ -224,7 +379,9 @@
           </p>
         </div>
 
-        <a id="homeFinalAction" href="educacao.html" class="btn btn-light">Explorar os cursos →</a>
+        <a id="homeFinalAction" href="educacao.html" class="btn btn-light"
+          >Explorar os cursos →</a
+        >
       </section>
     </main>
 
@@ -248,12 +405,13 @@
       </div>
 
       <span>
-        © 2026 Cashy. Conteúdo educativo; o painel mostra apenas informações cadastradas por você.
+        © 2026 Cashy. Conteúdo educativo; o painel mostra apenas informações
+        cadastradas por você.
       </span>
     </footer>
 
-    <script src="js/api.js?v=5"></script><script src="js/script.js"></script><script src="js/chatbot.js?v=6"></script>
+    <script src="js/api.js?v=5"></script>
+    <script src="js/script.js"></script>
+    <script src="js/chatbot.js?v=6"></script>
   </body>
 </html>
-
-

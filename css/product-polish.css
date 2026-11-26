@@ -2736,3 +2736,134 @@ button:disabled, [aria-disabled="true"] { cursor: not-allowed; opacity: .58; tra
   .brand img { width: 124px; height: 40px; object-fit: cover; object-position: center; }
   .home-page .header .brand img { width: 140px; height: 43px; }
 }
+
+/* High-contrast light palette and component fixes. */
+html[data-theme="light"] {
+  --ds-bg: #f5f7f5;
+  --ds-surface: #ffffff;
+  --ds-raised: #e9efea;
+  --ds-line: #c9d3cb;
+  --ds-text: #1e2923;
+  --ds-muted: #435149;
+  --ds-accent: #155b3b;
+  --ds-accent-strong: #0d482e;
+  --ds-lime: #21643d;
+  --ds-violet: #58418f;
+  --ds-blue: #155c8d;
+  --ds-amber: #765000;
+  --ds-coral: #963e49;
+  --ds-danger: #982b3d;
+  --ds-indigo: #394fc1;
+  --bg: var(--ds-bg);
+  --black: var(--ds-bg);
+  --surface: var(--ds-surface);
+  --surface-2: var(--ds-raised);
+  --surface2: var(--ds-raised);
+  --line: var(--ds-line);
+  --border: var(--ds-line);
+  --text: var(--ds-text);
+  --muted: var(--ds-muted);
+  --green: var(--ds-accent);
+  --green-light: var(--ds-accent-strong);
+  --lime: var(--ds-lime);
+  --legal-bg: var(--ds-bg);
+  --legal-panel: var(--ds-surface);
+  --legal-line: var(--ds-line);
+  --legal-text: var(--ds-text);
+  --legal-muted: var(--ds-muted);
+}
+html[data-theme="light"] .home-page .cta {
+  background: var(--ds-accent-strong);
+  color: #ffffff;
+}
+html[data-theme="light"] .home-page .cta h2 { color: #ffffff; }
+html[data-theme="light"] .home-page .cta .eyebrow,
+html[data-theme="light"] .home-page .cta p { color: #e7f1ea; }
+html[data-theme="light"] .home-page .cta .btn-light { background: #ffffff; color: var(--ds-accent-strong); }
+html[data-theme="light"] .positive { color: var(--ds-accent-strong) !important; }
+html[data-theme="light"] .negative,
+html[data-theme="light"] .remove-transaction { color: #96382e !important; }
+html[data-theme="light"] .insight-tag,
+html[data-theme="light"] .dialog-shell .eyebrow { color: var(--ds-accent-strong); }
+html[data-theme="light"] .transaction-info small,
+html[data-theme="light"] .goal-amount,
+html[data-theme="light"] .goal-amount strong,
+html[data-theme="light"] .card-foot,
+html[data-theme="light"] .profile-text small,
+html[data-theme="light"] .side-label { color: var(--ds-muted); }
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder { color: #526057; opacity: 1; }
+html[data-theme="light"] .remove-transaction { border-color: #c69b94; background: #fffdfd; }
+
+/* Keep the landing header composed at tablet widths as well as on phones. */
+@media (max-width: 900px) {
+  .home-page .header {
+    height: 72px;
+    min-height: 72px;
+    padding-inline: clamp(16px, 4vw, 32px);
+    gap: 12px;
+  }
+  .home-page .header .brand { flex: 0 0 auto; }
+  .home-page .header .brand img { width: 140px; height: 43px; }
+  .home-page .header .nav { display: none; }
+  .home-page .header .header-actions { display: contents; }
+  .home-page .header .header-actions > .btn { display: none; }
+  .home-page .header .theme-toggle { order: 2; flex: 0 0 42px; }
+  .home-page .header .menu-btn {
+    display: inline-flex;
+    order: 3;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--ds-line);
+    border-radius: 5px;
+    background: var(--ds-surface);
+    color: var(--ds-text);
+    font-size: 21px;
+  }
+  .home-page .header .nav.open {
+    display: flex;
+    position: absolute;
+    inset: 100% 0 auto;
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 14px clamp(20px, 5vw, 48px) 22px;
+    border-bottom: 1px solid var(--ds-line);
+    background: var(--ds-surface);
+    box-shadow: 0 18px 28px rgba(12, 24, 17, .16);
+  }
+  .home-page .header .nav.open > a {
+    padding: 13px 0;
+    border-bottom: 1px solid var(--ds-line);
+    color: var(--ds-text);
+    font-size: .95rem;
+    white-space: normal;
+  }
+  .home-page .header .nav.open .nav-auth {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding-top: 16px;
+  }
+  .home-page .header .nav.open .nav-auth .btn {
+    display: block;
+    min-height: 44px;
+    padding: 12px 16px;
+    color: var(--ds-text);
+    font-size: .95rem;
+    text-align: center;
+  }
+  .home-page .header .nav.open .nav-auth .btn-green { color: #fff; }
+}
+
+@media (max-width: 900px) {
+  .home-page .header .theme-toggle { margin-left: auto; }
+}
