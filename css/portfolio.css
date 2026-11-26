@@ -1,0 +1,19 @@
+.portfolio-simulator { margin: 44px 0; padding-top: 34px; border-top: 1px solid var(--ds-line); }
+.portfolio-simulator .section-intro { max-width: 760px; }
+.portfolio-form { display: grid; gap: 18px; margin-top: 22px; }
+.portfolio-form label { display: grid; gap: 6px; color: var(--ds-text); font-size: .92rem; }
+.portfolio-form input { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--ds-line); border-radius: 5px; background: var(--ds-surface); color: var(--ds-text); font: inherit; }
+.portfolio-form input:focus-visible, .portfolio-form button:focus-visible { outline: 3px solid var(--ds-accent); outline-offset: 3px; }
+.portfolio-term { max-width: 320px; }
+.portfolio-allocations { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.portfolio-allocations fieldset { display: grid; align-content: start; gap: 12px; min-width: 0; margin: 0; padding: 15px 0; border: 0; border-block: 1px solid var(--ds-line); }
+.portfolio-allocations legend { padding: 0 8px 0 0; color: var(--ds-accent); font: 600 1.1rem Georgia, serif; }
+.portfolio-result { margin-top: 20px; }
+.portfolio-total { font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.portfolio-table { width: 100%; margin: 14px 0; border-collapse: collapse; text-align: left; font-variant-numeric: tabular-nums; }
+.portfolio-table caption { margin-bottom: 7px; color: var(--ds-muted); text-align: left; }
+.portfolio-table th, .portfolio-table td { padding: 9px 8px 9px 0; border-bottom: 1px solid var(--ds-line); }
+.portfolio-table td:not(:first-child), .portfolio-table th:not(:first-child) { text-align: right; }
+.portfolio-method, .portfolio-disclaimer { color: var(--ds-muted); font-size: .9rem; }
+.portfolio-disclaimer { max-width: 900px; margin-top: 14px; }
+@media(max-width: 760px) { .portfolio-allocations { grid-template-columns: minmax(0, 1fr); gap: 8px; } .portfolio-table { display: block; overflow-x: auto; white-space: nowrap; } }

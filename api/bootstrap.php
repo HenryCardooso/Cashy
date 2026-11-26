@@ -113,6 +113,81 @@ function api_require_csrf(): void
     }
 }
 
+function api_login_rate_keys(string $email): array
+{
+    $ip = trim((string)($_SERVER['REMOTE_ADDR'] ?? ''));
+    if ($ip === '') {
+        $ip = 'unknown';
+    }
+    $normalizedEmail = strtolower(trim($email));
+    return [
+        ['type' => 'ip', 'hash' => hash('sha256', "ip\0" . $ip), 'limit' => 30],
+        ['type' => 'credential', 'hash' => hash('sha256', "credential\0" . $ip . "\0" . $normalizedEmail), 'limit' => 5],
+    ];
+}
+
+function api_login_is_rate_limited(PDO $pdo, array $keys): bool
+{
+    $pdo->exec('DELETE FROM auth_login_attempts WHERE updated_at < CURRENT_TIMESTAMP - INTERVAL 1 DAY');
+    $statement = $pdo->prepare(
+        'SELECT attempt_count,
+                (window_started_at >= CURRENT_TIMESTAMP - INTERVAL 15 MINUTE) AS within_window,
+                (locked_until IS NOT NULL AND locked_until > CURRENT_TIMESTAMP) AS is_locked
+         FROM auth_login_attempts WHERE scope_type = ? AND scope_hash = ?'
+    );
+    foreach ($keys as $bucket) {
+        $statement->execute([$bucket['type'], $bucket['hash']]);
+        $row = $statement->fetch();
+        if ($row && ((int)$row['is_locked'] === 1 || ((int)$row['within_window'] === 1 && (int)$row['attempt_count'] >= $bucket['limit']))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function api_record_failed_login(PDO $pdo, array $keys): bool
+{
+    $pdo->beginTransaction();
+    try {
+        $insert = $pdo->prepare('INSERT IGNORE INTO auth_login_attempts (scope_type, scope_hash, attempt_count, window_started_at) VALUES (?, ?, 0, CURRENT_TIMESTAMP)');
+        $select = $pdo->prepare(
+            'SELECT attempt_count, (window_started_at >= CURRENT_TIMESTAMP - INTERVAL 15 MINUTE) AS within_window
+             FROM auth_login_attempts WHERE scope_type = ? AND scope_hash = ? FOR UPDATE'
+        );
+        $update = $pdo->prepare(
+            'UPDATE auth_login_attempts
+             SET attempt_count = ?,
+                 window_started_at = IF(?, CURRENT_TIMESTAMP, window_started_at),
+                 locked_until = IF(?, CURRENT_TIMESTAMP + INTERVAL 15 MINUTE, NULL)
+             WHERE scope_type = ? AND scope_hash = ?'
+        );
+        $rateLimited = false;
+        foreach ($keys as $bucket) {
+            $insert->execute([$bucket['type'], $bucket['hash']]);
+            $select->execute([$bucket['type'], $bucket['hash']]);
+            $row = $select->fetch();
+            $withinWindow = $row && (int)$row['within_window'] === 1;
+            $attempts = ($withinWindow ? (int)$row['attempt_count'] : 0) + 1;
+            $limited = $attempts >= $bucket['limit'];
+            $update->execute([$attempts, $withinWindow ? 0 : 1, $limited ? 1 : 0, $bucket['type'], $bucket['hash']]);
+            $rateLimited = $rateLimited || $limited;
+        }
+        $pdo->commit();
+        return $rateLimited;
+    } catch (Throwable $error) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        throw $error;
+    }
+}
+
+function api_clear_credential_login_failures(PDO $pdo, string $credentialHash): void
+{
+    $statement = $pdo->prepare('DELETE FROM auth_login_attempts WHERE scope_type = ? AND scope_hash = ?');
+    $statement->execute(['credential', $credentialHash]);
+}
+
 function api_login_user(int $userId, string $name, string $email, bool $remember): void
 {
     session_regenerate_id(true);

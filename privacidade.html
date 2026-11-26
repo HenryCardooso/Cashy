@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f8f7f2">
-  <meta name="description" content="Entenda quais dados o Cashy guarda e como apagar sua conta.">
+      <meta name="description" content="Saiba quais dados o Cashy usa, como são guardados e como exportá-los ou apagá-los.">
   <title>Privacidade e dados | Cashy</title>
   <link rel="icon" href="images/logo.png" type="image/png">
   <link rel="stylesheet" href="css/legal.css">
@@ -31,25 +31,31 @@
         <li>Movimentações e metas financeiras associadas ao identificador da conta.</li>
         <li>Etapas acessadas e concluídas nos cursos, respostas recentes dos quizzes, checklist educativo, atividade de aprendizagem e XP associado à conta.</li>
         <li>Nome de exibição, avatar escolhido e preferência do lembrete de estudos dentro do Cashy.</li>
-        <li>Planos de orçamento salvos na oficina ficam somente no armazenamento local deste navegador; não são enviados ao servidor nem sincronizados com a conta.</li>
+        <li>Planos de orçamento e reserva, progresso de visitante, desafios, etapas do tour e preferência de tema podem ficar no armazenamento local deste navegador; não são enviados ao banco nem sincronizados com a conta.</li>
         <li>Uma sessão PHP protegida por cookie para manter o acesso enquanto você usa o site.</li>
+        <li>Para limitar tentativas repetidas de login, o servidor guarda contadores e hashes do endereço de origem e da combinação endereço/e-mail. O endereço e o e-mail não são gravados em texto puro nessa tabela; hash não é criptografia nem anonimização.</li>
       </ul>
 
       <h2>Como os dados são usados</h2>
-      <p>O banco é usado para criar sua conta, autenticar o acesso e mostrar suas movimentações, metas, configurações e progresso. O lembrete de estudos é exibido dentro do Cashy; não enviamos avisos por e-mail ou push. O Cashy não conecta a bancos, corretoras ou serviços de investimento.</p>
+      <p>O banco é usado para criar sua conta, autenticar o acesso e mostrar suas movimentações, metas, configurações e progresso. O lembrete de estudos é exibido dentro do Cashy; não enviamos avisos por e-mail ou push. O Cashy não conecta a bancos, corretoras ou serviços de investimento. O projeto não configura uma política de retenção para logs do Apache ou da hospedagem; o administrador do ambiente controla esses registros.</p>
 
       <h2>Assistente com inteligência artificial</h2>
-      <p>Quando você usa o assistente, o texto da sua pergunta e as mensagens recentes daquela conversa são enviados à API da Groq para gerar uma resposta. O Cashy não anexa seu nome, e-mail, saldo, movimentações ou metas. O histórico fica somente na memória da página e não é salvo pelo Cashy no banco. Não escreva informações pessoais, confidenciais ou financeiras na conversa. Consulte as <a href="https://groq.com/privacy-policy" target="_blank" rel="noopener noreferrer">políticas de privacidade da Groq</a>.</p>
+      <p>Quando você usa o assistente, o Cashy envia à API da Groq a pergunta e até sete mensagens recentes da conversa, para um máximo de oito mensagens de até 1.200 caracteres cada. O Cashy não anexa seu nome, e-mail, saldo, movimentações ou metas. O histórico da conversa fica na memória da página e não é salvo pelo Cashy no banco.</p>
+      <p>A Groq informa que, por padrão, não retém dados de solicitações de inferência, mas pode registrar entradas e respostas por até 30 dias para investigar abuso ou resolver problemas de confiabilidade, a menos que a retenção Zero Data Retention (ZDR) esteja habilitada. O Cashy não consegue confirmar se o administrador da chave ativou ZDR; por segurança, considere que a conversa pode ser retida temporariamente pela Groq. A Groq informa que os dados retidos ficam em infraestrutura nos Estados Unidos. Consulte as <a href="https://console.groq.com/docs/your-data" target="_blank" rel="noopener noreferrer">regras de retenção e controles de dados da Groq</a> e a <a href="https://groq.com/privacy-policy" target="_blank" rel="noopener noreferrer">política de privacidade</a>. Não escreva informações pessoais, confidenciais ou financeiras no chat.</p>
 
       <h2>Senha e sessão</h2>
-      <p>O servidor transforma a senha com a função de hash do PHP antes de gravá-la. As operações de leitura e gravação usam consultas preparadas, e as rotas de dados exigem uma sessão autenticada. Em hospedagem pública, use HTTPS e mantenha o servidor PHP e o MySQL atualizados.</p>
+      <p>O servidor guarda um hash da senha, usa cookies de sessão HttpOnly e SameSite, renova o identificador da sessão ao entrar e exige token CSRF nas gravações. O login limita falhas a cinco tentativas por endereço/e-mail em 15 minutos e a 30 tentativas por endereço em 15 minutos; ao atingir o limite, o acesso aguarda 15 minutos. A tabela guarda hashes desses identificadores, contadores e horários, sem endereço IP ou e-mail em texto puro; hash não é criptografia nem anonimização. Registros com mais de 24 horas são removidos na próxima tentativa de login; se ninguém tentar entrar novamente, a limpeza aguarda essa próxima atividade. O endereço vem de `REMOTE_ADDR`; cabeçalhos de proxy são ignorados, então usuários atrás do mesmo proxy podem compartilhar o limite. Consultas usam parâmetros preparados. Em hospedagem pública, use HTTPS e mantenha PHP e MySQL atualizados.</p>
 
       <h2>Recuperação de senha</h2>
-      <p>A recuperação por e-mail ainda não está configurada. Se esquecer a senha, procure o administrador do site. Não use uma senha que você já utiliza em outro serviço.</p>
+      <p>Não há recuperação automática ou redefinição de senha nesta versão. Se esquecer a senha, não envie sua senha atual a ninguém. A recuperação depende de suporte do responsável pelo ambiente; no protótipo, não existe um canal de suporte configurado nem um fluxo seguro de redefinição por e-mail. Evite reutilizar senhas de outros serviços.</p>
+
+      <h2>Retenção e controle dos dados</h2>
+      <p>Os dados da conta permanecem no banco até a exclusão da conta; o projeto não implementa expiração automática de contas inativas. Ao confirmar a exclusão, o Cashy apaga os registros associados no banco e os dados locais do Cashy no navegador atual. Dados locais permanecem nesse navegador até serem apagados pela página, pelo próprio usuário ou pelas configurações do navegador. A opção “Manter conectado neste dispositivo” vem marcada e pode manter o cookie de sessão por até 30 dias; se desmarcada, o cookie termina ao encerrar a sessão do navegador. A limpeza dos arquivos de sessão do servidor depende da configuração de PHP da hospedagem.</p>
+      <p>Na página de privacidade, você pode baixar os dados disponíveis em JSON ou apagar a conta conectada e os dados locais deste navegador. Esses recursos não apagam eventuais cópias de segurança feitas pelo administrador, cujos prazos não são definidos pelo projeto. O repositório não identifica o responsável pelo tratamento nem configura um canal para pedidos de correção, informação ou contato. Antes de disponibilizar publicamente, identifique esse responsável e um canal de contato e defina prazos de retenção para logs e cópias de segurança.</p>
 
       <h2>Como apagar seus dados</h2>
-      <p>Entre na conta que deseja apagar e use o botão abaixo. Para uma conta, confirme com sua senha atual. A remoção também apaga perfil, movimentações, metas, configurações, progresso, respostas dos quizzes, XP e checklist associados. Sem login, o botão apaga apenas o progresso de visitante deste navegador.</p>
-      <section class="danger-zone" aria-labelledby="deleteHeading">
+      <p>Entre na conta que deseja apagar e use o botão abaixo. Para uma conta, confirme com sua senha atual. A remoção apaga perfil, movimentações, metas, configurações, progresso, respostas dos quizzes, XP e checklist associados no banco, além dos dados locais do Cashy neste navegador. Sem login, o botão apaga os dados locais e as preferências do Cashy deste navegador. A remoção não alcança cópias de segurança mantidas separadamente pelo administrador.</p>
+      <section class="privacy-export" aria-labelledby="exportHeading"><h2 id="exportHeading">Baixar uma cópia dos seus dados</h2><p>Exporta os dados da sua conta em JSON ou, sem login, o progresso e o plano guardados neste navegador.</p><button class="export-button" id="exportData" type="button">Carregando…</button><p class="status-message" id="exportStatus" role="status" aria-live="polite"></p></section><section class="danger-zone" aria-labelledby="deleteHeading">
         <h2 id="deleteHeading">Apagar dados do Cashy</h2>
         <p>Essa ação não pode ser desfeita.</p>
         <button class="delete-button" id="deleteData" type="button">Carregando…</button>
@@ -62,6 +68,6 @@
     <footer class="legal-footer"><a href="termos.html">Termos de uso</a><a href="login.html">Entrar ou criar conta</a><a href="educacao.html">Educação financeira</a></footer>
   </main>
   <script src="js/api.js?v=5"></script>
-  <script src="js/privacidade.js?v=2"></script>
+  <script src="js/privacidade.js?v=3"></script>
 </body>
 </html>

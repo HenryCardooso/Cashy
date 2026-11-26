@@ -1,0 +1,33 @@
+.indicator-section { margin: 38px 0 70px; padding-top: 34px; border-top: 1px solid var(--ds-line); }
+.indicator-section .section-intro { max-width: 760px; }
+.indicator-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin: 26px 0; }
+.indicator-metric { min-width: 0; padding: 18px 0; border-block: 1px solid var(--ds-line); }
+.indicator-metric h3 { margin: 0 0 10px; font: 600 1.12rem Georgia, serif; }
+.indicator-value { display: block; color: var(--ds-accent); font-size: clamp(1.25rem, 3vw, 1.8rem); font-variant-numeric: tabular-nums; line-height: 1.35; }
+.indicator-metric p, .indicator-metric small, .indicator-disclaimer, .indicator-attribution, .indicator-chart-wrap figcaption { display: block; margin: 5px 0 0; color: var(--ds-muted); font-size: .9rem; }
+.indicator-status { margin: 0; color: var(--ds-muted); }
+.indicator-status[data-state="error"] { color: #a83246; }
+.indicator-status[data-state="success"] { color: var(--ds-accent); }
+.indicator-controls { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px; margin: 20px 0 12px; }
+.indicator-controls label { display: grid; gap: 5px; color: var(--ds-muted); font-size: .9rem; }
+.indicator-controls select, .indicator-period button { min-height: 42px; padding: 8px 12px; border: 1px solid var(--ds-line); border-radius: 5px; background: var(--ds-surface); color: var(--ds-text); font: inherit; }
+.indicator-period { display: flex; flex-wrap: wrap; gap: 6px; }
+.indicator-period button { cursor: pointer; }
+.indicator-period button[aria-pressed="true"] { border-color: var(--ds-accent); color: var(--ds-accent); }
+.indicator-period button:disabled, .indicator-controls select:disabled { opacity: .6; cursor: wait; }
+.indicator-chart-wrap { margin: 0; padding: 12px 0; border-block: 1px solid var(--ds-line); }
+.indicator-chart { display: block; width: 100%; min-height: 180px; overflow: visible; }
+.indicator-gridline { stroke: var(--ds-line); stroke-width: 1; }
+.indicator-axis-label { fill: var(--ds-muted); font: 12px system-ui, sans-serif; }
+.indicator-series-line { fill: none; stroke: var(--ds-accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.indicator-dot { fill: var(--ds-bg); stroke: var(--ds-accent); stroke-width: 2.5; }
+.indicator-data-details { margin-top: 14px; }
+.indicator-data-details summary { width: fit-content; cursor: pointer; color: var(--ds-accent); }
+.indicator-table-wrap { max-width: 520px; margin-top: 12px; overflow-x: auto; }
+.indicator-table { width: 100%; border-collapse: collapse; text-align: left; font-variant-numeric: tabular-nums; }
+.indicator-table th, .indicator-table td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--ds-line); }
+.indicator-table td { text-align: right; }
+.indicator-attribution { margin-top: 18px; }
+.indicator-attribution a { color: var(--ds-accent); text-decoration: underline; text-underline-offset: .16em; }
+.indicator-disclaimer { max-width: 850px; margin-top: 8px; }
+@media (max-width: 640px) { .indicator-metrics { grid-template-columns: minmax(0, 1fr); gap: 10px; } .indicator-controls { align-items: stretch; flex-direction: column; } .indicator-controls select { width: 100%; } .indicator-period { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } .indicator-period button { padding-inline: 6px; } .indicator-chart { min-height: 150px; } }

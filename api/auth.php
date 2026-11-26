@@ -76,14 +76,25 @@ try {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 190 || $password === '' || strlen($password) > 72) {
             api_error('invalid_credentials', 'E-mail ou senha incorretos.', 401);
         }
-        $statement = api_db()->prepare('SELECT user_id, full_name, email, password_hash FROM users WHERE email = ?');
+        $pdo = api_db();
+        $rateKeys = api_login_rate_keys($email);
+        if (api_login_is_rate_limited($pdo, $rateKeys)) {
+            api_error('rate_limited', 'Muitas tentativas de acesso. Aguarde 15 minutos antes de tentar novamente.', 429);
+        }
+        $statement = $pdo->prepare('SELECT user_id, full_name, email, password_hash FROM users WHERE email = ?');
         $statement->execute([$email]);
         $user = $statement->fetch();
-        if (!$user || !password_verify($password, (string)$user['password_hash'])) {
-            api_error('invalid_credentials', 'E-mail ou senha incorretos. Confira seus dados ou crie uma conta.', 401);
+        $dummyPasswordHash = '$2y$12$93pgB2vXK2E5CUtK8ZlWteXJdmsF/4Q02Z/IB5E/WGVKsxY8tzMGq';
+        $passwordMatches = password_verify($password, $user ? (string)$user['password_hash'] : $dummyPasswordHash);
+        if (!$user || !$passwordMatches) {
+            if (api_record_failed_login($pdo, $rateKeys)) {
+                api_error('rate_limited', 'Muitas tentativas de acesso. Aguarde 15 minutos antes de tentar novamente.', 429);
+            }
+            api_error('invalid_credentials', 'E-mail ou senha incorretos.', 401);
         }
+        api_clear_credential_login_failures($pdo, $rateKeys[1]['hash']);
         if (password_needs_rehash((string)$user['password_hash'], PASSWORD_DEFAULT)) {
-            $update = api_db()->prepare('UPDATE users SET password_hash = ? WHERE user_id = ?');
+            $update = $pdo->prepare('UPDATE users SET password_hash = ? WHERE user_id = ?');
             $update->execute([password_hash($password, PASSWORD_DEFAULT), (int)$user['user_id']]);
         }
         api_login_user((int)$user['user_id'], (string)$user['full_name'], (string)$user['email'], (bool)($input['remember'] ?? false));

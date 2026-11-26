@@ -27,7 +27,7 @@
   };
   const output = (title, text) => { const box = document.createElement("div"); const strong = document.createElement("strong"); strong.textContent = title; const p = document.createElement("p"); p.textContent = text; box.append(strong, p); return box; };
   attach("interestForm", "interestResult", ({ principal, rate, months }) => {
-    const monthlyRate = rate / 100, simple = principal * (1 + monthlyRate * months), compound = principal * Math.pow(1 + monthlyRate, months);
+    const monthlyRate = rate / 100, simple = principal * (1 + monthlyRate * months), compound = window.CashyMath.futureValueMonthly(principal, monthlyRate, months);
     const box = document.createElement("div"); box.className = "result-pair";
     box.append(output("Juros simples · total " + money.format(simple), "Juros no período: " + money.format(simple - principal) + ". Fórmula: capital × (1 + taxa × meses)."), output("Juros compostos · total " + money.format(compound), "Juros no período: " + money.format(compound - principal) + ". Fórmula: capital × (1 + taxa) elevado ao número de meses."));
     return box;
@@ -51,5 +51,11 @@
     let explanation = paidOffAt ? "Com essas hipóteses, o saldo seria quitado no mês " + paidOffAt + "." : payment <= principal * rate / 100 ? "O pagamento inicial não supera os juros do primeiro mês; o saldo pode crescer." : "O saldo restante após esse período seria " + money.format(balance) + ".";
     explanation += " Juros calculados no período: " + money.format(interestTotal) + "; pagamentos simulados: " + money.format(totalPaid) + ". A conta aplica juros ao saldo antes de descontar cada pagamento.";
     return output("Saldo após a simulação: " + money.format(balance), explanation);
+  });
+  attach("fixedIncomeForm", "fixedIncomeResult", ({ principal, rate, months }) => {
+    const grossBalance = window.CashyMath.futureValueAnnual(principal, rate / 100, months);
+    const earnings = grossBalance - principal;
+    const years = months / 12;
+    return output("Saldo bruto hipotético: " + money.format(grossBalance), "Sobre " + money.format(principal) + " por " + number.format(months) + " meses (" + number.format(years) + " anos), a taxa anual informada de " + number.format(rate) + "% equivale a " + money.format(earnings) + " de rendimento bruto matemático. Impostos, tarifas, inflação e risco do emissor não estão incluídos.");
   });
 })();
