@@ -84,14 +84,14 @@
     dialog.querySelector('[data-tour="back"]').disabled = localGuide ? guideIndex === 0 : index === 0;
     dialog.querySelector('[data-tour="next"]').textContent = localGuide ? (guideIndex === countMax - 1 ? "Concluir" : "Próximo") : (index === flow.length - 1 ? "Concluir" : "Próximo");
     dialog.querySelector('[data-tour="next"]').disabled = !!(!localGuide && flow[index]?.action);
-    if (target) { target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); requestAnimationFrame(position); }
+    if (target) { target.scrollIntoView({ behavior: "auto", block: "center" }); requestAnimationFrame(position); }
     else { overlay.hidden = true; dialog.style.left = `${Math.max(12, (innerWidth - 340) / 2)}px`; dialog.style.top = `${Math.max(16, (innerHeight - 180) / 2)}px`; }
     if (!target) waitForTarget(current, requestId).then((element) => {
       if (!element || requestId !== showId || dialog.hidden) return;
       target = element;
       overlay.hidden = false;
       document.body.classList.add("tour-active");
-      target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+      target.scrollIntoView({ behavior: "auto", block: "center" });
       requestAnimationFrame(position);
     });
   }
@@ -129,9 +129,9 @@
     const link = e.target.closest("a"); if (!link) return;
     const step = flow[index]; if (step.href && !link.getAttribute("href")?.includes(step.href)) return;
     if (!step.href && !(link.matches("#lessonGrid a, #lessonGrid .lesson-card") || link.closest("#lessonGrid"))) return;
-    e.preventDefault(); advanceFlow(index + 1, link.href);
+    try { sessionStorage.setItem(key, String(index + 1)); } catch (_) {}
   });
-  addEventListener("resize", position); addEventListener("scroll", position, { passive: true }); document.addEventListener("keydown", e => {
+  addEventListener("resize", position); addEventListener("scroll", position, { passive: true }); document.addEventListener("scroll", position, { capture: true, passive: true }); document.addEventListener("keydown", e => {
     if (e.key !== "Escape") return;
     if (active) close();
     else if (!menu.hidden) { menu.hidden = true; help.setAttribute("aria-expanded", "false"); help.focus({ preventScroll: true }); }
@@ -139,12 +139,12 @@
 
   if (page === "dashboard.html") {
     let pending = null; try { pending = sessionStorage.getItem(key); } catch (_) {}
-    if (pending !== null) { index = Number(pending) || 0; if (flow[index]?.page === page) showFlow(); }
+    if (pending !== null) { index = Number(pending) || 0; if (flow[index]?.page === page) { active = true; showFlow(); } }
     else if (!tourWasSeen() && window.CashyAPI?.auth?.me) {
       window.CashyAPI.auth.me().then(() => { if (!tourWasSeen()) startFlow(0); }).catch(() => {});
     }
   } else {
     let pending = null; try { pending = sessionStorage.getItem(key); } catch (_) {}
-    if (pending !== null) { index = Number(pending) || 0; if (flow[index]?.page === page) showFlow(); }
+    if (pending !== null) { index = Number(pending) || 0; if (flow[index]?.page === page) { active = true; showFlow(); } }
   }
 })();
