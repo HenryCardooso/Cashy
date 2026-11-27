@@ -3,8 +3,16 @@
   const root = document.documentElement;
   const storageKey = "cashyTema";
   let theme = root.dataset.theme || "light";
-  function apply(next) {
+  let transitionTimeout = 0;
+  function apply(next, animate = false) {
     theme = next === "light" ? "light" : "dark";
+    const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const shouldAnimate = animate && !prefersReducedMotion;
+    if (shouldAnimate) {
+      window.clearTimeout(transitionTimeout);
+      root.classList.add("theme-switching");
+      void root.offsetWidth;
+    }
     root.dataset.theme = theme;
     try { localStorage.setItem(storageKey, theme); } catch (_) {}
     const button = document.getElementById("themeToggle");
@@ -16,11 +24,14 @@
       button.setAttribute("aria-pressed", String(light));
     }
     document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f8f7f2" : "#171b18");
+    if (shouldAnimate) {
+      transitionTimeout = window.setTimeout(() => root.classList.remove("theme-switching"), 360);
+    }
   }
   function init() {
     const button = document.createElement("button");
     button.id = "themeToggle"; button.className = "theme-toggle"; button.type = "button";
-    button.addEventListener("click", () => apply(theme === "dark" ? "light" : "dark"));
+    button.addEventListener("click", () => apply(theme === "dark" ? "light" : "dark", true));
     const profile = document.querySelector(".topbar .profile");
     const educationHeader = document.querySelector(".edu-header");
     const accountLink = educationHeader?.querySelector(".account-link");

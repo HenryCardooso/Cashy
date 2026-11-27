@@ -19,8 +19,8 @@
     ["Diagnóstico financeiro", "ponto de partida perguntas situação", "diagnostico.html"],
     ["Privacidade e dados", "exportar apagar dados conta segurança", "privacidade.html"],
     ["Termos de uso", "simulações limites educação", "termos.html"],
-    ["Indicadores econômicos oficiais", "selic ipca fonte banco central dados SGS", "biblioteca.html#indicadores"],
     ["Dicionário e fontes oficiais", "conceitos CDI Selic IPCA liquidez risco CVM Banco Central", "biblioteca.html#dicionario"],
+    ["Cashy Empresas", "negócio empresa ROI lucro faturamento fluxo de caixa ponto de equilíbrio CAC LTV", "empresas.html"],
   ];
   const entries = pages.map(([title, description, href]) => ({ title, description, href }));
   (window.CASHY_CURSOS || []).forEach((course) => entries.push({ title: course.title, description: course.description + " " + course.level + " curso aula quiz", href: "curso.html?id=" + encodeURIComponent(course.id) }));

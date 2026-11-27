@@ -91,7 +91,7 @@
 
   const protectedPages = new Set([
     "biblioteca.html", "calculadoras.html", "curso.html", "dashboard.html",
-    "diagnostico.html", "educacao.html", "metas.html", "movimentacoes.html",
+    "diagnostico.html", "educacao.html", "empresas.html", "metas.html", "movimentacoes.html",
     "perfil.html", "planejamento.html", "praticar.html", "relatorios.html",
     "reserva.html", "simulador.html"
   ]);

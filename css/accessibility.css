@@ -1,20 +1,20 @@
 html{scroll-padding-top:5rem;text-size-adjust:100%;-webkit-text-size-adjust:100%}
 body{font-size:max(16px,1rem);font-family:Arial,Helvetica,sans-serif}
 .sidebar{overflow-y:auto;overscroll-behavior:contain}
-.nav-item[aria-current="page"]{color:#f3fff5;background:rgba(34,196,103,.16)}
-.sidebar .side-label{color:#b1beb4}
-.sidebar .nav-item{color:#c0cbc3}
-.sidebar .help-card p{color:#c2cec5}
-.breadcrumb{color:#bdc8c0}
-.content>footer{color:#b2beb5}
-.completion-note{display:inline-block;margin-top:8px;color:#d8ffd0;font-size:12px;font-weight:700}
+.nav-item[aria-current="page"]{color:var(--ds-text,#f3fff5);background:rgba(34,196,103,.16)}
+.sidebar .side-label{color:var(--ds-muted,#a9b8ad)}
+.sidebar .nav-item{color:var(--ds-muted,#a9b8ad)}
+.sidebar .help-card p{color:var(--ds-muted,#a9b8ad)}
+.breadcrumb{color:var(--ds-muted,#a9b8ad)}
+.content>footer{color:var(--ds-muted,#a9b8ad)}
+.completion-note{display:inline-block;margin-top:8px;color:var(--ds-accent,#d8ffd0);font-size:12px;font-weight:700}
 .cancel-reset{display:block;margin:-12px 0 18px auto;padding:7px 10px;border:1px solid #688b72;border-radius:7px;background:#111713;color:#eaf4eb;cursor:pointer}
 .cancel-reset[hidden]{display:none}
-.card-foot,.profile-text small,.transaction-info small,.help-card p,.progress-panel p,.lesson-content p,.term-card p,.simulator-note,.search-count,.edu-footer p,.breadcrumb,.content>footer{color:#c3cec6!important}
-.privacy-note,.dialog-copy,.dialog-form label,.dialog-status,.search-count{color:#c3cec6!important}
+.card-foot,.profile-text small,.transaction-info small,.help-card p,.progress-panel p,.lesson-content p,.term-card p,.simulator-note,.search-count,.edu-footer p,.breadcrumb,.content>footer{color:var(--ds-muted,#a9b8ad)!important}
+.privacy-note,.dialog-copy,.dialog-form label,.dialog-status,.search-count{color:var(--ds-muted,#a9b8ad)!important}
 .btn-green,.login-button,.dialog-form button{color:#061109!important}
 .insight-button{color:#061109!important}
-body>footer,.footer-brand p,.footer-links a,body>footer>span,.login-legal-links{color:#c3cec6!important}
+body>footer,.footer-brand p,.footer-links a,body>footer>span,.login-legal-links{color:var(--ds-muted,#a9b8ad)!important}
 main[id]{scroll-margin-top:1rem}
 .skip-link{position:fixed;z-index:10000;top:12px;left:12px;transform:translateY(-180%);padding:12px 16px;border:2px solid #101510;border-radius:8px;background:#f4ffeb;color:#101510;font-size:16px;font-weight:700;text-decoration:underline;box-shadow:0 3px 15px #0008}
 .skip-link:focus{transform:translateY(0)}

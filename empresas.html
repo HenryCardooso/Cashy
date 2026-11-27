@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f7f2" />
+    <meta name="description" content="Ferramentas simples para entender faturamento, lucro, caixa e indicadores do seu negócio." />
+    <title>Cashy Empresas | Ferramentas para o seu negócio</title>
+    <link rel="icon" href="images/logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/educacao.css?v=3" />
+    <link rel="stylesheet" href="css/accessibility.css?v=2" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/product-polish.css?v=29" />
+    <link rel="stylesheet" href="css/empresas.css?v=1" />
+    <script>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem("cashyTema") || "light";
+      } catch (_) {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+    <script src="js/theme.js?v=2" defer></script>
+  </head>
+  <body class="companies-page">
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+    <header class="edu-header">
+      <a class="edu-logo" href="index.html" aria-label="Cashy, página inicial">cashy<span>.</span></a>
+      <nav aria-label="Seções do Cashy">
+        <a href="educacao.html">Aprender</a>
+        <a href="planejamento.html">Planejar</a>
+        <a href="reserva.html">Reserva</a>
+        <a href="calculadoras.html">Calcular</a>
+        <a href="praticar.html">Praticar</a>
+        <a href="simulador.html">Simular</a>
+        <a href="biblioteca.html">Consultar</a>
+        <a class="active" aria-current="page" href="empresas.html">Empresas</a>
+      </nav>
+      <a class="account-link" href="login.html" id="contaLink">Entrar</a>
+    </header>
+
+    <main class="edu-main company-main" id="main-content" tabindex="-1">
+      <section class="company-hero" aria-labelledby="companyTitle">
+        <span class="eyebrow">CASHY PARA QUEM EMPREENDE</span>
+        <h1 id="companyTitle">Cashy Empresas</h1>
+        <p>Aprenda a tomar decisões mais inteligentes para o seu negócio.</p>
+        <span class="company-hero-note">Entenda seus números com ferramentas simples e exemplos baseados nos dados que você informar.</span>
+      </section>
+
+      <section class="company-tools" aria-label="Ferramentas de gestão do negócio">
+        <article class="company-card" id="faturamento-lucro">
+          <span class="eyebrow">RESULTADO DO PERÍODO</span>
+          <h2 id="profitTitle">Faturamento e lucro</h2>
+          <p>Separe as vendas dos custos para estimar quanto sobrou no período.</p>
+          <form class="company-form" data-calculation="profit" aria-labelledby="profitTitle">
+            <label>Faturamento (R$)<input name="revenue" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Custos variáveis (R$)<input name="variableCosts" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Custos fixos (R$)<input name="fixedCosts" type="number" min="0" step="0.01" value="0" required></label>
+            <button class="lime-button" type="button">Calcular resultado</button>
+          </form>
+          <output class="company-result" data-result="profit" aria-live="polite">Informe os valores para estimar o resultado operacional.</output>
+          <p class="company-formula">Estimativa antes de impostos, juros e outros itens não informados.</p>
+        </article>
+
+        <article class="company-card" id="fluxo-de-caixa">
+          <span class="eyebrow">ENTRADAS E SAÍDAS</span>
+          <h2 id="cashflowTitle">Fluxo de caixa</h2>
+          <p>Veja como as entradas e saídas do período alteram o caixa disponível.</p>
+          <form class="company-form" data-calculation="cashflow" aria-labelledby="cashflowTitle">
+            <label>Saldo inicial do caixa (R$)<input name="opening" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Total de entradas (R$)<input name="inflows" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Total de saídas (R$)<input name="outflows" type="number" min="0" step="0.01" value="0" required></label>
+            <button class="lime-button" type="button">Calcular fluxo</button>
+          </form>
+          <output class="company-result" data-result="cashflow" aria-live="polite">Informe os valores do período para ver a variação do caixa.</output>
+          <p class="company-formula">Fluxo líquido = entradas − saídas. Saldo final = saldo inicial + fluxo líquido.</p>
+        </article>
+
+        <article class="company-card" id="ponto-de-equilibrio">
+          <span class="eyebrow">CUSTOS COBERTOS</span>
+          <h2 id="breakevenTitle">Ponto de equilíbrio</h2>
+          <p>Descubra quanto precisa vender para cobrir os custos fixos, usando seu ticket médio.</p>
+          <form class="company-form" data-calculation="breakeven" aria-labelledby="breakevenTitle">
+            <label>Custos fixos do período (R$)<input name="fixedCosts" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Preço médio por venda (R$)<input name="ticket" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Custo variável por venda (R$)<input name="variableCost" type="number" min="0" step="0.01" value="0" required></label>
+            <button class="lime-button" type="button">Calcular ponto de equilíbrio</button>
+          </form>
+          <output class="company-result" data-result="breakeven" aria-live="polite">Informe os custos e valores médios por venda.</output>
+          <p class="company-formula">A conta considera uma única venda média e custos fixos do período informado.</p>
+        </article>
+
+        <article class="company-card" id="roi">
+          <span class="eyebrow">RETORNO DE UM INVESTIMENTO</span>
+          <h2 id="roiTitle">ROI</h2>
+          <p>Estime o retorno percentual de uma ação ou investimento feito no negócio.</p>
+          <form class="company-form" data-calculation="roi" aria-labelledby="roiTitle">
+            <label>Valor investido (R$)<input name="investment" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Ganho líquido obtido (R$)<input name="gain" type="number" step="0.01" value="0" required></label>
+            <button class="lime-button" type="button">Calcular ROI</button>
+          </form>
+          <output class="company-result" data-result="roi" aria-live="polite">Informe o investimento e o ganho líquido.</output>
+          <p class="company-formula">ROI = ganho líquido ÷ valor investido × 100. Não é previsão de retorno futuro.</p>
+        </article>
+
+        <article class="company-card" id="cac">
+          <span class="eyebrow">CUSTO DE AQUISIÇÃO</span>
+          <h2 id="cacTitle">CAC</h2>
+          <p>Calcule quanto foi gasto, em média, para conquistar cada novo cliente.</p>
+          <form class="company-form" data-calculation="cac" aria-labelledby="cacTitle">
+            <label>Gastos com marketing e vendas (R$)<input name="acquisitionSpend" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Novos clientes no período<input name="newCustomers" type="number" min="1" step="1" value="1" required></label>
+            <button class="lime-button" type="button">Calcular CAC</button>
+          </form>
+          <output class="company-result" data-result="cac" aria-live="polite">Informe os gastos e a quantidade de novos clientes.</output>
+          <p class="company-formula">CAC = gastos de aquisição ÷ novos clientes no mesmo período.</p>
+        </article>
+
+        <article class="company-card" id="ltv">
+          <span class="eyebrow">VALOR AO LONGO DO RELACIONAMENTO</span>
+          <h2 id="ltvTitle">LTV</h2>
+          <p>Estime a receita e a margem bruta geradas por um cliente durante o relacionamento.</p>
+          <form class="company-form" data-calculation="ltv" aria-labelledby="ltvTitle">
+            <label>Ticket médio por compra (R$)<input name="ticket" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Compras por cliente ao mês<input name="frequency" type="number" min="0" step="0.01" value="0" required></label>
+            <label>Duração média do relacionamento (meses)<input name="retention" type="number" min="0" step="0.1" value="0" required></label>
+            <label>Margem bruta (%)<input name="margin" type="number" min="0" max="100" step="0.1" value="0" required></label>
+            <label>CAC para comparar (R$ · opcional)<input name="cac" type="number" min="0" step="0.01" placeholder="Se já souber"></label>
+            <button class="lime-button" type="button">Calcular LTV</button>
+          </form>
+          <output class="company-result" data-result="ltv" aria-live="polite">Informe ticket, frequência, duração e margem bruta.</output>
+          <p class="company-formula">Estimativa simplificada; frequência, margem e retenção reais podem variar entre clientes.</p>
+        </article>
+      </section>
+
+      <aside class="company-disclaimer" role="note">
+        <strong>Como usar estas estimativas</strong>
+        <p>Os cálculos usam apenas os números informados nesta página. Eles não são contabilidade, previsão ou aconselhamento financeiro; impostos, sazonalidade, inadimplência e outros custos podem alterar o resultado real. Os valores não são enviados nem salvos pelo Cashy.</p>
+      </aside>
+
+      <footer class="edu-footer">
+        <a class="edu-logo" href="index.html">cashy<span>.</span></a>
+        <p>Educação financeira para cuidar melhor do seu dinheiro.</p>
+        <a href="privacidade.html">Privacidade e dados</a>
+        <a href="termos.html">Termos</a>
+        <a href="index.html">Voltar ao site Cashy</a>
+      </footer>
+    </main>
+    <script src="js/api.js?v=6"></script>
+    <script src="js/education-nav.js?v=1"></script>
+    <script src="js/empresas.js?v=1" defer></script>
+  </body>
+</html>
